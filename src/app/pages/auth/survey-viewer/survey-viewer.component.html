@@ -1,0 +1,29 @@
+<div class="row11">
+<div class="col-sm-12"  id="survey-viewer-container">
+
+<div class="card">
+  <div class="card-block">
+    <div class="dt-responsive table-responsive11">
+      <div id="autofill_wrapper" class="dataTables_wrapper dt-bootstrap4">
+        <!-- survey create wrap-->
+        <div class="sv_main sv_frame ">
+          <h2 class=" "> {{surveyName}}</h2>
+          <div class="sv_container">
+           
+            <div class="sv_body" style="border-top: 0px;">
+              <survey [json]="json" (submitSurvey)="sendData($event)"></survey>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<style>
+.sv_qstn .sv-q-col-1, .sv-question .sv-q-col-1, .sv_qcbc .sv_q_radiogroup.sv-q-col-1 {padding-right: 0em!important;}
+
+</style>

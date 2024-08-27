@@ -1,0 +1,15 @@
+.field-label {
+  font-size: 0.875em;
+}
+
+.validation-error {
+  color: #cc3c3c;
+  font-size: 0.750em;
+}
+.active {
+  color: red;
+}
+.active1 {
+  color: red;
+  border: 2px #cc3c3c solid;
+}

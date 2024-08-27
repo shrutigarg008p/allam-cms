@@ -1,0 +1,123 @@
+<div class="row allam-wrap">
+    <div class="col-sm-12">
+        <div class="card">
+            <form role="form" class="k-form" [formGroup]="formVar" (ngSubmit)="onSubmit()">
+                <div class="row">
+                    <div class="card-block col-sm-12 col-xs-12 col-md-6 ">
+                    
+                        <div class="group">
+                            <label>Title</label>
+                            <input class="form-control" placeholder="Add title" type="text" formControlName="title" >
+                        </div>
+                    
+                        <div class="group m-t-15"> 
+                            <div class="form-group competition-logo-upload">
+                            <label> Notification Logo Upload</label> 
+                            
+                            <input accept="image/x-png,image/jpeg" type="file" class="form-control choosefiles"  (change)="uploadNotificationLogo($event)" required [ngClass]="{ 'is-invalid': f.notification_logo.errors }">
+                            <input type="hidden" name="fileHidden" formControlName="imageInput" required [ngClass]="{ 'is-invalid': f.imageInput.errors }"/> <!-- Validation Field -->
+                            </div>
+                            <div *ngIf="f.imageInput.errors" class="invalid-feedback" >
+                                <div *ngIf="f.imageInput.errors.required"><label> Notification logo is required </label></div>
+                                <!-- <div *ngIf="f.email.errors.email">Email must be a valid email address</div> -->
+                            </div>
+                            <!-- Image Preview -->
+                            <div class="form-group">
+                                <div class="notificationLogo" *ngIf="notificationLogo && notificationLogo !== null">
+                                <img [src]="notificationLogo" height="150" >
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                    </div>
+                    <div class="card-block col-sm-12 col-xs-12 col-md-6 ">
+                        <div class="group">
+                            <label>Date Time</label>
+                            <div class="input-group input-tr-br-radius">
+                                <input type="text" [(ngModel)]="invalidMoment" formControlName="startDateTime"  placeholder="Date Time" class="form-control" readonly="yes" required
+                                [min]="min"
+                                [owlDateTimeTrigger]="dt11" [owlDateTime]="dt11"
+                                > <!-- #dateTime="ngModel" -->
+                                <span class="example-trigger" [owlDateTimeTrigger]="dt11">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </span>
+                            <owl-date-time [showSecondsTimer]="true" [pickerMode]="'popup'" #dt11></owl-date-time>
+                            </div>
+                        </div>
+                            
+                        <div class="group ">
+                            <label>Description</label>
+                            <textarea rows="5" cols="5" class="form-control" placeholder="Default textarea" name="description" formControlName="description"></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 "> 
+                                <div class="form-group">
+                                <!-- {{percentDone}} -->
+                                <!-- Progress Bar --> 
+                              <div class="progress form-group" *ngIf="percentDone">
+                                 <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
+                                    [style.width.%]="percentDone">
+                                 </div>
+                                 </div>
+                            </div>
+        
+                            </div>
+        
+                        </div>
+                        <div class="row m-t-15">
+                            
+                            <div class="col-sm-12 col-xs-12 col-md-4 m-t-15">
+                                <div class="checkbox-fade fade-in-primary ">
+                                  <label _ngcontent-iwp-c3=""><input _ngcontent-iwp-c3="" type="checkbox" value="yes" formControlName="isPublish" >
+                                  <span  class="cr"><i class="cr-icon icofont icofont-ui-check txt-primary"></i></span>
+                                  <span class="text-inverse">Active</span></label>
+                                  </div>
+                                </div>
+                            <div class="col-sm-12 col-xs-12 col-md-8">
+
+                                <div class=" ">
+                                    <button class="btn allam-btn-green text-white round-border m-r-10 create_cancel" type="submit"  [disabled]="loading">{{ loading ? 'Wait...' : 'Submit' }}</button>
+                                    <button type="button" class="btn btn-warning round-border create_cancel" (click)="cancelNewQuiz()">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal crop-image-wrap" id="myCropModal" [style.display]="showCropModal ? 'block' : 'none'">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Crop Image</h4>
+          <button type="button" class="close alert-danger" data-dismiss="modal" (click)="closePopup()">&times;</button>
+        </div>
+        <!-- Modal body --> 
+        <div class="modal-body slot-details-wrap">
+            <image-cropper
+            [imageChangedEvent]="imageChangedEvent" 
+            [maintainAspectRatio]="true" 
+            [aspectRatio]="3 / 3"
+            [resizeToWidth]="600" 
+            format="png" 
+            (imageCropped)="imageCropped($event, image_type)" 
+            (imageLoaded)="imageLoaded()"
+            (cropperReady)="cropperReady()" 
+            (loadImageFailed)="loadImageFailed()"></image-cropper>
+            </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-warning" data-dismiss="modal" (click)="closePopup()">Done</button>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+<!-- {{formVar.value | json}} -->

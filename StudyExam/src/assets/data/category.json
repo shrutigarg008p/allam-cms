@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "Food and Drink",
+    "status": "1"
+  },
+   {
+    "id": 2,
+    "name": "Book",
+    "status": "1"
+  }
+  , 
+  {
+    "id": 3,
+    "name": "Music",
+    "status": "1"
+  },
+   {
+    "id": 4,
+    "name": "Technology",
+    "status": "0"
+  }
+]

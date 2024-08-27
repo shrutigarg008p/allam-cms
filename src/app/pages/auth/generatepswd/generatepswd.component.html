@@ -1,0 +1,82 @@
+<section class="login p-fixed d-flex text-center bg-primary1 common-img-bg1">
+  <div class="auth-fluid">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="login-card card-body auth-body text-center">
+
+            <div class="auth-box">
+              <div class="row">
+                <div class="col-md-12 text-center">
+                  <a [routerLink]="['/authentication/login']">
+                    <img src="assets/images/auth/allam.png" alt="Allam">
+                  </a>
+                </div>
+                <div class="col-md-12">
+                  <h3 class=" txt-primary">{{message_title}}</h3>
+                </div>
+              </div>
+              <hr class=" m-b-20">
+              
+              <div class="row m-b-25 ">
+                <div class="col-sm-12 col-xs-12">
+                     <h5 class=" txt-primary email-verified">{{message_body}}</h5>
+                </div>
+                <div class="col-sm-12 col-xs-12">
+                  <form class="md-float-material" [formGroup]="resetForm" (ngSubmit)="onSubmit()">
+                    <div *ngIf="formFlag==true">
+                        <div class="row" >
+                          <div class="col-md-12">
+                            <div class="group">
+                                <div class="input-group input-tr-br-radius">
+                                  <input type="password" class="form-control" placeholder="your password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+                                  <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                                    <div *ngIf="f.password.errors.required">This field is required.</div>
+                                  </div>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+                            <div class="group">
+                              <div class="input-group input-tr-br-radius">
+                                <input type="password" class="form-control" placeholder="Confirm Password" formControlName="conf_password" [ngClass]="{ 'is-invalid': submitted && f.conf_password.errors }">
+                                <div *ngIf="submitted && f.conf_password.errors" class="invalid-feedback">
+                                    <div *ngIf="f.conf_password.errors.required">This field is required.</div>
+                                    <div *ngIf="f.conf_password.errors.confirmedValidator">Password and Confirm Password must be match.</div>
+                                </div>
+                               
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row m-t-20">
+                          <div class="col-md-12">
+                            <button [disabled]="loading" class="btn allam-btn-green btn-md btn-block waves-effect text-center text-white m-b-2">
+                              <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                              SUBMIT
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                  </form>
+                  <hr>
+                   <div class="row">
+                          <div class="col-md-12">
+                            <p class="text-inverse text-center m-b-0">Already verified?
+
+                             <a [routerLink]="['/authentication/login']" class="text-right f-w-600 text-warning"> Login</a>
+
+                            </p>
+                            
+                          </div>
+                        </div>
+                </div>
+                
+              </div>
+                           
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

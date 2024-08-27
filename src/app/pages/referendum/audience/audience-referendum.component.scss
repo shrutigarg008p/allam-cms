@@ -1,0 +1,21 @@
+.referendum-cover-wrap { padding: 25px 0;}
+.referendum-cover-wrap h4 {
+    margin-bottom: 25px; font-size: 24px; font-weight: 600;
+    color: #4d4d4d; padding: 10px;
+    background: #f6f7fb;
+    border-radius: 5px;
+}
+
+input[type="text"].form-control, input[type="file"].form-control, 
+input[type="date"].form-control, select.form-control {
+     height: calc(1.5em + .75rem + 10px); box-shadow: none; }
+
+.form-control {box-shadow: none;}
+.btn {font-size: 15px;}
+
+.nextBtn, .prevBtn {width:150px;}
+
+
+
+
+

@@ -1,0 +1,94 @@
+<div class="row">
+
+<div class="col-sm-12">
+
+<div class="card">
+  <div class="card-block">
+    <div class="dt-responsive table-responsive11">
+      <div id="autofill_wrapper" class="dataTables_wrapper dt-bootstrap4">
+        <div class="sv_main sv_frame sv_default_css">
+          <div class="sv_custom_header"></div>
+          <div class="sv_container">
+            
+            <div class="sv_body">
+              <div id="surveys-list" class="surveys-list">
+                <section>
+
+                  <button class="btn allam-btn-green text-white add-btn" (click)="addSurvey()" > Add</button>
+                  <div class="form-check form-check-inline">
+                    <label class="radio-box">
+                      <input type="radio" name="surveyType" id="surveyType-1" (change)="handleTypeChange($event)" [(ngModel)]="surveyType" value="0"  > All         
+                      <span class="checkmark"></span>
+                    </label>
+                  </div>
+          
+                  <div class="form-check form-check-inline">
+                    <label class="radio-box">
+                      <input type="radio" name="surveyType" id="surveyType-2" (change)="handleTypeChange($event)" [(ngModel)]="surveyType" value="1" > Public
+                      <span class="checkmark"></span>   
+                    </label>
+                  </div>
+          
+                  <div class="form-check form-check-inline">
+                    <label class="radio-box">
+                      <input type="radio" name="surveyType" id="surveyType-3" (change)="handleTypeChange($event)" [(ngModel)]="surveyType" value="2" > Private
+                      <span class="checkmark"></span>
+                    </label>
+                  </div>
+                
+                
+                </section>
+                <table class="table table-striped">
+                  <thead>
+                    <th style="text-align: right;">Actions</th>
+                    <th>Referendum Title</th>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let survey of filteredSurveys">
+                      <td style="width:68%; text-align:right;"> 
+                        <a
+                          class="btn btn-out allam-btn allam-btn-green text-white" (click)="preview(survey.id)"
+                          ><i class="icofont icofont-match-review"></i> Preview</a> 
+                        <a
+                          class="btn btn-out allam-btn btn-warning text-white" *ngIf="!survey.IsApproved" (click)="editSurvey(survey.id, survey.name)"
+                          ><i class="icofont icofont-edit"> </i> Edit</a> 
+                        <a
+                          class="btn btn-out allam-btn btn-warning text-white disabled"  *ngIf="survey.IsApproved"
+                          ><i class="icofont icofont-edit"> </i>Edit</a> 
+                        <a
+                          class="btn btn-out allam-btn allam-btn-green text-white" (click)="resultsSurvey(survey.id)"
+                          ><i class="icofont icofont-layout"> </i>Results</a>
+                        <span
+                          class="btn btn-out allam-btn btn-warning text-white" (click)="deleteSurvey(survey.id)"
+                          ><i class="icofont icofont-ui-delete"> </i>Delete</span
+                        >
+                        <span
+                          class="btn btn-out allam-btn allam-btn-green text-white" (click)="downloadSurvey(survey.id)"
+                          ><i class="icofont icofont-download"> </i>Download</span
+                        >
+                        <span
+                          class="btn btn-out allam-btn btn-warning text-white" *ngIf="survey.is_public" (click)="copyLink(survey.id)"
+                          ><i class="icofont icofont-link"> </i>Copy Link</span
+                        >
+                        <span
+                          class="btn btn-out allam-btn btn-warning text-white disabled" *ngIf="!survey.is_public"
+                          ><i class="icofont icofont-link"> </i>Copy Link</span
+                        >
+                      </td>
+                      <td style="width:32%;">{{survey.name}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+
+</div>

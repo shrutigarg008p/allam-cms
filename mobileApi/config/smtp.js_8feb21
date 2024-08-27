@@ -1,0 +1,13 @@
+const nodemailer = require('nodemailer');
+//let transport = nodemailer.createTransport(options[, defaults])
+
+const transport = nodemailer.createTransport({
+    host: 'smtp.sendgrid.net',
+    port: 587,
+    auth: {
+       user: 'munish123',
+       pass: 'munish@123'
+    }
+});
+
+module.exports = transport;

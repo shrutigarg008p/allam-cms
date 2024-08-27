@@ -1,0 +1,404 @@
+<div class="container-fluid single-curriculum">
+  <div class="row">
+    <div class="col-md-12 single-curriculum-wrap">
+      <div class="row">
+        <div class="col-md-12">
+          <h4>Curriculum Exam</h4>
+        </div>
+        </div>
+        <form class="md-float-material" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row">
+         
+           <!-- <div class="col-sm-4 col-sm-4 col-md-4">
+              <div class="group">
+                <label>Quiz Sub Type</label>
+                <select class="form-control" formControlName="quiz_sub_type" [ngClass]="{ 'is-invalid': submitted && f.quiz_sub_type.errors }">
+                  <option value="">Quiz Sub Type</option>
+                  <option *ngFor="let option of masterArr.master_sub_quiz" [value]="option.id" >{{option.name}}</option>
+                </select>
+
+                <span class="md-line"></span>
+                 <div *ngIf="submitted && f.quiz_sub_type.errors" class="invalid-feedback">
+                  <div *ngIf="f.quiz_sub_type.errors.required">Quiz sub type is required.</div>
+               </div>
+             </div>
+          </div> 
+           <div class="col-sm-4 col-sm-4 col-md-4">
+              <div class="group">
+                <label>Quiz Type</label>
+                <select class="form-control" formControlName="quiz_type" [ngClass]="{ 'is-invalid': submitted && f.quiz_type.errors }">
+                  <option value="">Quiz Type</option>
+                  <option *ngFor="let option of masterArr.master_quiz" [value]="option.id" >{{option.name}}</option>
+                </select>
+
+                <span class="md-line"></span>
+                 <div *ngIf="submitted && f.quiz_type.errors" class="invalid-feedback">
+                  <div *ngIf="f.quiz_type.errors.required">Quiz type is required.</div>
+                </div>
+             </div>
+          </div>  -->
+       </div>
+
+       <div class="row">
+         <div class="col-sm-4 col-sm-4 col-md-4">
+          <label>Class</label>
+              <div class="group">
+                <select class="form-control" formControlName="class" [ngClass]="{ 'is-invalid': submitted && f.class.errors }">
+                  <option value="">Class</option>
+                  <option *ngFor="let option of masterArr.master_class" [value]="option.id" >{{option.name}}</option>
+               </select>
+              
+                <span class="md-line"></span>
+                <div *ngIf="submitted && f.class.errors" class="invalid-feedback">
+                  <div *ngIf="f.class.errors.required">Class is required.</div>
+                  <div *ngIf="f.class.errors.pattern">Accept numeric values only.</div>
+                </div>
+             </div>
+          </div> 
+        <div class="col-sm-4 col-sm-4 col-md-4">
+            <div class="group">
+
+              <label>Chapter</label>
+              <select class="form-control" formControlName="chapter" [ngClass]="{ 'is-invalid': submitted && f.chapter.errors }">
+                  <option value="">Chapter</option>
+                  <option *ngFor="let option of masterArr.master_chapter" [value]="option.id" >{{option.name}}</option>
+              </select>
+
+              <span class="md-line"></span>
+               <div *ngIf="submitted && f.chapter.errors" class="invalid-feedback">
+                  <div *ngIf="f.chapter.errors.required">Chapter is required.</div>
+                  <div *ngIf="f.chapter.errors.pattern">Accept numeric values only.</div>
+              </div>
+           </div>
+        </div> 
+         <div class="col-sm-4 col-sm-4 col-md-4">
+            <div class="group">
+            <label>Subject</label>
+             <select class="form-control" formControlName="subject" [ngClass]="{ 'is-invalid': submitted && f.subject.errors }">
+                  <option value="">Subject</option>
+                  <option *ngFor="let option of masterArr.master_subject" [value]="option.id" >{{option.name}}</option>
+              </select>
+              <span class="md-line"></span>
+               <div *ngIf="submitted && f.subject.errors" class="invalid-feedback">
+                  <div *ngIf="f.subject.errors.required">Subject is required.</div>
+                </div>
+           </div>
+        </div> 
+         
+     </div>
+     <div class="row">
+      <div class="col-sm-4 col-sm-4 col-md-4">
+            <div class="group">
+              <label>Semester</label>
+              <select class="form-control" formControlName="semester" [ngClass]="{ 'is-invalid': submitted && f.semester.errors }">
+                <option value="">Semester</option>
+                <option *ngFor="let option of masterArr.master_semester" [value]="option.id" >{{option.name}}</option>
+              </select>
+              <span class="md-line"></span>
+               <div *ngIf="submitted && f.semester.errors" class="invalid-feedback">
+                  <div *ngIf="f.semester.errors.required">Semester is required.</div>
+                  <div *ngIf="f.semester.errors.pattern">Accept numeric values only.</div>
+
+              </div>
+           </div>
+        </div> 
+          <div class="col-sm-4 col-sm-4 col-md-4">
+          <div class="group">
+            <label>Lesson</label>
+              <select class="form-control" formControlName="lesson" [ngClass]="{ 'is-invalid': submitted && f.lesson.errors }">
+                  <option value="">Lesson</option>
+                  <option *ngFor="let option of masterArr.master_lesson" [value]="option.id" >{{option.name}}</option>
+               </select>
+
+            <span class="md-line"></span>
+             <div *ngIf="submitted && f.lesson.errors" class="invalid-feedback">
+                  <div *ngIf="f.lesson.errors.required">Lession is required.</div>
+                  <div *ngIf="f.lesson.errors.pattern">Accept numeric values only.</div>
+
+              </div>
+         </div>
+      </div> 
+     <!--  <div class=" col-sm-4 col-sm-4 col-md-4">
+          <div class="group">
+            <label>Quant/Verbal</label>
+            <input class="form-control" placeholder="Quant/Verbal" type="text" formControlName="quant_verbal" formControlName="quant_verbal" maxlength="70" [ngClass]="{ 'is-invalid': submitted && f.quant_verbal.errors }">
+            <span class="md-line"></span>
+             <div *ngIf="submitted && f.quant_verbal.errors" class="invalid-feedback">
+                  <div *ngIf="f.quant_verbal.errors.required">This field is required.</div>
+            </div>
+         </div>
+      </div>  -->
+      <!--  <div class="col-sm-4 col-sm-4 col-md-4">
+          <div class="group">
+            <label>Group</label>
+            <select class="form-control" formControlName="group" [ngClass]="{ 'is-invalid': submitted && f.group.errors }">
+                  <option value="">Group</option>
+                  <option *ngFor="let option of masterArr.master_group" [value]="option.id" >{{option.name}}</option>
+            </select>
+            <span class="md-line"></span>
+            <div *ngIf="submitted && f.group.errors" class="invalid-feedback">
+                  <div *ngIf="f.group.errors.required">Group is required.</div>
+            </div>
+         </div>
+      </div>  -->
+      
+   </div>
+   <div class="row">
+    
+   </div>
+
+   <div class="row">
+
+    <div class="col-lg-8 ">
+      <div class="row ">
+        <div class="col-sm-10 col-xs-10 col-md-10 group">
+        
+        <input class="form-control" placeholder="Option A" type="text" formControlName="option1" maxlength="70" [ngClass]="{ 'is-invalid': submitted && f.option1.errors }">
+        <span class="md-line"></span>
+          <div *ngIf="submitted && f.option1.errors" class="invalid-feedback">
+              <div *ngIf="f.option1.errors.required">Option A is required.</div>
+           </div>
+        </div>
+        <div class="col-sm-2 col-xs-2 col-md-2  txt-left "> 
+          <label class="radio-box">
+            <input type="radio" name="answer" value="a" formControlName="answer" checked>
+            <span class="checkmark"></span>
+          </label>
+         </div>
+           
+
+      </div>
+
+
+      <div class="row ">
+        <div class="col-sm-10 col-xs-10 col-md-10 group">
+
+        <input class="form-control" placeholder="Option B" type="text" formControlName="option2" maxlength="70" [ngClass]="{ 'is-invalid': submitted && f.option2.errors }">
+        <span class="md-line"></span>
+         <div *ngIf="submitted && f.option2.errors" class="invalid-feedback">
+              <div *ngIf="f.option2.errors.required">Option B is required.</div>
+           </div>
+        </div>
+        <div class="col-sm-2 col-xs-2 col-md-2 txt-left"> 
+          <label class="radio-box">
+            <input type="radio" name="answer" value="b" formControlName="answer">
+            <span class="checkmark"></span>
+          </label>
+         </div>
+      </div>
+
+      <div class="row ">
+        <div class="col-sm-10 col-xs-10 col-md-10 group">
+
+        <input class="form-control" placeholder="Option C" type="text" formControlName="option3" maxlength="70" [ngClass]="{ 'is-invalid': submitted && f.option3.errors }">
+        <span class="md-line"></span>
+         <div *ngIf="submitted && f.option3.errors" class="invalid-feedback">
+              <div *ngIf="f.option3.errors.required">Option C is required.</div>
+          </div>
+
+        </div>
+        <div class="col-sm-2 col-xs-2 col-md-2"> 
+          <label class="radio-box">
+            <input type="radio" name="answer" value="c" formControlName="answer"> 
+            <span class="checkmark"></span>
+          </label>
+         </div>
+      </div>
+
+      <div class="row ">
+        <div class="col-sm-10 col-xs-10 col-md-10 group">
+        
+        <input class="form-control" placeholder="Option D" type="text" formControlName="option4" maxlength="70" [ngClass]="{ 'is-invalid': submitted && f.option4.errors }">
+        <span class="md-line"></span>
+         <div *ngIf="submitted && f.option4.errors" class="invalid-feedback">
+              <div *ngIf="f.option4.errors.required">Option D is required.</div>
+          </div>
+
+        </div>
+        <div class="col-sm-2 col-xs-2 col-md-2"> 
+          <label class="radio-box">
+            <input type="radio"  name="answer" value="d" formControlName="answer">
+            <span class="checkmark"></span>
+          </label>
+         </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-10 col-xs-10 col-md-10">
+           <div class="group">
+            <label>Level</label>
+            <select class="form-control" formControlName="level" [ngClass]="{ 'is-invalid': submitted && f.level.errors }">
+                  <option value="">Level</option>
+                  <option *ngFor="let option of masterArr.master_level" [value]="option.id" >{{option.name}}</option>
+            </select>
+            <span class="md-line"></span>
+             <div *ngIf="submitted && f.level.errors" class="invalid-feedback">
+                <div *ngIf="f.level.errors.required">Level is required.</div>
+                <div *ngIf="f.level.errors.pattern">Accept numeric values only.</div>
+
+            </div>
+          </div>
+        </div> 
+    <div class="col-sm-2 col-xs-2 col-md-2"> </div>
+
+</div> 
+
+    <div class="row">
+        <div class="col-sm-10 col-xs-10 col-md-10">
+           <div class="group">
+            <label>Duration(in seconds)</label>
+            
+            <select class="form-control" formControlName="duration" [ngClass]="{ 'is-invalid': submitted && f.duration.errors }">
+                  <option value="">Duration(in seconds)</option>
+                  <option value="05">05</option>
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="30">30</option>
+            </select>
+            <span class="md-line"></span>
+             <div *ngIf="submitted && f.duration.errors" class="invalid-feedback">
+                <div *ngIf="f.duration.errors.required">Duration is required.</div>
+                <div *ngIf="f.duration.errors.pattern">Accept numeric values only.</div>
+
+            </div>
+          </div>
+        </div> 
+      <div class="col-sm-2 col-xs-2 col-md-2"> </div>
+
+    </div> 
+
+<div class="row">
+  <div class="col-sm-10 col-xs-10 col-md-10 ">
+<div class="group">
+  <label>Note</label>
+  
+ <input class="form-control" placeholder="Note" type="text" formControlName="note" maxlength="70">
+ <span class="md-line"></span>
+</div>
+</div> 
+<div class="col-sm-2 col-xs-2 col-md-2"> </div>
+
+</div> 
+
+
+<div class="row">
+  <div class="col-sm-10 col-xs-10 col-md-10 ">
+    <div class="m-t-15">
+      <button [disabled]="loading" class="btn allam-btn-green text-white round-border m-r-10 create_cancel">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+         <span *ngIf="this.idEdit">Update</span>
+         <span *ngIf="this.idEdit==false">Save and insert</span>
+      </button>
+      </div>
+     </div>
+
+     <div class="col-sm-2 col-xs-2 col-md-2"> </div>
+     
+</div>
+
+  </div>
+
+    <div class="col-lg-4 ">
+    <div class="editor-wrap" id="my-node"> 
+     <label>Question</label>
+      <ckeditor [editor]="Editor" [data]='question_value' [config]="config" (blur)="onChange($event)"></ckeditor>
+      <div class="question_note">Note: your question should be in the limit of the text editor height and width. NO SCROLL BAR should be displayed as this will be out of the limit of the question maximum length.</div>
+    </div>
+      </div>
+    </div>
+
+<!--
+   <div class="row">
+    <div class="col-sm-12 col-xs-12 col-md-12">
+      <div class="m-t-15">
+        <button [disabled]="loading" class="btn allam-btn-green text-white round-border m-r-10 create_cancel">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+           Save and insert
+        </button>
+        </div>
+       </div>
+       
+</div>
+-->
+
+</form>   
+
+
+  <div class="row" *ngIf="gridview">
+<<<<<<< HEAD
+    <div class="col-md-12 ">
+      <div style="float: right;">
+        <button class="btn allam-btn btn-success" (click)="downloadItem()" title="Download" type="button"><i class="icofont icofont-download"></i></button>
+      </div>
+      <div class="publish-table-wrap" id="tableDiv"> 
+        <table class="table table-striped table-bordered " id="contentToConvert" >
+=======
+    <div class="col-md-12  table-responsive">
+      <div class="publish-table-wrap m-b-0"> 
+        <table class="table table-striped table-bordered " id="" >
+>>>>>>> 0a7020d8583fab3670ce40c6dd34f272850485fb
+        <thead>
+          <tr>
+            <th>
+              <button class="btn allam-btn btn-warning" (click)="deletItem()" title="Delete" type="button">
+              <i class="icofont icofont-ui-delete"></i></button> 
+            </th>
+            <th>Delete</th>
+            <th>Edit</th>
+            <th>Level</th>
+            <th>Answer</th>
+            <th><span class="option-width">Option 4 </span></th>
+            <th><span class="option-width">Option 3 </span></th>
+            <th><span class="option-width">Option 2 </span></th>
+            <th><span class="option-width">Option 1 </span></th>
+            <th>Question </th>
+            <th>Quant/Verbal </th>
+            <th>Group </th>            
+          </tr>
+         </thead>
+          <tbody>
+            <tr class="even ng-star-inserted" *ngFor="let question of questionArr">
+                <td class="categories">
+                   <input type="checkbox"  name="del_row" [value]="question.id" (change)="onCheckboxChange($event,question.id)" >  
+                </td>
+                 <td class="">
+                  <button class="btn allam-btn btn-warning" (click)="deleteOneItem(question.id)" title="delete" type="button"><i class="icofont icofont-ui-delete"></i></button>
+                </td>
+                <td class="">
+                  <button class="btn allam-btn btn-success" (click)="editItem(question)" title="Edit" type="button"><i class="icofont icofont-ui-edit"></i></button>
+                </td>
+                <td class="">{{ question.level }}</td>
+                <td class="">{{ question.answer }}</td>
+                <td class="">{{ question.option4 }}</td>
+                <td class="">{{ question.option3 }}</td>
+                <td class="">{{ question.option2 }}</td>
+                <td class="">{{ question.option1 }}</td>
+                <td class=""><div [innerHTML]="question.question | safeHtml"></div></td>
+                <td class="">{{ question.quant_verbal }}</td>
+                <td class="">{{ question.groups }}</td>
+                
+            </tr>
+          </tbody>
+
+          </table>
+
+
+      </div>
+   </div>
+  </div>
+  
+   <div class="row">
+    <div class="col-sm-12 col-xs-12 col-md-12">
+      <div class="m-t-15">
+         <button [disabled]="loading2" class="btn allam-btn-green text-white round-border m-r-10 "  (click)="publish()">
+          <span *ngIf="loading2" class="spinner-border spinner-border-sm mr-1"></span>
+           Publish
+        </button>
+
+      </div>
+    </div>
+  </div>
+
+
+</div>
+</div>
+</div>

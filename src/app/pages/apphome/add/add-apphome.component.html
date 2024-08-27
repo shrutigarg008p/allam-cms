@@ -1,0 +1,117 @@
+<div class="row allam-wrap">
+  <div class="col-sm-12">
+    <div class="row m-b-20"><div class="col-md-12">
+      <h3  class="text-right txt-primary">Add New Category </h3>
+     </div></div>
+     <hr />
+
+   <div class="card">
+    <form [formGroup]="form" (ngSubmit)="saveCategory()">
+    <div class="row">
+     
+      <div class="card-block col-sm-12 col-xs-12 col-md-6 ">
+        <div class="form-group">
+          <label>Title Name</label>
+          <input type="text"  class="form-control" placeholder="Enter Title" formControlName="title" [ngClass]="{ 'is-invalid': submitted && f.title.errors }" (keyup)="onKey($event)">
+           <span class="md-line"></span>
+            <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                <div *ngIf="f.title.errors.required">Title is required.</div>
+            </div>
+          </div>
+          
+         <!--  <div class="form-group  files color m-t-15" style="display: block;">
+            <label>Upload Your File </label>
+        
+               <input type="file" class="form-control"  (change)="uploadFile($event)">
+          </div> -->
+
+          <!-- Progress Bar -->
+         <!--  <div class="progress form-group" *ngIf="percentDone">
+            <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
+              [style.width.%]="percentDone">
+            </div>
+          </div> -->
+          
+          <!-- Image Preview -->
+         <!--  <div class="form-group">
+            <div class="preview" *ngIf="preview && preview !== null">
+              <img [src]="preview" [alt]="form.value.name" height="80" >
+            </div>
+          </div> -->
+
+            <div class="form-group  files color m-t-15">
+              <div class=" m-t-15">
+                <label>Upload Icon </label>
+                  <input type="file" class="form-control" (change)="fileChangeEvent($event)" />
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="preview" >
+                <img [src]="croppedImage" />
+              </div>
+            </div>
+
+      </div>
+      <div class="card-block col-sm-12 col-xs-12 col-md-6 ">
+
+        <div class="form-group">
+          <label>Description</label>
+          <textarea rows="5" cols="5" class="form-control" placeholder="description" formControlName="description" ></textarea>
+          </div>
+          <div class="row ">
+            <div class="col-sm-12 col-xs-12 col-md-4 ">
+              <div class="checkbox-fade fade-in-primary m-t-15">
+                <label>
+                <input _ngcontent-iwp-c3="" type="checkbox" value="1" formControlName="status" >
+                <span  class="cr"><i class="cr-icon icofont icofont-ui-check txt-primary"></i></span>
+                <span class="text-inverse">Active</span></label>
+                </div>
+              </div>
+             
+              <!--   (click)="saveCategory(newCategory)" -->
+              <div class="col-sm-12 col-xs-12 col-md-8">
+                <div class="m-t-15">
+                  <button [disabled]="loading" class="btn allam-btn-green text-white round-border m-r-10 create_cancel">
+                   <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                    Create
+                  </button>
+                  <a class="btn btn-warning round-border create_cancel" [routerLink]="['/category']">Cancel</a>
+                  </div>
+                 </div>
+          </div>
+      </div>
+    </div>
+  
+    </form>
+   </div>
+   </div>
+</div>
+<div class="modal crop-image-wrap" id="myModal" [style.display]="showModal ? 'block' : 'none'">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Crop Image</h4>
+        <button type="button" class="close alert-danger" data-dismiss="modal" (click)="closePopup()">&times;</button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body slot-details-wrap">
+          <image-cropper 
+          [imageChangedEvent]="imageChangedEvent" 
+          [maintainAspectRatio]="true" 
+          [aspectRatio]="1 / 1"
+          [resizeToWidth]="200" 
+          format="png" 
+          (imageCropped)="imageCropped($event)" 
+          (imageLoaded)="imageLoaded()"
+          (cropperReady)="cropperReady()" 
+          (loadImageFailed)="loadImageFailed()"></image-cropper>
+      </div>
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" data-dismiss="modal" (click)="closePopup()">Done</button>
+      </div>
+    </div>
+  </div>
+</div>

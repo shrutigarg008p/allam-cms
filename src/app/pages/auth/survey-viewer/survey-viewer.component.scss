@@ -1,0 +1,12 @@
+.sv_main.sv_frame .sv_container {max-width: 100%!important; padding: 0!important;}
+#survey-viewer-container { margin-top:15px; direction: rtl!important; text-align:right!important;}
+#survey-viewer-container .sv_main.sv_default_css .sv_body { border-top: 0px!important; }
+#survey-viewer-container .sv_q_radiogroup, .sv_qstn .sv-q-col-1 {padding-right: 0!important;}
+
+h2 { padding: 15px 15px; margin-bottom: 0px; color: #4d4d4d;
+    font-size: 28px!important; }
+.sv_main.sv_default_css .sv_container .sv_body .sv_p_root .sv_qcbc .sv_q_radiogroup.sv-q-col-1 
+.sv_q_radiogroup_label input[type="radio"]{
+    margin-left: 0.55em!important;
+    margin-right: 0em!important;
+}

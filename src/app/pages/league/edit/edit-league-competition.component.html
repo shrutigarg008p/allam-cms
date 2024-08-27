@@ -1,0 +1,932 @@
+
+
+<div class="container daily-competition-wrap">
+	<div class="stepwizard">
+	  <div class="stepwizard-row setup-panel">
+		  <div class="stepwizard-step"> 
+			  <a href="#step-1" type="button" class="btn btn-success btn-circle">1</a>
+			  
+		  </div>
+		  <div class="stepwizard-step"> 
+			  <a href="#step-2" id="foo"  type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+			  
+		  </div>
+		  <div class="stepwizard-step"> 
+			  <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+			  
+		  </div>
+		  <div class="stepwizard-step"> 
+			  <a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>
+			  
+		  </div>
+		  <div class="stepwizard-step"> 
+			  <a href="#step-5" id="reviewStep" type="button" class="btn btn-default btn-circle" disabled="disabled">5</a>
+			  
+		  </div>
+		  <!-- <div class="stepwizard-step"> 
+			  <a href="#step-6"  type="button" class="btn btn-default btn-circle" disabled="disabled">6</a>
+			  
+		  </div> -->
+		  <!-- <div class="stepwizard-step"> 
+			  <a href="#step-7" type="button" class="btn btn-default btn-circle" disabled="disabled">7</a>
+			  
+		  </div> -->
+		  
+	  </div>
+	</div>
+	  <form role="form" class="k-form" [formGroup]="formVar" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+		 
+		<div class="panel panel-primary setup-content" id="step-1">
+			  <div class="panel-heading">
+				   <h3 class="panel-title">Edit League</h3>
+			  </div>
+			  <div class="panel-body">
+				  <div class="row"> 
+					<div class="col-sm-12 col-md-4 "> 
+						<div class="competition-logo-upload form-group"> 
+							<label> League Logo Upload </label>
+						
+						<input accept="image/x-png,image/jpeg" type="file" class="form-control choosefiles"  (change)="uploadCompetitionLogo($event)" >
+						<input type="hidden" name="fileHidden" formControlName="imageInput" required [ngClass]="{ 'is-invalid': f.imageInput.errors }"/> <!-- Validation Field -->
+					  </div>
+					  <div *ngIf="f.imageInput.errors" class="invalid-feedback" >
+						<div *ngIf="f.imageInput.errors.required"><label> League logo is required </label></div>
+						<!-- <div *ngIf="f.email.errors.email">Email must be a valid email address</div> -->
+					  </div>
+					  <!-- Image Preview -->
+					  <div class="form-group">
+						<div class="preview" *ngIf="preview && preview !== null">
+						<img [src]="preview" [alt]="formData.competitionName" height="100" width="100" >
+						</div>
+					  </div>
+					</div>
+  
+					<div class="col-sm-12 col-md-8 "> 
+						
+						<div class="form-group m-b-15">
+						  <label class="control-label">Name of the competition</label> <!-- required="required" -->
+						  <input class="form-control"  formControlName="competitionName" placeholder=" " type="text" required [ngClass]="{ 'is-invalid': f.competitionName.errors }">
+						</div>
+  
+						<!-- <div class="form-group  m-b-15">
+						  <label>Description</label>
+						  <textarea class="form-control" cols="5"  formControlName="description" placeholder="Default textarea" rows="5" required [ngClass]="{ 'is-invalid': f.description.errors }"></textarea>
+						</div> -->
+						<div class="form-group  m-b-15"> 
+						  <label>Question Type</label>
+							<select class="form-control select2" formControlName="question_type" type="text" style="width: 100%;" (change)="questionChange($event)" required [ngClass]="{ 'is-invalid': f.question_type.errors }">
+							  <option value="" [selected]="true">--Select--</option>
+							 <option value="category" >System upload of questions</option>
+							 <option value="bulk" >Self upload of questions</option>
+						  </select> 
+						</div>
+						
+					<div  *ngIf="questionType == 'category'">
+					  <div class="form-group m-b-15">
+						<label>Categories</label> <!-- (onSelectAll)="onSelectAll($event)"   [ngModelOptions]="{standalone: true}" -->
+						<ng-multiselect-dropdown  formControlName="categories" required [ngClass]="{ 'is-invalid': f.categories.errors }"
+						  [placeholder]="'Select Categories'"
+						  [data]="dropdownList"
+						  [(ngModel)]="selectedItems"
+						  [settings]="dropdownSettings"
+						  (onSelect)="onItemSelect($event)"
+						  (onSelectAll)="onSelectAll($event)"
+						>
+						</ng-multiselect-dropdown>
+						<div *ngIf="f.categories.errors" 
+							class="text-danger mt-1">
+						  <div *ngIf="f.categories.errors.required">
+							Categories is required.
+						  </div>
+						</div>
+					  </div>
+					</div>
+				  </div>
+				  </div>
+				<div class="row">
+				  <div class="col-sm-12 col-md-12">
+					<!-- spinnner element is defined with id loading -->
+					<div class="justify-content-center" id="loading-s" style="display: none !important"> 
+						<div class="spinner-border" role="status"> 
+							<span class="sr-only" id="loading"></span> 
+						</div> 
+					</div>
+  
+					<div *ngIf="!isProcessed && (errorCode == 1 )"><h1 class="sucessful">{{errorDesc}}</h1></div>
+					  <div *ngIf="isError">
+					  <h3 class="errors-following">Following data is having errors:</h3>
+					  
+					  
+						<div class="publish-table-wrap table-responsive">
+					  <table width="100%" border="1" class="table table-striped table-bordered nowrap dataTable">
+						<thead>
+						  <tr>
+							<!-- <th width="10%">Category</th> -->
+							<th width="10%">Question</th>
+							<!-- <th width="10%">Question File Url</th> -->
+							<th width="10%">Answer</th>
+							<th width="10%">Option 2</th>
+							<th width="10%">Option 3</th>
+							<th width="10%">Option 4</th>
+					  <th width="10%">Level</th>
+					  <th width="10%">Duration</th>
+							<th width="10%">Notes</th>
+							<th width="10%">Remarks</th>
+						  </tr>
+						</thead>
+						<tbody>
+						  <tr *ngFor="let item of errorData">
+							<!-- <td width="10%">{{ item.category }}</td> -->
+							<td width="10%">{{ item.question }}</td>
+							<!-- <td width="10%">{{ item.question_file_url }}</td> -->
+							<td width="10%">{{ item.answer }}</td>
+							<td width="10%">{{ item.option2 }}</td>
+							<td width="10%">{{ item.option3 }}</td>
+							<td width="10%">{{ item.option4 }}</td>
+					  <td width="10%">{{ item.level }}</td>
+					  <td width="10%">{{ item.duration }}</td>
+							<td width="10%">{{ item.notes }}</td>
+							<td [innerHTML]="item.Remarks" width="15%"></td>
+						  </tr>
+						</tbody>
+					  </table>
+					   </div>
+					   
+  
+  
+  
+					  </div>
+					  <div *ngIf="!isError && isProcessed">
+						<h1 class="sucessful">Data validated successfully</h1>
+					  </div>
+				  </div>
+				</div>
+				<div class="row">
+				  <div class="col-sm-12 col-md-12 mt-3"> 
+					<button (click)="showQuestion(formVar.value)" class="btn allam-btn-green text-white nextBtn pull-right uploadButton" type="button" [disabled]="loading">{{ loading ? 'Wait...' : 'Next' }}</button>
+					
+				  </div>
+				</div>
+  
+				
+			  </div>
+		  </div>
+		  <div class="panel panel-primary setup-content" id="step-2">
+			<div class="panel-heading">
+				 <h3 class="panel-title">Competition Data</h3>
+			</div>
+			<div class="panel-body">
+				<div class="row" *ngIf="isSave">
+				<div class="col-xs-12 col-sm-12">
+				  <div class="dt-responsive table-responsive">
+					<table id="autofill" class="table table-striped table-bordered nowrap dataTable" role="grid" aria-describedby="autofill_info">
+					  <thead>
+						<tr>
+							<th *ngIf="questionShow"><span class="option-width"><input class="form-check-input" type="checkbox" (change)="selectAll()" [checked]="selectedAll">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn allam-btn btn-warning" (click)="deletItem()" title="Delete" type="button"><i class="icofont icofont-ui-delete"></i></button> </span></th>
+							<th *ngIf="questionShow">Delete </th>
+							<th *ngIf="questionShow">Edit </th>
+						  <!-- <th width="10%">Category</th> -->
+						  <th width="10%">Question</th>
+						  <!-- <th width="10%">Question File Url</th> -->
+						  <th width="10%">Answer</th>
+						  <th width="10%">Option 2</th>
+						  <th width="10%">Option 3</th>
+						  <th width="10%">Option 4</th>
+						  <th width="10%">Duration</th>
+						  <th width="10%">Level</th>
+						  <th width="10%">Notes</th>
+						  
+						</tr>
+					  </thead>
+					  <tbody>
+						<tr *ngFor="let item of getQuestion">
+							<td class="categories" *ngIf="questionShow"><!-- <input type="checkbox"  name="del_row" [value]="item.id" (change)="onCheckboxChange($event,item.id)" > -->
+								<input class="form-check-input" type="checkbox" value="{{item.question_name}}" [(ngModel)]="item.selected" [ngModelOptions]="{standalone: true}" (change)="checkIfAllSelected($event,item.id)"></td>
+							<td class="" *ngIf="questionShow">
+								<button class="btn allam-btn btn-warning" (click)="deleteOneItem(item.id)" title="delete" type="button"><i class="icofont icofont-ui-delete"></i></button>
+							</td>
+							<td *ngIf="questionShow"><button type="button" class="btn allam-btn btn-success" (click)="editItem(item)"><i class="icofont icofont-ui-edit"></i> </button></td>
+						  <!-- <td width="10%">{{ item.category }}</td> -->
+						  <td width="10%">{{ item.question }}</td>
+						  <!-- <td width="10%">{{ item.question_file_url }} {{item.question_file_url === '' ? 'steps' : 'km'}}</td> -->
+						  <td width="10%">{{ item.answer }}</td>
+						  <td width="10%">{{ item.option2 }}</td>
+						  <td width="10%">{{ item.option3 }}</td>
+						  <td width="10%">{{ item.option4 }}</td>
+						  <td width="10%">{{ item.duration }}</td>
+						  <td width="10%">{{ item.level }}</td>
+						  <td width="10%">{{ item.note }}</td>
+						  
+						</tr>
+					  </tbody>
+					</table>
+				  </div>
+				</div>
+			</div>
+				
+				<div class="row" id="buttonHide">
+				  <div class="col-sm-12 col-md-12 "> 
+					<button class="btn allam-btn-green text-white nextBtn pull-right ml-5" type="button" [disabled]="loading">{{ loading ? 'Wait...' : 'Next' }}</button>
+					<button class="btn btn-warning prevBtn pull-right" type="button">Prev</button>
+				  </div>
+				</div>
+			</div>
+		  </div>
+		  <div class="panel panel-primary setup-content" id="step-3">
+			<div class="panel-heading">
+				 <h3 class="panel-title">Set Date and Time</h3>
+			</div>
+			
+			<div class="row justify-content-center set-promotion-wrap">
+  
+			  <div class="col-md-10 text-right ">
+				  <div class="panel-body">
+					
+					<div class="row">
+                      
+						<div class="col-sm-12 col-md-12 " >&nbsp; <br/></div>
+						<div class="col-sm-12 col-md-6 "> 
+						  <div class="form-group m-b-15 sdtime">
+							<label>
+							  Start Date Time
+							</label> <!-- {{jstoday}}  -->
+							<!-- [max]="max" -->
+							<input type="text" [(ngModel)]="invalidMoment" formControlName="startDateTime"  placeholder="Date Time" class="form-control" readonly="yes" required
+								[min]="min"
+								[owlDateTimeTrigger]="dt11" [owlDateTime]="dt11"
+								> <!-- #dateTime="ngModel" -->
+								<span class="example-trigger" [owlDateTimeTrigger]="dt11">
+								  <i class="fas fa-calendar-alt"></i>
+							  </span>
+							<owl-date-time [showSecondsTimer]="true" [pickerMode]="'popup'" #dt11></owl-date-time>
+							<!-- <div *ngIf="startTime.invalid && startTime.errors.owlDateTimeMin">
+							  Date Time value must after {{min | date: 'medium'}}
+							</div> -->
+							<!-- <div *ngIf="dateTime.invalid && dateTime.errors.owlDateTimeMax">
+							  Date Time value must before {{max | date: 'medium'}}
+							</div> -->
+							  
+						  </div>
+						</div>
+  
+						<!-- <div class="col-sm-12 col-md-6 "> 
+						  <div class="form-group m-b-15">
+						  <label>
+							Start Date
+							</label>
+							<input type="date" class="form-control" id="start_date" formControlName="startDate" value="{{ post.startDate | date:'yyyy-MM-dd' }}" required [ngClass]="{ 'is-invalid': f.startDate.errors }">
+						  </div>
+						</div>
+						  <div class="col-sm-12 col-md-6 "> 
+							<div class="form-group m-b-15">
+									  <label>
+										Start Time
+										</label>--> <!-- {{f.startTime.errors |json}} -->
+							<!--  <input type="time" step="1" class="form-control" id="start_time" formControlName="startTime" required [ngClass]="{ 'is-invalid': f.startTime.errors }">
+							</div>
+						  </div>  -->
+						  
+						  
+						  <!-- <div class="col-sm-12 col-md-6 "> 
+							<div class="form-group m-b-15">
+									  <label> End Time </label>
+							<input type="time" step="1" class="form-control" formControlName="endTime" required [ngClass]="{ 'is-invalid': f.endTime.errors }">
+							</div>
+						  </div>
+						  <div class="col-sm-12 col-md-6 "> 
+							<div class="form-group m-b-15">
+							  <label>End Date</label>
+							  <input type="date" class="form-control" formControlName="endDate" value="{{ post.endDate | date:'yyyy-MM-dd' }}" required [ngClass]="{ 'is-invalid': f.endDate.errors }">
+							</div>
+						  </div> -->
+						  <!-- <div class="col-sm-12 col-md-6 "> 
+							<div class="form-group m-b-15">
+									  <label>
+										Waiting Time
+									  </label>
+							<input type="time" step="1" class="form-control" formControlName="waitingTime" required [ngClass]="{ 'is-invalid': f.waitingTime.errors }">
+							</div>
+						  </div> -->
+						  <div class="col-sm-12 col-md-6 "> 
+							<div class="form-group m-b-15">
+							  <label>Waiting Time (In Minutes)</label>
+							  <select class="form-control select2 waiting-time1" formControlName="minute_time" type="text" required [ngClass]="{ 'is-invalid': f.minute_time.errors }">
+								 <!-- <option value="01" >01</option>
+								 <option value="02" >02</option>
+								 <option value="03" >03</option>
+								 <option value="04" >04</option>
+								 <option value="05" >05</option>
+								 <option value="06" >06</option>
+								 <option value="07" >07</option>
+								 <option value="08" >08</option>
+								 <option value="09" >09</option> -->
+								 <option value="10" >10</option>
+								 <option value="15" >15</option>
+							  </select>
+							  <!-- <select class="form-control select2 waiting-time1" formControlName="second_time" type="text" required [ngClass]="{ 'is-invalid': f.second_time.errors }">
+								<option *ngFor="let option of oneToSixtyArray" [value]="option" >{{option}}</option>
+							  </select> -->
+							</div>
+						  </div>
+					</div>
+				
+				<div class="row">
+				  <div class="col-sm-12 col-md-12 "> 
+					<button class="btn allam-btn-green text-white nextBtn pull-right ml-5" type="button" [disabled]="loading">{{ loading ? 'Wait...' : 'Next' }}</button>
+					<button class="btn btn-warning prevBtn pull-right" type="button">Prev</button>
+				  </div>
+				</div>
+			</div>
+			</div>
+			</div>
+		  </div>
+		  <div class="panel panel-primary setup-content" id="step-4">
+			<div class="panel-heading">
+				 <h3 class="panel-title">Company Info</h3>
+			</div>
+			<div class="row justify-content-center set-promotion-wrap">
+				<div class="col-sm-12 col-md-6">
+					<div class="panel-body">
+					  <div class="row">
+						<div class="col-sm-12 col-md-12">
+						  <div class="form-group m-b-15">
+							<label>Narration option</label> 
+							<select class="form-control select2" style="width: 100%;" (change)="narrationOption($event)" required [ngClass]="{ 'is-invalid': f.narration_type.errors }"> -->
+							  <!-- <option value="" [selected]="true">--Select--</option> -->
+							  <!-- <option value="url" [selected]="narrationOptions=='url'">Narration File</option>
+							  <option value="text" [selected]="'narrationOptions'">Narration Text</option> -->
+							  <option *ngFor="let option of narrOption" [value]="option" [selected]="narrationOptions==option" >{{option}}</option>
+							</select> 
+							</div>
+						</div>
+						<div class="col-md-12" *ngIf="narrationOptions == 'file'">
+						  <div class="col-sm-12 col-md-12 " >&nbsp; <br/></div>
+						  <div class="col-sm-12 col-md-6 ">
+							<div class="form-group m-b-15">
+							  <label class="control-label">Narration Audio</label> <!-- required="required" -->
+							  <input accept=".mp3" type="file" class="form-control choosefiles" (change)="audFileSelected($event)" required>
+
+							  <div class="control-label" *ngIf="file_url && file_url !== null"> <audio controls="" name="media"><source [src]="file_url | sanitizerUrl" type="audio/mp3"></audio></div>
+							</div>
+						  </div>
+						  
+						  <div class="col-sm-12 col-md-6 ">
+							<div class="form-group m-b-15">
+							  <label class="control-label">Narration Audio 1</label> <!-- required="required" -->
+							  <input accept=".mp3" type="file" class="form-control choosefiles" (change)="audFileSelected1($event)" required>
+
+							  <div class="control-label" *ngIf="file_url1 && file_url1 !== null"> <audio controls="" name="media"><source [src]="file_url1 | sanitizerUrl" type="audio/mp3"></audio></div>
+							</div>
+						  </div>
+						</div>
+						<div class="col-md-12" *ngIf="narrationOptions == 'text'">
+						  <!-- <app-multi-files-upload (onDataPickedBefore)="getFileStatus($event)" (onDataPicked)="getFileData($event)"></app-multi-files-upload> -->
+						  <div class="col-sm-12 col-md-12 " >&nbsp; <br/></div>
+						  <div class="col-sm-12 col-md-6 ">
+							<div class="form-group m-b-15">
+							  <label class="control-label">Narration text</label> <!-- required="required" -->
+							  <textarea class="form-control" rows="4" formControlName="narration_text" placeholder="Narration text" required [ngClass]="{ 'is-invalid': f.narration_text.errors }"> </textarea>
+							</div>
+						  </div>
+						  
+						  <div class="col-sm-12 col-md-6 ">
+							<div class="form-group m-b-15">
+							  <label class="control-label">Narration text 1</label> <!-- required="required" -->
+							  <textarea class="form-control" rows="4" formControlName="narration_text1" placeholder="Narration text 1" required [ngClass]="{ 'is-invalid': f.narration_text1.errors }"> </textarea>
+							</div>
+						  </div>
+						  </div>
+						  <div class="col-md-12">
+						  <div class="col-sm-12 col-md-6 ">
+							<div class="form-group m-b-15">
+							  <label class="control-label">Narration time (In Seconds)</label> <!-- required="required" -->
+							  <!-- <input class="form-control"  formControlName="narration_time" placeholder=" " type="text" required [ngClass]="{ 'is-invalid': f.narration_time.errors }"> -->
+							  <select class="form-control select2 waiting-time" formControlName="narration_time" type="text" required [ngClass]="{ 'is-invalid': f.narration_time.errors }">
+								<option value="30" >30</option>
+								<option value="59" >59</option>
+							  </select>
+							</div>
+						  </div>
+						  <div class="col-sm-12 col-md-6 ">
+							<div class="form-group m-b-15">
+							  <label class="control-label">Narration time1 (In Seconds)</label> <!-- required="required" -->
+							  <!-- <input class="form-control"  formControlName="narration_time1" placeholder=" " type="text" required [ngClass]="{ 'is-invalid': f.narration_time1.errors }"> -->
+							  <select class="form-control select2 waiting-time1" formControlName="narration_time1" type="text" required [ngClass]="{ 'is-invalid': f.narration_time1.errors }">
+								<option value="30" >30</option>
+								<option value="59" >59</option>
+							  </select>
+							</div>
+						  </div>
+						  <div class="container-fluid">
+						  
+							<!--  <table id="tbl-upload" class="table table-bordered " *ngIf="advFile.length !=0">
+								<tbody>
+								  <tr class="active">
+									<th>Document Name</th>
+									<th>Document Description</th> 
+									<th width="30%">MP3 File Time</th>
+									<th width="70%">MP3 File</th>
+								  </tr>
+								  <tr *ngFor='let url of advFile'>
+									<td>
+									  <div class="form-group ">
+										<label>{{url.file_time}}</label>
+									  </div>
+									</td>
+									<td>
+									  <div class="form-group ">
+										<audio #figAudio controls="" name="media"><source [src]="url.file_location | sanitizerUrl" type="audio/mp3"></audio>
+									  </div>
+									</td>
+								  </tr>
+								</tbody>
+							  </table> -->
+							
+						  </div>
+						</div>
+					  </div>
+					</div>
+				</div>
+				<div class="col-md-6 text-right ">
+					<div class="panel-body">
+					<div class="row">
+						<div class="col-sm-12 col-md-12 ">
+						<div class="form-group m-b-15">
+							<label class="control-label">Company Name</label> <!-- required="required" -->
+							<input class="form-control"  formControlName="companyName" placeholder=" " type="text" required [ngClass]="{ 'is-invalid': f.companyName.errors }">
+						</div>
+						</div>
+						<div class="col-sm-12 col-md-12 ">
+						<div class="form-group m-b-15">
+							<label class="control-label">Company logo</label> <!-- required="required" -->
+							<input accept="image/x-png,image/jpeg" class="form-control height-auto" placeholder=" " type="file"  (change)="uploadCompanyLogo($event)" required >
+						</div>
+						</div>
+						<div class="col-sm-12 col-md-12">
+						<!-- Image Preview -->
+						 <!-- Image Preview -->
+						 <div class="form-group float-r">
+							<label class="control-label">Company logo: </label>
+							  <div class="preview" *ngIf="companyLogo && companyLogo !== null">
+								<img [src]="companyLogo" [alt]="formData.app_name" width="100" >
+							  </div>
+						  </div>
+						</div>
+						<div class="col-sm-12 col-md-12 ">
+						<div class="form-group m-b-15">
+							<label class="control-label">Company URL</label> <!-- required="required" -->
+							<input class="form-control"  formControlName="companyUrl" placeholder=" " type="url" required [ngClass]="{ 'is-invalid': f.companyUrl.errors }">
+						</div>
+						</div>
+						<div class="col-sm-12 col-md-12 ">
+						<div class="form-group m-b-15">
+							<label class="control-label">Company Description</label> <!-- required="required" -->
+							<textarea class="form-control" rows="4" formControlName="companyDescription" placeholder="Company description" required [ngClass]="{ 'is-invalid': f.companyDescription.errors }"> </textarea>
+						</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12 col-md-12 mt-3"> 
+						<!-- <button class="btn allam-btn-green text-white nextBtn pull-right ml-5" type="button"[disabled]="loading">{{ loading ? 'Wait...' : 'Next' }} </button> -->
+						<button (click)="setFormPreview(formVar.value)" class="btn allam-btn-green text-white  pull-right ml-5" id="reviewButton" type="button" [disabled]="loading">{{ loading ? 'Wait...' : 'Review' }} </button>
+						<button class="btn btn-warning prevBtn pull-right" type="button">Prev</button>
+						</div>
+					</div>     
+					</div>
+				</div>
+			</div>
+		  </div>
+		  
+		  <div class="panel panel-primary setup-content" id="step-5">
+			<div class="panel-heading">
+				 <h3 class="panel-title">Review</h3>
+			</div>
+			<div class="panel-body">
+			  <div class="form-group">
+				<div class="row">
+				  <!-- <div class="col-md-4">
+					<label class="control-label">Description: </label>
+					<div class="control-label"> {{formData.description}}</div>
+				  </div> -->
+				  <div class="col-md-6">
+					<label class="control-label">Name of the competition: </label>
+					<div class="control-label"> {{formData.competitionName}}</div>
+				  </div>
+				  <div class="col-md-6">
+					<label class="control-label">Competition Logo: </label>
+					<!-- Image Preview -->
+				  <div class="form-group float-r">
+					  <div class="preview" *ngIf="preview && preview !== null">
+						<img [src]="preview" [alt]="formData.competitionName" height="100" width="100" >
+					  </div>
+				  </div>
+				  </div>
+					</div>
+				</div>
+  
+				<div class="form-group">
+					<div class="row">
+				  <div class="col-xs-12 col-sm-12">
+					<div class="dt-responsive table-responsive">
+					  <table id="autofill" class="table table-striped table-bordered nowrap dataTable" role="grid" aria-describedby="autofill_info">
+						<thead>
+						  <tr>
+							<!-- <th width="10%">Category</th> -->
+							<th width="10%">Question</th>
+							<!-- <th width="10%">Question File Url</th> -->
+							<th width="10%">Answer</th>
+							<th width="10%">Option 2</th>
+							<th width="10%">Option 3</th>
+							<th width="10%">Option 4</th>
+							<th width="10%">Level</th>
+							<th width="10%">Notes</th>
+							
+						  </tr>
+						</thead>
+						<tbody>
+						  <tr *ngFor="let item of getQuestion">
+							<!-- <td width="10%">{{ item.category }}</td> -->
+							<td width="10%">{{ item.question }}</td>
+							<!-- <td width="10%">{{ item.question_file_url }}</td> -->
+							<td width="10%">{{ item.answer }}</td>
+							<td width="10%">{{ item.option2 }}</td>
+							<td width="10%">{{ item.option3 }}</td>
+							<td width="10%">{{ item.option4 }}</td>
+							<td width="10%">{{ item.level }}</td>
+							<td width="10%">{{ item.note }}</td>
+							
+						  </tr>
+						</tbody>
+					  </table>
+					</div>
+				  </div>
+			  </div>
+				</div>
+				<div class="form-group">
+				  <div class="row">
+					<div class="col-md-3">
+					  <label class="control-label">Start Date: </label>
+					  <div class="control-label"> {{formData.startDateTime | date: 'dd/MM/yyyy'}}</div>
+					</div>
+					<div class="col-md-3">
+						<label class="control-label">Start Time: </label>
+						<div class="control-label">  {{formData.startDateTime | date:"hh:mm a"}}</div>
+					  </div>
+					<!-- <div class="col-md-3">
+					  <label class="control-label">End Date: </label>
+					  <div class="control-label"> {{formData.endDate}}</div>
+					</div>
+					
+					<div class="col-md-3">
+					  <label class="control-label">End Time: </label>
+					  <div class="control-label">  {{formData.endTime}}</div>
+					</div> -->
+					<div class="col-md-3">
+					  <label class="control-label">waiting Time: </label>
+					  <div class="control-label">  {{waitingTime}}</div>
+					</div>
+				  </div>
+				</div>
+				
+				<div class="form-group">
+				<div class="row">
+				  <div class="col-md-3">
+					<div class="form-group">
+						  <label class="control-label">Company Name: </label>
+					<div class="control-label"> {{formData.companyName}}</div>
+					</div>
+				  </div>
+				  <div class="col-md-3">
+					<div class="form-group">
+						  <label class="control-label">Company URL: </label>
+					<div class="control-label"> {{formData.companyUrl}}</div>
+					</div>
+				  </div>
+				  <div class="col-md-3">
+						  <!-- Image Preview -->
+						<div class="form-group float-r">
+						  <label class="control-label">Company logo: </label>
+							<div class="preview" *ngIf="companyLogo && companyLogo !== null">
+							  <img [src]="companyLogo" [alt]="formData.app_name" height="150" >
+							</div>
+						</div>
+				  </div>
+				</div>     
+			  </div>
+			  <div class="form-group">
+				
+				<!-- <div class="col-md-12 narration-img-upload">
+					<div class="form-group">
+					  <label class="control-label">File : </label>
+					  <div class="row">
+						<div class="col-md-12 justify-content-center">
+						  <table id="tbl-upload" class="table table-bordered" *ngIf="advFile.length !=0">
+							<tbody>
+							  <tr class="active">
+								<th>Document Name</th>
+								<th>Document Description</th>
+								<th>MP3 File Time</th>
+								<th>MP3 File</th>
+							  </tr>
+							  <tr *ngFor='let url of advFile'>
+								<td>
+								  <div class="form-group ">
+									<label>{{url.file_time}}</label>
+								  </div>
+								</td>
+								<td>
+								  <div class="form-group ">
+									<audio #figAudio controls="" name="media"><source [src]="url.file_location | sanitizerUrl" type="audio/mp3"></audio>
+								  </div>
+								</td>
+							  </tr>
+							</tbody>
+						  </table>
+						</div>
+					  </div>
+					</div>
+				  </div> -->
+				
+				  <div class="row" *ngIf="narrationOptions == 'text'">
+					<div class="col-md-3">
+					  <div class="form-group">
+							<label class="control-label">Narration Text: </label>
+					  <div class="control-label"> {{formData.narration_text}}</div>
+					  </div>
+					</div>
+					<div class="col-md-3">
+					  <div class="form-group">
+							<label class="control-label">Narration Text 1: </label>
+					  <div class="control-label"> {{formData.narration_text1}}</div>
+					  </div>
+					</div>
+					<div class="col-md-3">
+					  <div class="form-group">
+							<label class="control-label">Narration Time: </label>
+					  <div class="control-label"> {{formData.narration_time}}</div>
+					  </div>
+					</div>
+					<div class="col-md-3">
+					  <div class="form-group">
+							<label class="control-label">Narration Time 1: </label>
+					  <div class="control-label"> {{formData.narration_time1}}</div>
+					  </div>
+					</div>
+				  </div>  
+				  <div class="row" *ngIf="narrationOptions == 'file'">
+					<div class="col-md-6">
+					  <div class="form-group">
+						<label class="control-label">Narration URL: </label>
+						<div class="control-label"> <audio #figAudio controls="" name="media"><source [src]="audSrc | sanitizerUrl" type="audio/mp3"></audio></div>
+					  </div>
+					</div>
+					<div class="col-md-6">
+					  <div class="form-group">
+						<label class="control-label">Narration URL 1: </label>
+						<div class="control-label"> <audio #figAudio1 controls="" name="media"><source [src]="audSrc1 | sanitizerUrl" type="audio/mp3"></audio></div>
+					  </div>
+					</div>
+				  </div>
+			  </div>
+		
+		<div class="row">
+		  <div class="col-sm-12 col-md-12 "> 
+			<div class="form-group">
+			<!-- {{percentDone}} -->
+			 <!-- Progress Bar --> 
+					<div class="progress form-group" *ngIf="percentDone">
+					 <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
+						[style.width.%]="percentDone">
+					 </div>
+			 </div>
+		  </div>
+  
+		  </div>
+  
+		</div>
+			<div class="row"> 
+			  
+			  <div class="col-sm-12 col-md-12 "> 
+				<button class="btn allam-btn-green text-white nextBtn pull-right ml-5" type="submit">Update</button>
+				<button class="btn btn-warning prevBtn pull-right" type="button">Prev</button>
+			  </div>
+			</div> 
+		  </div>
+		  </div>
+		  
+		  <div class="modal crop-image-wrap" id="myCropModal" [style.display]="showCropModal ? 'block' : 'none'">
+			<div class="modal-dialog">
+			  <div class="modal-content">
+			
+			  <!-- Modal Header -->
+			  <div class="modal-header">
+				<h4 class="modal-title">Crop Image</h4>
+				<button type="button" class="close alert-danger" data-dismiss="modal" (click)="closePopup()">&times;</button>
+			  </div>
+			  <!-- Modal body -->
+			  <div class="modal-body slot-details-wrap">
+				<image-cropper
+				[imageChangedEvent]="imageChangedEvent" 
+				[maintainAspectRatio]="true" 
+				[aspectRatio]="3 / 3"
+				[resizeToWidth]="600" 
+				format="png" 
+				(imageCropped)="imageCropped($event, image_type)" 
+				(imageLoaded)="imageLoaded()"
+				(cropperReady)="cropperReady()" 
+				(loadImageFailed)="loadImageFailed()"></image-cropper>
+				</div>
+			
+			  <!-- Modal footer -->
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-warning" data-dismiss="modal" (click)="closePopup()">Done</button>
+			  </div>
+			
+			  </div>
+			</div>
+		  </div>
+		  <!-- {{formVar.value | json}} -->
+		  <!-- {{fileArr | json}} -->
+	  </form>
+	  
+  </div>
+  <div class="panel-body" *ngIf="isEdit">
+	<div class="row" >
+		<div class="col-md-12">
+		<form class="md-float-material" [formGroup]="form" (ngSubmit)="onUpdateTemp()">
+			
+			<div class="row">
+			<div class="col-lg-8 ">
+				<div class="row ">
+				<div class="col-sm-10 col-xs-10 col-md-10 group">
+				
+				<input class="form-control" placeholder="Option A" type="text" formControlName="option1" maxlength="70" [ngClass]="{ 'is-invalid': submitted && ff.option1.errors }">
+				<span class="md-line"></span>
+					<div *ngIf="submitted && ff.option1.errors" class="invalid-feedback">
+						<div *ngIf="ff.option1.errors.required">Option A is required.</div>
+					</div>
+				</div>
+				<div class="col-sm-2 col-xs-2 col-md-2  txt-left "> 
+					<label class="radio-box">
+					<input type="radio" name="answer" value="a" formControlName="answer" [checked]="form.get('answer').value == 'a'">
+					<span class="checkmark"></span>
+					</label>
+				</div>
+				</div>
+				<div class="row m-t-15">
+				<div class="col-sm-10 col-xs-10 col-md-10 group">
+
+				<input class="form-control" placeholder="Option B" type="text" formControlName="option2" maxlength="70" [ngClass]="{ 'is-invalid': submitted && ff.option2.errors }">
+				<span class="md-line"></span>
+				<div *ngIf="submitted && ff.option2.errors" class="invalid-feedback">
+						<div *ngIf="ff.option2.errors.required">Option B is required.</div>
+					</div>
+				</div>
+				<div class="col-sm-2 col-xs-2 col-md-2 txt-left"> 
+					<label class="radio-box">
+					<input type="radio" name="answer" value="b" formControlName="answer"  [checked]="form.get('answer').value == 'b'">
+					<span class="checkmark"></span>
+					</label>
+				</div>
+				</div>
+				<div class="row m-t-15">
+				<div class="col-sm-10 col-xs-10 col-md-10 group">
+
+				<input class="form-control" placeholder="Option C" type="text" formControlName="option3" maxlength="70" [ngClass]="{ 'is-invalid': submitted && ff.option3.errors }">
+				<span class="md-line"></span>
+				<div *ngIf="submitted && ff.option3.errors" class="invalid-feedback">
+						<div *ngIf="ff.option3.errors.required">Option C is required.</div>
+					</div>
+
+				</div>
+				<div class="col-sm-2 col-xs-2 col-md-2"> 
+					<label class="radio-box">
+					<input type="radio" name="answer" value="c" formControlName="answer" [checked]="form.get('answer').value == 'c'"> 
+					<span class="checkmark"></span>
+					</label>
+				</div>
+				</div>
+
+				<div class="row m-t-15">
+				<div class="col-sm-10 col-xs-10 col-md-10 group">
+				
+				<input class="form-control" placeholder="Option D" type="text" formControlName="option4" maxlength="70" [ngClass]="{ 'is-invalid': submitted && ff.option4.errors }">
+				<span class="md-line"></span>
+				<div *ngIf="submitted && ff.option4.errors" class="invalid-feedback">
+						<div *ngIf="ff.option4.errors.required">Option D is required.</div>
+					</div>
+
+				</div>
+				<div class="col-sm-2 col-xs-2 col-md-2"> 
+					<label class="radio-box">
+					<input type="radio"  name="answer" value="d" formControlName="answer" [checked]="form.get('answer').value == 'd'">
+					<span class="checkmark"></span>
+					</label>
+				</div>
+				</div>
+				<div class="row">
+				<div class="col-sm-10 col-xs-10 col-md-10">
+					<label >Level</label>
+					<div class="group">
+					
+					<select class="form-control" formControlName="level" [ngClass]="{ 'is-invalid': submitted && ff.level.errors }">
+						<option value="">Level</option>
+						<option *ngFor="let option of levelOptions" [value]="option" >{{option}}</option>
+					</select>
+					<span class="md-line"></span>
+					<div *ngIf="submitted && ff.level.errors" class="invalid-feedback">
+						<div *ngIf="ff.level.errors.required">Level is required.</div>
+						<div *ngIf="ff.level.errors.pattern">Accept numeric values only.</div>
+
+					</div>
+					</div>
+				</div> 
+				<div class="col-sm-2 col-xs-2 col-md-2"> </div>
+				</div>
+				<div class="row">
+				<div class="col-sm-10 col-xs-10 col-md-10">
+					<label >Duration (In Seconds)</label>
+					<div class="group">
+					<select class="form-control" formControlName="duration" [ngClass]="{ 'is-invalid': submitted && ff.duration.errors }">
+						<option value="">Duration (In Seconds)</option>
+						<option *ngFor="let option of durationOptions" [value]="option" >{{option}}</option>
+					</select>
+					
+					<span class="md-line"></span>
+					<div *ngIf="submitted && ff.duration.errors" class="invalid-feedback">
+						<div *ngIf="ff.duration.errors.required">Question time is required.</div>
+						<div *ngIf="ff.duration.errors.pattern">Accept numeric values only.</div>
+
+					</div>
+					</div>
+				</div> 
+				<div class="col-sm-2 col-xs-2 col-md-2"> </div>
+				</div>
+				<div class="row">
+				<div class="col-sm-10 col-xs-10 col-md-10 ">
+					<label >Note</label>
+					<div class="group">
+
+					<input class="form-control" placeholder="Note" type="text" formControlName="note" maxlength="70">
+					<span class="md-line"></span>
+					</div>
+				</div> 
+				<div class="col-sm-2 col-xs-2 col-md-2"> </div>
+				</div> 
+				
+				<div class="row">
+				<div class="col-sm-10 col-xs-10 col-md-10 ">
+					<div class="m-t-15">
+					<button (click)="goBack()" [disabled]="loading" class="btn allam-btn-green text-white round-border m-r-10 create_cancel">
+						<span *ngIf="this.idEdit">Back</span>
+					</button>
+					
+					<button [disabled]="loading" class="btn allam-btn-green text-white round-border create_cancel">
+						<span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+						<span *ngIf="this.idEdit">Update</span>
+						
+					</button>
+
+					</div>
+					
+				</div>
+				<div class="col-sm-2 col-xs-2 col-md-2"> </div>  
+				</div>
+			</div>
+			<div class="col-lg-4 ">
+				<div class="editor-wrap" id="my-node"> 
+				<label>Question</label>
+				<textarea class="form-control" placeholder="Question" formControlName="question" maxlength="70" [ngClass]="{ 'is-invalid': submitted && ff.question.errors }"> </textarea> 
+				<span class="md-line"></span>
+				<div *ngIf="submitted && ff.question.errors" class="invalid-feedback">
+					<div *ngIf="ff.question.errors.required">Question is required.</div>
+				</div>
+				</div>
+				<!-- <div class="editor-wrap" id="my-node"> 
+				<label>Question Image</label>
+				<input accept="image/x-png,image/jpeg" type="file" class="form-control choosefiles"  (change)="uploadQuestionImage($event)"> -->
+				<!-- Image Preview -->
+				<!--<div class="preview" *ngIf="preview && preview !== null">
+					<img [src]="preview" height="150" >
+				</div> 
+				</div> -->
+			</div>
+			</div>
+			<!--
+			<div class="row">
+				<div class="col-sm-12 col-xs-12 col-md-12">
+				<div class="m-t-15">
+					<button [disabled]="loading" class="btn allam-btn-green text-white round-border m-r-10 create_cancel">
+					<span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+					Save and insert
+					</button>
+					</div>
+				</div>
+				
+			</div>
+			-->
+		</form>
+		</div>
+	</div>
+  </div>
+  

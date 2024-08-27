@@ -1,0 +1,36 @@
+.table-responsive {
+    display: block;
+    width: 912px;
+    overflow-x: auto;
+}
+
+
+.single-curriculum-wrap .group label {
+    display: block;
+}
+
+.card-block {
+    padding: 0 12px 5px;
+}
+
+:host ::ng-deep .ck-editor__editable_inline {
+    min-height: 200px;
+    max-height: 200px;
+}
+
+:host ::ng-deep .ck-editor__editable_inline p {
+    font-size:18px;
+}
+
+:host ::ng-deep .ck-editor{
+    width: 300px;;
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #dee2e6;
+    width: 100%;
+    margin-bottom: 15px;
+    padding-left: 15px;
+}
+
+

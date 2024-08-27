@@ -1,0 +1,32 @@
+<div class="row allam-wrap">
+  <div class="col-sm-12">
+    <form  [formGroup]="masterForm" (ngSubmit)="onSubmit()">
+    <div class="row m-b-20"><div class="col-md-12">
+      <h3 class="text-left txt-primary">Add School </h3></div></div>
+    <hr />
+    
+    <div class="card">
+          <div class="row">
+            <div class="card-block col-sm-6 col-xs-6 col-md-6 ">
+              <div class="group">
+                <label>Name</label>
+                  <input type="text" class="form-control" placeholder="Name" formControlName="name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                  <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                    <div *ngIf="f.name.errors.required">This field is required.</div>
+                  </div>
+                </div>
+              </div>
+          </div>
+
+          <div class="card-block col-sm-6 col-xs-6 col-md-6 ">          
+              <div class="group m-t-15">
+                 <button [disabled]="loading" class="btn allam-btn-green text-white round-border m-r-10 create_cancel pull-right">
+                   <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                    Save
+                  </button>
+              </div>
+          </div>
+      </div>
+    </form>
+  </div>
+</div>

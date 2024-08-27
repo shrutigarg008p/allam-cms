@@ -1,0 +1,650 @@
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 Competitive-exam-wrap ">
+            <form role="form" class="k-form" [formGroup]="formVar" (ngSubmit)="onSubmit()">
+            <div class="panel panel-primary setup-content" *ngIf="isSave">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Challenge Race</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-froup">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-3 "> 
+                                  <div class="form-group competition-logo-upload">
+                                Competition Logo Uplaod
+                               
+                                <input accept="image/x-png,image/jpeg" type="file" class="form-control choosefiles"  (change)="uploadCompetitionLogo($event)" required>
+                                <input type="hidden" name="fileHidden" formControlName="imageInput" required [ngClass]="{ 'is-invalid': f.imageInput.errors }"/> <!-- Validation Field -->
+                                </div>
+                                <div *ngIf="f.imageInput.errors" class="invalid-feedback" >
+                                    <div *ngIf="f.imageInput.errors.required"><label> Competition logo is required </label></div>
+                                    <!-- <div *ngIf="f.email.errors.email">Email must be a valid email address</div> -->
+                                </div>
+                                <!-- Image Preview -->
+                                <div class="form-group">
+                                    <div class="preview" *ngIf="preview && preview !== null">
+                                    <img [src]="preview" height="100" >
+                                    </div>
+                                  </div>
+                            </div>
+        
+                            <div class="col-sm-12 col-md-9 "> 
+                              <div class="form-group m-b-15">
+                                <label class="control-label">Name of the competition</label> <!-- required="required" -->
+                                <input class="form-control"  formControlName="competitionName" placeholder=" " type="text" required [ngClass]="{ 'is-invalid': f.competitionName.errors }">
+                              </div>
+        
+                              <div class="form-group  m-b-15">
+                                <label>Description</label>
+                                <textarea class="form-control" cols="5"  formControlName="description" placeholder="Default textarea" rows="5" required [ngClass]="{ 'is-invalid': f.description.errors }"></textarea>
+                              </div>
+
+                                <div class="row">
+                                <div class="col-sm-12 col-md-6 "> 
+                                    <div class="form-group m-b-15">
+                                  <label>
+                                    Start Time
+                                    </label>
+                                    <input type="time" step="1" class="form-control" formControlName="startTime" required [ngClass]="{ 'is-invalid': f.startTime.errors }">
+                                </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 "> 
+                                    <div class="form-group m-b-15">
+                                  <label>
+                                    Start Date
+                                    </label>
+                                    <input type="date" class="form-control" formControlName="startDate" value="{{ post.startDate | date:'yyyy-MM-dd' }}" required [ngClass]="{ 'is-invalid': f.startDate.errors }">
+                               </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 "> 
+                                    <div class="form-group m-b-15">
+                                  <label>
+                                    End Time
+                                    </label>
+                                    <input type="time" step="1" class="form-control" formControlName="endTime" required [ngClass]="{ 'is-invalid': f.endTime.errors }">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 "> 
+                                    <div class="form-group m-b-15">
+                                  <label>
+                                    End Date
+                                    </label>
+                                    <input type="date" class="form-control" formControlName="endDate" value="{{ post.endDate | date:'yyyy-MM-dd' }}" required [ngClass]="{ 'is-invalid': f.endDate.errors }">
+                                </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 "> 
+                                <div class="form-group m-b-15">
+                                <select class="form-control select2" formControlName="promotion_type" type="text" style="width: 100%;" (change)="onChange($event)" required [ngClass]="{ 'is-invalid': f.promotion_type.errors }">
+                                    <option value="" [selected]="true">--Select--</option>
+                                     <option value="1" >Social Media follow promotion</option>
+                                     <option value="2" >Download</option>
+                                     <option value="3" >Affiliate</option>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="col-md-12 no-padding" *ngIf="selectedType == '1'">
+                             <div class="form-group">
+                              <input type="text" formControlName="instragramUrl" class="form-control" placeholder="Instragram URL" required [ngClass]="{ 'is-invalid': f.instragramUrl.errors }">
+                            </div>
+                            <div class="form-group">
+                              <input type="text" formControlName="twitterUrl" class="form-control" placeholder="Twitter URL" required [ngClass]="{ 'is-invalid': f.twitterUrl.errors }">
+                             </div>
+                             <div class="form-group">
+                              <input type="text" formControlName="snapchatUrl" class="form-control" placeholder="Snapchat URL" required [ngClass]="{ 'is-invalid': f.snapchatUrl.errors }">
+                            </div>
+                            </div> 
+                            <div class="col-md-12 no-padding" *ngIf="selectedType =='2'">
+                                <div class="form-group"> 
+                              <label>App logo</label>
+                              
+                              <input accept="image/x-png,image/jpeg" type="file" class="form-control choosefiles"  (change)="uploadAppLogo($event)" required [ngClass]="{ 'is-invalid': f.app_logo.errors }">
+                              </div>
+                              <div class="form-group"> 
+                              
+                              <input type="text" formControlName="app_name" class="form-control" placeholder="App Name" required [ngClass]="{ 'is-invalid': f.app_name.errors }">
+                              </div>
+                              <div class="form-group"> 
+                             
+                              <input type="text" formControlName="apple_store_url" class="form-control" placeholder="Apple store URL" required [ngClass]="{ 'is-invalid': f.apple_store_url.errors }">
+                             </div>
+                             <div class="form-group">  
+                             
+                              <input type="text" formControlName="google_play_url" class="form-control" placeholder="Google play URL" required [ngClass]="{ 'is-invalid': f.google_play_url.errors }">
+                            </div>
+                            </div> 
+                            <div class="col-md-12 no-padding" *ngIf="selectedType =='3'">
+                                <div class="form-group"> 
+                             
+                              <input type="text" formControlName="affiliate_url" class="form-control" placeholder="Affiliate Code" required [ngClass]="{ 'is-invalid': f.affiliate_url.errors }">
+                            </div>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="row justify-content-center">
+                                <div class="col-sm-12 col-md-10 "> 
+                                  <label>Narration option</label>
+                                    <select class="form-control select2" formControlName="narration_type" type="text" style="width: 100%;" (change)="narrationonChange($event)" required [ngClass]="{ 'is-invalid': f.narration_type.errors }">
+                                        <option value="" [selected]="true">--Select--</option>
+                                         <option value="narration" >Narration</option>
+                                         <option value="live_stareaming" >Live streaming</option>
+                                    </select> 
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-md-10 text-right ">
+                                    <div class="row" *ngIf="narrationType == 'narration'">
+                                        <!--<div class="col-sm-12 col-md-12 "> 
+                                            <label>Enter Company Detail</label>
+                                            </div>-->
+                                        <div class="col-sm-12 col-md-6 "> 
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-12 or-wrap"> 
+                                                    <div class="form-group">
+                                                  <label class="mb-4">Set Narration</label>
+                                                <input type="url" class="form-control" formControlName="narration_url" placeholder="Enter Narration URL" required [ngClass]="{ 'is-invalid': f.narration_url.errors }">
+                                            <div class="or-txt">OR</div>
+                                            </div>	
+                                            </div>
+                                                <div class="col-sm-12 col-md-12 "> 
+                                                </div>
+                                                <div class="col-sm-12 col-md-12 "> 
+                                                    <div class="form-group">
+                                                <textarea class="form-control narration-text-h" cols="5"  formControlName="narration_text" placeholder="Narration text" rows="5" required [ngClass]="{ 'is-invalid': f.narration_text.errors }"></textarea>
+                                            </div>	
+                                            </div>
+                                                <div class="col-sm-12 col-md-12 "> 
+                                                    <div class="form-group">	
+                                                        <label>Narration Time</label>
+                                                <input type="time" step="1" class="form-control" formControlName="narration_time" placeholder="Narration Time" required [ngClass]="{ 'is-invalid': f.narration_time.errors }">
+                                                </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 "> 
+                                            <div class="row">
+                                                
+                                                <div class="col-sm-12 col-md-12 "> 
+                                                    <div class="form-group">
+                                                  <label class="mb-4">Enter Company detail</label>
+                                                  <div class="company-logo-area">
+                                                      Company logo
+                                      <input accept="image/x-png,image/jpeg" type="file" class="form-control choosefiles" (change)="uploadCompanyLogo($event)" required [ngClass]="{ 'is-invalid': f.company_logo.errors }">
+                                            </div>	
+                                            </div>
+                                                </div>
+                                                
+                                                <div class="col-sm-12 col-md-12 "> 
+                                                    <div class="form-group">
+                                                  
+                                                <input type="text" class="form-control " formControlName="company_name" placeholder="Company Name" required [ngClass]="{ 'is-invalid': f.company_name.errors }">
+                                                </div>
+                                                </div>
+                                                
+                                                <div class="col-sm-12 col-md-12 "> 
+                                                    <div class="form-group">
+                                              
+                                                <input type="url" class="form-control " formControlName="company_link" placeholder="Company Link" required [ngClass]="{ 'is-invalid': f.company_link.errors }">
+                                                </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-12 "> 
+                                                    <div class="form-group">	
+                                              
+                                                <input type="text" class="form-control " formControlName="company_about" placeholder="Company About" required [ngClass]="{ 'is-invalid': f.company_about.errors }">
+                                                </div>
+                                                </div>
+                                                <!-- <div class="col-sm-12 col-md-12 "> 
+                                                    <div class="form-group">	
+                                                        <label>Time in second</label>
+                                                <input type="time" step="1" class="form-control" formControlName="narration_time" placeholder="Narration Time">
+                                                </div>
+                                                </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                        <div class="row justify-content-center" *ngIf="narrationType == 'live_stareaming'">
+                                            <div class="col-md-12 text-right ">
+                                                <div class="form-group">
+                                                <input type="url" class="form-control" formControlName="live_stream_url" placeholder="Live Stream URL" required [ngClass]="{ 'is-invalid': f.live_stream_url.errors }">
+                                            </div>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="getNarration.narration_type=='narration'">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                <label class="control-label">Narration option: </label>
+                                <div class="control-label"> {{getNarration.narration_type}}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                <label class="control-label">Narration URL: </label>
+                                <div class="control-label"> {{getNarration.narration_url}}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                <label class="control-label">Narration Text: </label>
+                                <div class="control-label">  {{getNarration.narration_text}}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                <label class="control-label">Narration Time: </label>
+                                <div class="control-label">  {{getNarration.narration_time}}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                
+                                
+                                <!-- Image Preview -->
+                                <div class="form-group">
+                                    <label class="control-label">company logo: </label>
+                                    <div class="preview" *ngIf="companyLogo && companyLogo !== null">
+                                      <img [src]="companyLogo" [alt]="getNarration.app_name" height="150" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                <label class="control-label">company name: </label>
+                                <div class="control-label">  {{getNarration.company_name}}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                <label class="control-label">company link: </label>
+                                <div class="control-label">  {{getNarration.company_link}}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                <label class="control-label">company about: </label>
+                                <div class="control-label">  {{getNarration.company_about}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="getNarration.narration_type=='live_stareaming'">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                <label class="control-label">Social Media Follow Promotion: </label>
+                                <div class="control-label"> {{getNarration.narration_type}}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                <label class="control-label">Live Stream URL: </label>
+                                <div class="control-label"> {{getNarration.live_stream_url}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">gender: </label>
+                                <div class="control-label"> {{setAudience.gender}}</div>
+                            </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                <label class="control-label">state: </label>
+                                <div class="control-label"> {{setAudience.state}}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                <label class="control-label">Area locality: </label>
+                                <div class="control-label"> {{setAudience.area_locality}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                        
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                <label class="control-label">age_range: </label>
+                                <div class="control-label"> {{setAudience.age_range}}</div>
+                                </div>
+                            </div>
+                        
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                <label class="control-label">city: </label>
+                                <div class="control-label"> {{setAudience.city}}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                <label class="control-label">nationality: </label>
+                                <div class="control-label"> {{setAudience.nationality}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                <label class="control-label">country: </label>
+                                <div class="control-label"> {{setAudience.country}}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">push_notification: </label>
+                                <div class="control-label"> {{setAudience.push_notification}}</div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                <label class="control-label">audience_description: </label>
+                                <div class="control-label"> {{setAudience.audience_description}}</div>
+                                </div>
+                            </div>
+
+                        </div>
+                        
+
+
+
+                        <div class="row">
+                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                <label class="control-label">title: </label>
+                                <div class="control-label"> {{setAudience.title}}</div>
+                                </div>
+                            </div>
+                        
+                            <div class="col-md-6">
+                                
+                                <!-- Image Preview -->
+                                <div class="form-group">
+                                    <label class="control-label">image_upload: </label>
+                                    <div class="preview" *ngIf="audienceLogo && audienceLogo !== null">
+                                    <img [src]="audienceLogo" [alt]="formData.title" height="200" >
+                                    </div>
+                                </div>
+
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 "> 
+                            <div class="form-group">
+                            {{percentDone}}
+                <!-- Progress Bar --> 
+                        <div class="progress form-group" *ngIf="percentDone">
+                            <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
+                                [style.width.%]="percentDone">
+                            </div>
+                            </div>
+                        </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row"> 
+                        <div class="col-sm-12 col-md-12 "> 
+                            <button class="btn allam-btn-green text-white nextBtn pull-right ml-5" type="submit">Submit!</button>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            </form>
+            <div class="panel panel-primary setup-content" id="step-7" *ngIf="isSave">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Competition Questions</h3>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12">
+                            <div class="publish-table-wrap table-responsive">
+                            <table id="autofill" class="table table-striped table-bordered nowrap dataTable" role="grid" aria-describedby="autofill_info">
+                            <thead>
+                                <tr>
+                                <th><span class="option-width"><input class="form-check-input" type="checkbox" (change)="selectAll()" [checked]="selectedAll">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn allam-btn btn-warning" (click)="deletItem()" title="Delete" type="button"><i class="icofont icofont-ui-delete"></i></button> </span>
+                                <th>Delete </th>
+                                <th>Edit </th>
+                                <th>Category</th>
+                                <th>Question</th>
+                                <th>Question File Url</th>
+                                <th><span class="option-width">Answer</span></th>
+                                <th><span class="option-width">Option 1</span></th>
+                                <th><span class="option-width">Option 2</span></th>
+                                <th><span class="option-width">Option 3</span></th>
+                                <th><span class="option-width">Option 4</span></th>
+                                <th>Level</th>
+                                <th>Notes</th>
+                                
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of getQuestion">
+                                <td class="categories"><!-- <input type="checkbox"  name="del_row" [value]="item.id" (change)="onCheckboxChange($event,item.id)" > -->
+                                    <input class="form-check-input" type="checkbox" value="{{item.question_name}}" [(ngModel)]="item.selected" (change)="checkIfAllSelected($event,item.id)"></td>
+                                    <td class="">
+                                    <button class="btn allam-btn btn-warning" (click)="deleteOneItem(item.id)" title="delete" type="button"><i class="icofont icofont-ui-delete"></i></button>
+                                    </td>
+                                    <td><button type="button" class="btn allam-btn btn-success" (click)="editItem(item)"><i class="icofont icofont-ui-edit"></i> </button></td>
+
+                                <td>{{ item.category }}</td>
+                                <td>{{ item.question_name }}</td>
+                                <td>{{ item.question_file_url }}</td>
+                                <td>{{ item.answer }}</td>
+                                <td>{{ item.option1 }}</td>
+                                <td>{{ item.option2 }}</td>
+                                <td>{{ item.option3 }}</td>
+                                <td>{{ item.option4 }}</td>
+                                <td>{{ item.level }}</td>
+                                <td>{{ item.note }}</td>
+                                
+                                </tr>
+                            </tbody>
+                            </table>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" *ngIf="isEdit">
+                <div class="col-md-12">
+                  <form class="md-float-material" [formGroup]="form" (ngSubmit)="onUpdateTemp()">
+                    
+                    <div class="row">
+                      <div class="col-lg-8 ">
+                        <div class="row ">
+                          <div class="col-sm-10 col-xs-10 col-md-10 group">
+                          
+                          <input class="form-control" placeholder="Option A" type="text" formControlName="option1" maxlength="70" [ngClass]="{ 'is-invalid': submitted && f.option1.errors }">
+                          <span class="md-line"></span>
+                            <div *ngIf="submitted && f.option1.errors" class="invalid-feedback">
+                                <div *ngIf="f.option1.errors.required">Option A is required.</div>
+                             </div>
+                          </div>
+                          <div class="col-sm-2 col-xs-2 col-md-2  txt-left "> 
+                            <label class="radio-box">
+                              <input type="radio" name="answer" value="a" formControlName="answer" [checked]="form.get('answer').value == 'a'">
+                              <span class="checkmark"></span>
+                            </label>
+                           </div>
+                        </div>
+                        <div class="row m-t-15">
+                          <div class="col-sm-10 col-xs-10 col-md-10 group">
+        
+                          <input class="form-control" placeholder="Option B" type="text" formControlName="option2" maxlength="70" [ngClass]="{ 'is-invalid': submitted && f.option2.errors }">
+                          <span class="md-line"></span>
+                           <div *ngIf="submitted && f.option2.errors" class="invalid-feedback">
+                                <div *ngIf="f.option2.errors.required">Option B is required.</div>
+                             </div>
+                          </div>
+                          <div class="col-sm-2 col-xs-2 col-md-2 txt-left"> 
+                            <label class="radio-box">
+                              <input type="radio" name="answer" value="b" formControlName="answer"  [checked]="form.get('answer').value == 'b'">
+                              <span class="checkmark"></span>
+                            </label>
+                           </div>
+                        </div>
+                        <div class="row m-t-15">
+                          <div class="col-sm-10 col-xs-10 col-md-10 group">
+        
+                          <input class="form-control" placeholder="Option C" type="text" formControlName="option3" maxlength="70" [ngClass]="{ 'is-invalid': submitted && f.option3.errors }">
+                          <span class="md-line"></span>
+                           <div *ngIf="submitted && f.option3.errors" class="invalid-feedback">
+                                <div *ngIf="f.option3.errors.required">Option C is required.</div>
+                            </div>
+        
+                          </div>
+                          <div class="col-sm-2 col-xs-2 col-md-2"> 
+                            <label class="radio-box">
+                              <input type="radio" name="answer" value="c" formControlName="answer" [checked]="form.get('answer').value == 'c'"> 
+                              <span class="checkmark"></span>
+                            </label>
+                           </div>
+                        </div>
+        
+                        <div class="row m-t-15">
+                          <div class="col-sm-10 col-xs-10 col-md-10 group">
+                          
+                          <input class="form-control" placeholder="Option D" type="text" formControlName="option4" maxlength="70" [ngClass]="{ 'is-invalid': submitted && f.option4.errors }">
+                          <span class="md-line"></span>
+                           <div *ngIf="submitted && f.option4.errors" class="invalid-feedback">
+                                <div *ngIf="f.option4.errors.required">Option D is required.</div>
+                            </div>
+        
+                          </div>
+                          <div class="col-sm-2 col-xs-2 col-md-2"> 
+                            <label class="radio-box">
+                              <input type="radio"  name="answer" value="d" formControlName="answer" [checked]="form.get('answer').value == 'd'">
+                              <span class="checkmark"></span>
+                            </label>
+                           </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-10 col-xs-10 col-md-10">
+                            <label >Level</label>
+                             <div class="group">
+                              
+                              <select class="form-control" formControlName="level" [ngClass]="{ 'is-invalid': submitted && f.level.errors }">
+                                <option value="">Level</option>
+                                <option *ngFor="let option of levelOptions" [value]="option" >{{option}}</option>
+                              </select>
+                              <span class="md-line"></span>
+                               <div *ngIf="submitted && f.level.errors" class="invalid-feedback">
+                                  <div *ngIf="f.level.errors.required">Level is required.</div>
+                                  <div *ngIf="f.level.errors.pattern">Accept numeric values only.</div>
+        
+                              </div>
+                            </div>
+                          </div> 
+                          <div class="col-sm-2 col-xs-2 col-md-2"> </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-10 col-xs-10 col-md-10">
+                            <label >Duration (In Seconds)</label>
+                             <div class="group">
+                              <select class="form-control" formControlName="duration" [ngClass]="{ 'is-invalid': submitted && f.duration.errors }">
+                                <option value="">Duration (In Seconds)</option>
+                                <option *ngFor="let option of durationOptions" [value]="option" >{{option}}</option>
+                              </select>
+                              
+                              <span class="md-line"></span>
+                               <div *ngIf="submitted && f.duration.errors" class="invalid-feedback">
+                                  <div *ngIf="f.duration.errors.required">Question time is required.</div>
+                                  <div *ngIf="f.duration.errors.pattern">Accept numeric values only.</div>
+        
+                              </div>
+                            </div>
+                          </div> 
+                          <div class="col-sm-2 col-xs-2 col-md-2"> </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-10 col-xs-10 col-md-10 ">
+                            <label >Note</label>
+                            <div class="group">
+        
+                             <input class="form-control" placeholder="Note" type="text" formControlName="note" maxlength="70">
+                             <span class="md-line"></span>
+                            </div>
+                          </div> 
+                          <div class="col-sm-2 col-xs-2 col-md-2"> </div>
+                        </div> 
+                        
+                        <div class="row">
+                          <div class="col-sm-10 col-xs-10 col-md-10 ">
+                            <div class="m-t-15">
+                              <button (click)="goBack()" [disabled]="loading" class="btn allam-btn-green text-white round-border m-r-10 create_cancel">
+                                 <span *ngIf="this.idEdit">Back</span>
+                              </button>
+                              
+                              <button [disabled]="loading" class="btn allam-btn-green text-white round-border create_cancel">
+                                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                 <span *ngIf="this.idEdit">Update</span>
+                                 
+                              </button>
+        
+                            </div>
+                            
+                          </div>
+                          <div class="col-sm-2 col-xs-2 col-md-2"> </div>  
+                        </div>
+                      </div>
+                      <div class="col-lg-4 ">
+                        <div class="editor-wrap" id="my-node"> 
+                         <label>Question</label>
+                          <textarea class="form-control" placeholder="Question" formControlName="question" maxlength="70" [ngClass]="{ 'is-invalid': submitted && f.question.errors }"> </textarea> 
+                          <span class="md-line"></span>
+                          <div *ngIf="submitted && f.question.errors" class="invalid-feedback">
+                            <div *ngIf="f.question.errors.required">Question is required.</div>
+                          </div>
+                        </div>
+                        <!-- <div class="editor-wrap" id="my-node"> 
+                         <label>Question Image</label>
+                          <input accept="image/x-png,image/jpeg" type="file" class="form-control choosefiles"  (change)="uploadQuestionImage($event)"> -->
+                          <!-- Image Preview -->
+                          <!--<div class="preview" *ngIf="preview && preview !== null">
+                            <img [src]="preview" height="150" >
+                          </div> 
+                        </div> -->
+                      </div>
+                    </div>
+                    <!--
+                       <div class="row">
+                        <div class="col-sm-12 col-xs-12 col-md-12">
+                          <div class="m-t-15">
+                            <button [disabled]="loading" class="btn allam-btn-green text-white round-border m-r-10 create_cancel">
+                              <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                               Save and insert
+                            </button>
+                            </div>
+                           </div>
+                           
+                    </div>
+                    -->
+                  </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

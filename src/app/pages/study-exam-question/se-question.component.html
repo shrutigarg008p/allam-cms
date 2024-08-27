@@ -1,0 +1,367 @@
+<div class="row" *ngIf="isSave">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-block">
+        <div class="dt-responsive table-responsive11">
+          <div id="autofill_wrapper" class="dataTables_wrapper dt-bootstrap4" [style.display]="typeId==1 ? 'block' : 'none'">
+            <div class="row">
+
+              
+              <div class="col-xs-12 col-sm-12 col-md-4">
+                <label>
+                  &nbsp;
+                </label>
+              </div>
+
+              <div class="col-xs-12 col-sm-4 col-md-4 text-left">
+               
+                <label class="frtrd-rtl"> Select Teacher </label>
+                <select class="form-control" [(ngModel)]="term2"  (change)="changedTeacher($event.target.value)">
+                  <option value="">Select Teacher</option>
+                  <option *ngFor="let option of teacherArr" [value]="option.id">{{option.first_name+' '+option.last_name | titlecase }}</option>
+                </select>
+              
+
+              </div>
+              
+
+              <div class="col-xs-12 col-sm-4 col-md-4">
+                <label class="frtrd-rtl"> Search </label>
+                <input type="search" class="form-control" placeholder="Search Here" aria-controls="autofill" [(ngModel)]="term">
+                <div>&nbsp;</div>
+              </div>
+              
+            </div>
+            <div class="row">
+              <div class="col-xs-12 col-sm-12">
+                <div class="dt-responsive table-responsive">
+                  <table id="autofill" class="table table-striped table-bordered nowrap dataTable" role="grid" aria-describedby="autofill_info">
+                    <thead>
+                      <tr role="row">
+                        <th>Level</th>
+                        <th>Answer</th>
+                        <th><span class="option-width">Option D </span></th>
+                        <th><span class="option-width">Option C </span></th>
+                        <th><span class="option-width">Option B </span></th>
+                        <th><span class="option-width">Option A </span></th>
+                        <th>Question Type</th>
+                        <th>Question </th>
+                       <!--  <th>Quant/Verbal </th> -->
+                        <!--  <th>Group </th>  -->
+                        <th>Lesson</th>
+                        <th>Subject</th>
+                        <th>Semester</th>
+                        <th>Class</th>
+                       <!--  <th>Quiz Sub Type</th>
+                        <th>Quiz Type</th> -->
+                        <th>Teacher</th>
+                        <th>Approved By</th>
+                        <th>Delete</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr role="row" *ngFor="let question of questionArr | filter: term | orderBy: {property: column, direction: direction} | paginate : {
+                  itemsPerPage: pageSize,
+                  currentPage: page,
+                  totalItems: count
+                };" >
+                        <td>{{ question.level_name }}</td>
+                        <td>{{ question.answer }}</td>
+                        <td>
+                            <img *ngIf="question.option_type=='image' else opt4Else" src="{{ s3_url}}{{question.option4}}"/>
+                            <ng-template #opt4Else>
+                               {{ question.option4 }}
+                           </ng-template>
+                        </td>
+                        <td>
+                            <img *ngIf="question.option_type=='image' else opt3Else" src="{{ s3_url}}{{question.option3}}"/>
+                            <ng-template #opt3Else>
+                               {{ question.option3 }}
+                           </ng-template>
+                        </td>
+                        <td>
+                            <img *ngIf="question.option_type=='image' else opt2Else" src="{{ s3_url}}{{question.option2}}"/>
+                            <ng-template #opt2Else>
+                               {{ question.option2 }}
+                           </ng-template>
+                        </td>
+                         <td>
+                            <img *ngIf="question.option_type=='image' else opt1Else" src="{{ s3_url}}{{question.option1}}"/>
+                            <ng-template #opt1Else>
+                               {{ question.option1 }}
+                           </ng-template>
+                        </td>
+                        <td>{{question.question_type}}</td>
+                        <td *ngIf="question.question_type=='text_and_image'">
+                          <img src="{{ s3_url}}{{question.question_image_url}}"/>
+                          <br>
+                           {{ question.question }}
+                        </td>
+                        <td *ngIf="question.question_type=='image'">
+                          <img src="{{ s3_url}}{{question.question_image_url}}"/>
+                        </td>
+                        <td *ngIf="question.question_type=='text' || question.question_type==null">
+                           {{ question.question }}
+                        </td>
+                       <!--  <td>{{ question.quant_verbal }}</td> -->
+                        <!--  <td>{{ question.group_name }}</td> -->
+                        <td>{{ question.lesson_name | titlecase}}</td>
+                        <td>{{ question.subject_name | titlecase}}</td>
+                        <td>{{ question.semester_name | titlecase}}</td>
+                        <td>{{ question.class_name | titlecase}}</td>
+                       <!--  <td>{{ question.sub_quiz_name | titlecase}}</td>
+                        <td>{{ question.quiz_type_name | titlecase}}</td> -->
+                        <td>
+                          <a href="javascript:void(0);" (click)="openPopup(question.created_by)">{{ question.t_name | titlecase}}</a>
+                        </td>
+                        <td>
+                          <a href="javascript:void(0);" (click)="openPopup(question.modified_by)">{{ question.ts_name | titlecase}}</a>
+                        </td>
+                         <td>
+                           <a (click)="deleteQuestion(question.id)" class="btn allam-btn btn-warning text-white" title="Delete" href="javascript:void(0);"><i class="icofont icofont-close"></i></a>
+                         </td>
+
+                      </tr>
+                      <tr *ngIf="questionArr.length == 0">
+                        <td colspan="15" class="no-data-available">No data!</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div _ngcontent-cjp-c8="" class="col-xs-12 col-sm-12 col-md-6">
+                <div class="dataTables_info" id="autofill_info" role="status" aria-live="polite">
+                  Show Entries
+                  <label>
+                    <select (change)="handlePageSizeChange($event)" class="form-control inpuitemsPerPaget-sm">
+                      <option *ngFor="let size of pageSizes" [ngValue]="size">
+                          {{ size }}
+                      </option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+              <div _ngcontent-cjp-c8="" class="col-xs-12 col-sm-12 col-md-6">
+                <pagination-controls
+                previousLabel="Prev"
+                nextLabel="Next"
+                responsive="true"
+                class="pagination"
+                (pageChange)="handlePageChange($event)"
+              ></pagination-controls>   
+              </div>
+            </div>
+          </div>
+          <div id="autofill_wrapper" class="dataTables_wrapper dt-bootstrap4" [style.display]="typeId==2 ? 'block' : 'none'">
+            <div class="row" [style.display]="showQuestion ? 'block' : 'none'">
+
+              <div class="col-xs-12 col-sm-4 col-md-4 text-left">
+                <div> &nbsp; </div>
+                <div style=" ">
+                  <a class="btn allam-btn btn-warning text-white" (click)="goBack()"> 
+                    <i _ngcontent-gjf-c6="" class="icofont icofont-arrow-left"></i>
+                    Back</a>&nbsp;
+                  <a *ngIf="!isApprove"
+                     class="btn allam-btn allam-btn-green text-white" (click)="approve(quizid, 0)">Approve</a>
+                  <a *ngIf="isApprove"
+                     class="btn allam-btn allam-btn-green  text-white" (click)="approve(quizid, 1)">UnApprove</a>
+                </div>
+              </div>
+              
+
+              <div class="col-xs-12 col-sm-4 col-md-4 text-left">
+                <label class="frtrd-rtl"> Select Teacher </label>
+                <select class="form-control" [(ngModel)]="term2"  (change)="changedTeacher($event.target.value)">
+                  <option value="">Select Teacher</option>
+                  <option *ngFor="let option of teacherArr" [value]="option.id">{{option.first_name+' '+option.last_name | titlecase }}</option>
+                </select>
+              </div>
+              <div class="col-xs-12 col-sm-4 col-md-4">
+                <label class="frtrd-rtl"> Search </label>
+                <input type="search" class="form-control" placeholder="Search Here" aria-controls="autofill" [(ngModel)]="term">
+                <div>&nbsp;</div>
+              </div>
+             
+            </div>
+            <div class="row" [style.display]="!showQuestion ? 'block' : 'none'">
+              
+                <div class="col-xs-12 col-sm-12 col-md-12 mt-3 mb-3">
+                  <a class="btn allam-btn btn-warning text-white" (click)="goDashboard()"> <i class="icofont icofont-arrow-left"></i> Back</a>
+                </div>
+             
+              
+              <div class="col-xs-12 col-sm-12">
+                <div class="dt-responsive table-responsive">
+                  <table id="autofill" class="table table-striped table-bordered nowrap dataTable" style="width:100%;" role="grid" aria-describedby="autofill_info">
+                    <thead>
+                      <tr role="row">
+                        <th width="25%"> </th>
+                        <th width="25%">Quiz Description</th>
+                        <th width="25%">Teacher</th>
+                        <th width="25%">Quiz Title</th>
+                       <!--  <th>Quiz Icon</th> -->
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr role="row" *ngFor="let quiz of quizArr">
+                        <td style="text-align:left;">
+                          <a class="btn btn-out allam-btn allam-btn-green text-white" (click)="preview(quiz.id, quiz.status)"><i class="icofont icofont-match-review"> </i> View Question</a>&nbsp;&nbsp;
+                          <a class="btn btn-out allam-btn allam-btn-green text-white" style="width:90px;" *ngIf="!quiz.status" (click)="approve(quiz.id, quiz.status)"><i class="icofont icofont-edit"> </i> Approve</a>
+                          <a class="btn btn-out allam-btn btn-warning text-white" *ngIf="quiz.status" (click)="approve(quiz.id, quiz.status)"><i class="icofont icofont-edit"> </i> UnApprove</a>
+                        </td>
+                        <td>{{ quiz.quiz_description }}</td>
+                        <td>
+                          {{ quiz.teacher_fname + ' '+ quiz.teacher_lname  | titlecase}}
+                        </td>
+                        
+                        <td>{{ quiz.quiz_title }}</td>
+                      <!--   <td *ngIf="quiz.quiz_icon_url!=''">
+                          <img src="{{ s3_url}}{{quiz.quiz_icon_url}}"/>
+                        </td> -->
+                      </tr>
+                      <tr *ngIf="quizArr.length == 0">
+                        <td colspan="5" align="center" class="no-data-available">No data!</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="row"  [style.display]="showQuestion ? 'block' : 'none'">
+              <div class="col-xs-12 col-sm-12">
+                <div class="dt-responsive table-responsive">
+                  <table id="autofill" class="table table-striped table-bordered nowrap dataTable" role="grid" aria-describedby="autofill_info">
+                    <thead>
+                      <tr role="row">
+                      <!--   <th>Level</th> -->
+                        <th>Answer</th>
+                        <th><span class="option-width">Option D </span></th>
+                        <th><span class="option-width">Option C </span></th>
+                        <th><span class="option-width">Option B </span></th>
+                        <th><span class="option-width">Option A </span></th>
+                        <th>Question Type</th>
+                         <th>Question </th>
+                        <th>Quant/Verbal </th>
+                         <th>Group </th> 
+                        <!-- <th>Lesson</th>
+                        <th>Subject</th>
+                        <th>Semester</th>
+                        <th>Class</th> -->
+                        <th>Quiz Sub Type</th>
+                        <th>Quiz Type</th>
+                        <th>Teacher</th>
+                        <th>Approved By</th>
+                        <th>Delete</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr role="row" *ngFor="let question of questionArr1 | filter: term">
+                       <!--  <td>{{ question.level_name }}</td> -->
+                        <td>{{ question.answer }}</td>
+                        <td>
+                            <img *ngIf="question.option_type=='image' else opt4Else" src="{{ s3_url}}{{question.option4}}"/>
+                            <ng-template #opt4Else>
+                               {{ question.option4 }}
+                           </ng-template>
+                        </td>
+                        <td>
+                            <img *ngIf="question.option_type=='image' else opt3Else" src="{{ s3_url}}{{question.option3}}"/>
+                            <ng-template #opt3Else>
+                               {{ question.option3 }}
+                           </ng-template>
+                        </td>
+                        <td>
+                            <img *ngIf="question.option_type=='image' else opt2Else" src="{{ s3_url}}{{question.option2}}"/>
+                            <ng-template #opt2Else>
+                               {{ question.option2 }}
+                           </ng-template>
+                        </td>
+                        <td>
+                            <img *ngIf="question.option_type=='image' else opt1Else" src="{{ s3_url}}{{question.option1}}"/>
+                            <ng-template #opt1Else>
+                               {{ question.option1 }}
+                           </ng-template>
+                        </td>
+                        <td>{{question.question_type}}</td>
+                        <td *ngIf="question.question_type=='text_and_image'">
+                          <img src="{{ s3_url}}{{question.question_image_url}}"/>
+                          <br>
+                           {{ question.question }}
+                        </td>
+                        <td *ngIf="question.question_type=='image'">
+                          <img src="{{ s3_url}}{{question.question_image_url}}"/>
+                        </td>
+                        <td *ngIf="question.question_type=='text' || question.question_type==null">
+                           {{ question.question }}
+                        </td>
+                        <td>{{ question.quant_verbal }}</td>
+                         <td>{{ question.groups }}</td>
+                       <!--  <td>{{ question.lesson_name | titlecase}}</td>
+                        <td>{{ question.subject_name | titlecase}}</td>
+                        <td>{{ question.semester_name | titlecase}}</td>
+                        <td>{{ question.class_name | titlecase}}</td> -->
+                        <td>{{ question.sub_quiz_name | titlecase}}</td>
+                        <td>{{ question.quiz_type_name | titlecase}}</td>
+                        <td>
+                          <a href="javascript:void(0);" (click)="openPopup(question.created_by)">{{ question.t_name | titlecase}}</a>
+                        </td>
+                        <td>
+                          <a href="javascript:void(0);" (click)="openPopup(question.modified_by)">{{ question.ts_name | titlecase}}</a>
+                        </td>
+                         <td>
+                           <a (click)="deleteQuestion(question.id)" class="btn allam-btn btn-warning text-white" title="Delete" href="javascript:void(0);"><i class="icofont icofont-close"></i></a>
+                         </td>
+
+                      </tr>
+                      <tr *ngIf="questionArr1.length == 0">
+                        <td colspan="14" align="center" class="no-data-available">No data!</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- The Modal -->
+<div class="modal" id="myModal" [style.display]="showModal ? 'block' : 'none'">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">{{userHeading}}:</h4>
+        <button type="button" class="close" data-dismiss="modal" (click)="closePopup()">&times;</button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body slot-details-wrap">
+        <table class="table table-striped">
+          <tr>
+            <td><label>Name :</label> {{userName}} </td>
+          </tr>
+          <tr>
+            <td><label>Email :</label> {{userEmail}} </td>
+          </tr>
+          <tr>
+            <td><label>Mobile :</label> {{userMobile}}</td>
+          </tr>
+          <tr>
+            <td><label>Country :</label> {{userCountry}} </td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" data-dismiss="modal" (click)="closePopup()">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,112 @@
+<div class="container-fluid dashboard">
+  
+
+  <div class="row">
+    <div class="col-md-12 Competitive-curriculum-exam-wrap">
+      <div class="row justify-content-md-center">
+
+      <div class="col-md-7">
+
+        <div class="card">
+          <h4>Create New Study Exam  </h4>
+        <form class="md-float-material" [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="row">
+              <div class="card-block col-sm-12 col-xs-12 col-md-12 ">
+                       
+               <div class="group">
+                 
+                  <select  class="form-control"  formControlName="quiz_type" (change)="examType($event)">
+                   <option value="Curriculum Exam">Curriculum Exam</option>
+                   <option value="Competitive Exam">Competitive Exam</option>
+                  </select>
+                </div>
+
+                <div class="group competitive-exam-drpdown" *ngIf="isCompt">
+                  <select  class="form-control" formControlName="quiz_sub_type" [ngClass]="{ 'is-invalid': submitted && f.quiz_sub_type.errors }">
+                     <option value="">Quiz sub type</option>
+                     <option value="Scientific achievement exam">Scientific achievement exam</option>
+                     <option value="Theoretical Achievement exam">Theoretical Achievement exam</option>
+                     <option value="Verbal exam of scientific majors">Verbal exam of scientific majors </option>
+                     <option value="Quantitative exam of scientific majors">Quantitative exam of scientific majors </option>
+                     <option value="Verbal exam of literary majors">Verbal exam of literary majors </option>
+                     <option value="Quantitative of literary majors">Quantitative of literary majors</option>
+                  </select>
+                  <div *ngIf="submitted && f.quiz_sub_type.errors" class="invalid-feedback">
+                      <div *ngIf="f.quiz_sub_type.errors.required">This field is required.</div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="col-sm-12 col-xs-12 col-md-12 scientific-achievement">
+                <div class="row" *ngIf="isCompt">
+                  <div class="col-xs-12 col-md-8 "> 
+                    <div class="group">
+                      <input type="text" class="form-control " placeholder="Quiz title" formControlName="quiz_title" [ngClass]="{ 'is-invalid': submitted && f.quiz_title.errors }">
+                      <div *ngIf="submitted && f.quiz_title.errors" class="invalid-feedback">
+                          <div *ngIf="f.quiz_title.errors.required">This field is required.</div>
+                      </div>
+                    </div>
+                    <div class="group ">
+                      <textarea class="form-control " cols="5" name="description" placeholder="Description
+                      " rows="3" formControlName="quiz_description" [ngClass]="{ 'is-invalid': submitted && f.quiz_description.errors }"></textarea>
+                      <div *ngIf="submitted && f.quiz_description.errors" class="invalid-feedback">
+                          <div *ngIf="f.quiz_description.errors.required">This field is required.</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-md-4 ">
+                    <div class="iconupload">
+
+                     <input type="file" class="form-control customupload" title="Icon Upload" (change)="uploadFile($event)" accept="image/x-png,image/jpeg">  
+                   </div>
+                   <div class="upload-jpgpng">Please upload png, jpg or JPEG files, Image should be 200 x 200 size</div>
+                   <!-- Image Preview -->
+                  <div class="form-group preview-wrap">
+                      <div class="preview" *ngIf="preview && preview !== null">
+                        <img [src]="preview" [alt]="" height="200" >
+                      </div>
+                  </div>
+
+                  </div>
+                 </div>
+               
+                 <div class="row">
+                  <div class="col-xs-12 col-md-8"> 
+                    <div class="group radio-wrap"> 
+                      <label class="">
+                        SINGLE UPLOAD
+                        <input type="radio" checked name="upload_type" value="single" formControlName="upload_type">
+                      </label>
+                      <label class="">
+                        BULK UPLOAD
+                        <input type="radio" name="upload_type" value="bulk" formControlName="upload_type">
+                      </label>
+                     </div>
+
+
+                  <div class="col-sm-12 col-xs-12 col-md-12 scientific-achievement">
+                    
+                    <div class="row">
+                      <div class="col-xs-12 col-md-8 pl-0"> 
+                        
+                        <div class="group ">
+                          <button  class="btn btn-block allam-btn-green text-white ">
+                            Next
+                          </button>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-md-4"> </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+              </div>
+          </div>
+        </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

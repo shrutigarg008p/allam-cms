@@ -1,0 +1,57 @@
+<div class="row">
+  <div class="col-sm-12">
+   <div class="card">
+   <div class="card-block col-sm-12 col-xs-12 col-md-6 m-auto">
+   <form>
+   <div _ngcontent-oub-c3="" class="row m-b-20"><div _ngcontent-oub-c3="" class="col-md-12"><h3 _ngcontent-oub-c3="" class="text-left txt-primary">Add Quiz </h3></div></div>
+   
+   <hr />
+   <div class="group">
+   <label>Title</label>
+   <input class="form-control" placeholder="Add title" type="text" name="title" [(ngModel)]="newQuiz.title" >
+   </div>
+   
+   <div class="group m-t-15">
+   <label>Select Category</label>
+   <select id="hello-single" class="form-control" name="category" [(ngModel)]="newQuiz.category">
+      <option value="History">History</option>
+      <option value="Art">Art</option>
+      <option value="Technology">Technology</option>
+      <option value="Sceince">Sceince</option>
+   </select>
+   </div>
+   
+   
+   <div class="group m-t-15">
+   <label>Description</label>
+   <textarea rows="5" cols="5" class="form-control" placeholder="Default textarea" name="description" [(ngModel)]="newQuiz.description"></textarea>
+   </div>
+   
+   
+   <div class="checkbox-fade fade-in-primary m-t-15">
+   <label _ngcontent-iwp-c3=""><input _ngcontent-iwp-c3="" type="checkbox" value="yes" name="isPublish" [(ngModel)]="newQuiz.isPublish">
+   <span  class="cr"><i class="cr-icon icofont icofont-ui-check txt-primary"></i></span>
+   <span class="text-inverse">Publish</span></label>
+   </div>
+   
+   <div class="group">
+   <label>Date</label>
+
+   <input class="form-control" type="text" name="insertDate" [(ngModel)]="newQuiz.insertDate" >
+   </div>
+
+   <div class="m-t-15">
+   <!-- <button class="btn btn-success ">
+   <a ng-reflect-router-link="add-category" class="text-white" href="/category/add-category">Save</a></button> -->
+
+   <button type="button" class="btn btn-success" (click)="saveQuiz(newQuiz)">Submit</button>
+   <button type="button" class="btn btn-warning" (click)="cancelNewQuiz()">Cancel</button>
+   </div>
+   </form>
+   </div>
+   
+   
+   
+   </div>
+  </div>
+</div>

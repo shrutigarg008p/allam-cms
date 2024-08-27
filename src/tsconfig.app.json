@@ -1,0 +1,19 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "fs": ["empty.ts"],
+      "path": ["empty.ts"]
+    },
+    "resolveJsonModule": true,
+    "outDir": "../out-tsc/app",
+    "baseUrl": "./",
+    "types": ["knockout"],
+    "skipLibCheck": true
+  },
+  
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts"
+  ]
+}

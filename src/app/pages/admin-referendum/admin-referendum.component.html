@@ -1,0 +1,70 @@
+<div class="row allam-wrap">
+  <div class="col-sm-12">
+    <div class="row m-b-20"><div class="col-md-12">
+      <h3 class="text-right txt-primary">Admin referendum </h3></div></div>
+    <hr />
+    
+    <div class="card">
+      <div class="card-block">
+        <section>
+          <div class="form-check form-check-inline">
+            <label class="radio-box">
+              <input type="radio" name="surveyType" id="surveyType-1" (change)="handleTypeChange($event)" [(ngModel)]="surveyType" value="0"  > All         
+              <span class="checkmark"></span>
+            </label>
+          </div>
+  
+          <div class="form-check form-check-inline">
+            <label class="radio-box">
+              <input type="radio" name="surveyType" id="surveyType-2" (change)="handleTypeChange($event)" [(ngModel)]="surveyType" value="1" > Public
+              <span class="checkmark"></span>   
+            </label>
+          </div>
+  
+          <div class="form-check form-check-inline">
+            <label class="radio-box">
+              <input type="radio" name="surveyType" id="surveyType-3" (change)="handleTypeChange($event)" [(ngModel)]="surveyType" value="2" > Private
+              <span class="checkmark"></span>
+            </label>
+          </div>
+        </section>
+        <div class="dt-responsive table-responsive11">
+          <div id="autofill_wrapper" class="dataTables_wrapper dt-bootstrap4">
+            <div class="sv_main sv_frame sv_default_css">
+              <div class="sv_custom_header"></div>
+              <div class="sv_container">
+                <div class="sv_body">
+                  <div id="surveys-list" class="surveys-list">
+                    <table class="table table-striped">
+                      <thead>
+                        <th style="width:20%;">Actions</th>
+                        <th style="width:40%;">Advertiser Name</th>
+                        <th style="width:40%;">Referendum Title</th>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let survey of filteredSurveys">                         
+                          <td style="width:20%; text-align: right;"> 
+                            <a class="btn allam-btn allam-btn-green text-white" (click)="openPreview(survey.id, survey.IsApproved)"
+                              >Preview</a>
+                            <a *ngIf="!survey.IsApproved"
+                              class="btn allam-btn allam-btn-green text-white" style="width: 83px;" (click)="changeStatus(survey.id)"
+                              >Approve</a>
+                            <a *ngIf="survey.IsApproved"
+                            class="btn allam-btn btn-warning text-white" (click)="changeStatus(survey.id)"
+                            >Un-Approve</a> 
+                          </td>
+                          <td style="width:40%;">{{survey.advertiser}}</td>
+                          <td style="width:40%;">{{survey.name}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

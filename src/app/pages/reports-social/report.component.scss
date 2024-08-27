@@ -1,0 +1,142 @@
+:root{
+    --primary-color:#2DA771;
+    --black-color:#010101;
+    --wht-color :#fff;
+}
+@import url("https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900");
+body{margin: 0; padding: 0; font-family: 'Roboto', sans-serif; color: #4d4c4c; font-size: 16px;
+    font-weight: 300; color: #4d4c4c;}
+.mt40{
+    margin-top: 40px;
+}
+.borders{
+    border-top: 1px solid #efefef;
+}
+.wraper{
+    background: #F9F9F9;
+}
+.right-wraper{
+    background: #fff;
+    border-radius: 10px;
+    border:1px solid #efefef;
+    margin-bottom: 40px;
+}
+.padding-40{
+    padding: 40px;
+}
+
+.profile-pic{
+    display: inline-block;
+    line-height: 30px;
+}
+.profile-pic .name{
+    display: inline-block;
+    font-weight: 500;
+}
+.profile-pic figure{
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    overflow: hidden;
+    float: right;
+    margin-left: 10px;
+}
+.profile-pic figure img{
+    width: 100%;
+    height: auto;
+}
+
+.title{
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 30px;
+}
+
+.chart {
+    margin: 30px 0;
+    background: #FFFFFF;
+    border: 1px solid #DFE0EB;
+    border-radius: 10px;
+    box-shadow: 0px 3px 12px rgb(0 0 0 / 14%);
+    padding: 10px;
+}
+
+aside{
+    background-color: #fff;
+    padding: 20px 0 20px 20px;
+    width: 25%;
+    z-index: 9;
+}
+aside ul.navs {
+    margin: 50px 0 0 0;
+    padding: 0;
+}
+
+aside ul.navs li {
+    list-style: none;
+}
+
+aside ul.navs li a {
+    padding: 10px;
+    color: #333;
+    font-weight: 500;
+    display: block;
+    border-top: 1px solid #efefef;
+    transition: all 0.3s;
+    text-decoration: none;
+    border-left: 2px solid transparent;
+}
+
+aside ul.navs li a.active,aside ul.navs li a:hover {
+    color: var(--primary-color);
+    border-left: 2px solid var(--primary-color);
+    background: #f2f2f2;
+}
+header{
+    padding-top: 20px;
+    margin-bottom: 20px;
+}
+label.labels {
+    font-weight: 500;
+}
+.sb-title {
+    margin-top: 10px;
+    color: #979797;
+    font-weight: 400;
+}
+.search{
+    /* background: url(../img/search-icon.png) no-repeat left 10px center; */
+    padding-left: 40px;
+}
+.mob-menu{
+    display: none;
+    font-weight: 500;
+    margin-right: 20px;
+}
+
+
+@media (max-width: 767px){
+    body{
+        font-size: 14px;
+    }
+    aside{
+        width: 100%;
+        padding: 20px;
+        position: fixed;
+        left: -100%;
+        padding: 20px;
+        height: 100%;
+    }
+    .mob-menu{
+        display: inline-block;
+    }
+    .padding-40{
+        padding: 20px;
+    }
+    label.labels{
+        margin-top: 20px;
+    }
+    .title{
+        font-size: 20px;
+    }
+}

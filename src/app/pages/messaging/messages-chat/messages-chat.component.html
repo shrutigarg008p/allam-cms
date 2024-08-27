@@ -1,0 +1,92 @@
+<div class="main-section mt-4">
+    <div class="head-section">
+        <div class="headLeft-section">
+            <div class="headLeft-sub">
+                <input type="text" name="search" [(ngModel)]="search" placeholder="Search..." (keyup)="searchUser($event.target.value)">
+                <button> <i class="fa fa-search"></i> </button>
+            </div>
+        </div>
+        <div class="headRight-section">
+            <div class="headRight-sub" *ngIf="selectedConversation!=''">
+                <h3>{{conversationHeading}}</h3>
+                <!-- <small>You are having a conversation with {{conversationSubHeading}}</small> -->
+            </div>
+            <div class="headRight-sub" *ngIf="selectedConversation==''">
+                <h3>Select a conversation to start</h3>
+                <small>You will see conversation messages below</small>
+            </div>
+        </div>
+    </div>
+    <div class="body-section">
+        <div class="left-section mCustomScrollbar" data-mcs-theme="minimal-dark">
+            <ul>
+                <div *ngFor="let m of conversations">
+                    <li *ngIf="m?.id != user_id" [class.active]="m?.id==selectedConversation"
+                        (click)="viewConversations(m)">
+                        <div class="chatList"> 
+                            <div class="img">
+                                <i class="fa fa-circle"></i>
+                                <!-- <img *ngIf="m?.freelancer_user?.profile_image" [src]="s3_url+m?.freelancer_user?.profile_image"> -->
+                                <img src="assets/images/avatar-1.jpg">
+                            </div>
+                            <div class="desc">
+                                <small class="time" *ngIf="m?.last_date">{{m?.last_date | date:'shortTime'}}</small>
+                                <br>
+                                <h5><b>{{m?.first_name}} {{m?.last_name}}</b></h5>
+                                <small *ngIf="m?.chat_count">{{m?.chat_count}} unread message</small>
+                                <small *ngIf="!m?.chat_count">No message</small>
+                                <!-- <small *ngIf="m?.user_messages?.length>0">{{m?.user_messages[m?.user_messages?.length-1]['message']}}</small> -->
+                                <small *ngIf="last_date?.length==0"><i>no messages yet</i></small>
+                            </div>
+                        </div>
+                    </li>
+                </div>
+                <li class="text-center" *ngIf="conversations && conversations.length==0">
+                    <i>no any requesr yet</i>
+                </li>
+            </ul>
+        </div>
+        <div class="right-section">
+            <div id="chatMessages" class="message mCustomScrollbar" data-mcs-theme="minimal-dark"
+                style="overflow-y: scroll;">
+                <ul *ngFor="let m of messages; let i=index">
+                    <li class="msg-left" *ngIf="m?.receiver_id == user_id">
+                        <div class="msg-left-sub row">
+                            <img src="assets/images/avatar-1.jpg">
+                            <div class="msg-desc">
+                                {{m?.message}}
+                            </div>
+                            <!-- <img *ngIf="selectConverstaionDetails?.freelancer_user?.profile_image" [src]="s3_url+selectConverstaionDetails?.freelancer_user?.profile_image"> -->
+                            <small>{{m?.date | date:'medium'}}</small>
+
+                        </div>
+                    </li>
+                    <li class="msg-right" *ngIf="m?.receiver_id!= user_id">
+                        <div class="msg-left-sub">
+                            <!-- <img *ngIf="selectConverstaionDetails?.employer_user?.profile_image"
+                                [src]="s3_url+selectConverstaionDetails?.employer_user?.profile_image"> -->
+                            <img src="assets/images/allam.png">
+                            <div class="msg-desc">
+                                {{m?.message}}
+                            </div>
+                            <small>{{m?.date | date:'medium'}}</small>
+                        </div>
+                    </li>
+                    <!-- <li class="msg-day"><small>Wednesday</small></li> -->
+                </ul>
+            </div>
+            <div class="right-section-bottom">
+                <form>
+                    <!-- <div class="upload-btn">
+                        <button class="btn"><i class="fa fa-photo"></i></button>
+                        <input type="file" name="message_attachment" (change)="uploadFile($event)" [disabled]="selectedConversation==''"/>
+                    </div> -->
+                    <input type="text" name="message" [(ngModel)]="message" placeholder="type here..."
+                        [disabled]="selectedConversation==''">
+                    <button class="btn-send" [disabled]="selectedConversation==''"
+                        (click)="checkAttachmentAndSendMessage()"><i class="fa fa-send"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

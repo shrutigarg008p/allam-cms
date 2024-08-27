@@ -1,0 +1,44 @@
+<div class="container-fluid dashboard">
+  
+
+  <div class="row">
+    <div class="col-md-12 Competitive-curriculum-exam-wrap">
+      <div class="row justify-content-md-center">
+
+      <div class="col-md-9">
+
+        <div class="card">
+        <h4>Select Teacher</h4>
+        
+        <form class="md-float-material" [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="row">
+              <div class=" col-sm-12 col-xs-12 col-md-12 ">
+                       
+               <div class="group">
+                  <select class="form-control" formControlName="teacher" [ngClass]="{ 'is-invalid': submitted && f.teacher.errors }">
+                    <option value="">Teacher</option>
+                    <option *ngFor="let option of teacherArr" [value]="option.id" >{{option.first_name+' '+option.last_name | titlecase }}</option>
+                  </select>
+                  <div *ngIf="submitted && f.teacher.errors" class="invalid-feedback">
+                      <div *ngIf="f.teacher.errors.required">This field is required.</div>
+                  </div>
+                </div>
+              </div>
+          </div>
+           <div class="row">&nbsp;</div>
+          <div class="row">
+            <div class="col-sm-6 col-xs-6 col-md-6">
+                <div class="group">
+                    <button  class="btn btn-block allam-btn-green text-white ">
+                            Next
+                    </button>
+                </div>
+            </div>
+          </div>
+        </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

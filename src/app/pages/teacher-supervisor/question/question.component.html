@@ -1,0 +1,781 @@
+<div class="row" *ngIf="isSave">
+  <div class="col-sm-12">
+      <div class="card">
+          <div class="card-block">
+            <div class="dt-responsive table-responsive11">
+              <div id="autofill_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                <div class="row m-b-10">
+                  <div class="col-xs-12 col-sm-12 col-md-4 text-left">
+                     <a [routerLink]="['teacher-supervisor']" class="btn btn-warning text-white m-t-15">
+                            <i class="icofont icofont-arrow-left"></i>Back
+                      </a>
+                    </div>
+                  <div class="col-xs-12 col-sm-12 col-md-4">
+                     <div> &nbsp; </div>
+                    <input type="search" class="form-control" placeholder="Search Here" aria-controls="autofill" [(ngModel)]="term"> 
+
+                  </div>
+                  <div class="col-xs-12 col-sm-12 col-md-4 text-right"> 
+                     <label> 
+                      <button class="btn btn-success m-t-15" (click)="downloadItem()" title="Download" type="button"><i class="icofont icofont-download"></i></button>
+                         
+                      </label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-12 col-sm-12">
+                    <div class="dt-responsive table-responsive">
+                      <table id="autofill" class="table table-striped table-bordered nowrap dataTable" role="grid" aria-describedby="autofill_info">
+                        <thead>
+                          <tr role="row">
+                          <th>Level</th>
+                          <th>Answer</th>
+                          <th><span class="option-width">Option D </span></th>
+                          <th><span class="option-width">Option C </span></th>
+                          <th><span class="option-width">Option B </span></th>
+                          <th><span class="option-width">Option A </span></th>
+                          <th>Question Type</th>
+                          <th>Question </th>
+                          <th>Quant/Verbal </th>
+                         <!--  <th>Group </th>  -->
+                          <th>Lesson</th> 
+                          <th>Subject</th> 
+                          <th>Semester</th>
+                          <th>Class</th> 
+                          <th>Quiz Sub Type</th>
+                          <th>Quiz Type</th>
+                          <th>Edit</th>  
+                          <th>Approve</th>
+                          <th>
+                            <span class="option-width"><input class="form-check-input" type="checkbox" (change)="selectAll()" [checked]="selectedAll">&nbsp;&nbsp;
+                            <button class="btn btn-warning" (click)="approveItem()" title="Approve" type="button">
+                            <i class="icofont icofont-check-circled"></i></button> </span>
+                          </th>
+                         
+                         
+                        </tr>
+                        </thead>
+                        <tbody>
+                          <tr role="row" *ngFor="let question of questionArr | filter: term | paginate : {
+                  itemsPerPage: pageSize,
+                  currentPage: page,
+                  totalItems: count
+                }; ">
+                               
+                                <td>{{ question.level_name }}</td>
+                                <td>{{ question.answer }}</td>
+                                <td>
+                                    <img *ngIf="question.option_type=='image' else opt4Else" src="{{ s3_url}}{{question.option4}}"/>
+                                    <ng-template #opt4Else>
+                                       {{ question.option4 }}
+                                   </ng-template>
+                                </td>
+                                <td>
+                                    <img *ngIf="question.option_type=='image' else opt3Else" src="{{ s3_url}}{{question.option3}}"/>
+                                    <ng-template #opt3Else>
+                                       {{ question.option3 }}
+                                   </ng-template>
+                                </td>
+                                <td>
+                                    <img *ngIf="question.option_type=='image' else opt2Else" src="{{ s3_url}}{{question.option2}}"/>
+                                    <ng-template #opt2Else>
+                                       {{ question.option2 }}
+                                   </ng-template>
+                                </td>
+                                 <td>
+                                    <img *ngIf="question.option_type=='image' else opt1Else" src="{{ s3_url}}{{question.option1}}"/>
+                                    <ng-template #opt1Else>
+                                       {{ question.option1 }}
+                                   </ng-template>
+                                </td>
+                                <td class="">{{ question.question_type }} </td>
+                                <td *ngIf="question.question_type=='text_and_image'">
+                                <img width="300" height="200" src="{{ s3_url}}{{question.question_image_url}}"/>
+                                <br>
+                                 {{ question.question }}
+                                </td>
+                                <td *ngIf="question.question_type=='image'">
+                                <img width="300" height="200" src="{{ s3_url}}{{question.question_image_url}}"/>
+                                </td>
+                                <td *ngIf="question.question_type=='text' || question.question_type==null">
+                                 {{ question.question }}
+                                </td>
+                                <td>{{ question.quant_verbal }}</td>
+                               <!--  <td>{{ question.group_name }}</td> -->
+                                <td>{{ question.lesson_name | titlecase}}</td>
+                                <td>{{ question.subject_name | titlecase}}</td>
+                                <td>{{ question.semester_name | titlecase}}</td>
+                                <td>{{ question.class_name | titlecase}}</td>
+                                <td>{{ question.sub_quiz_name | titlecase}}</td>
+                                <td>{{ question.quiz_type_name | titlecase}}</td>
+                                <td>
+                                  <button type="button" class="btn allam-btn allam-btn-green text-white " (click)="editItem(question)"><i class="icofont icofont-ui-edit"></i> </button>
+                                </td>
+                                <td class="">
+                                    <button class="btn allam-btn btn-warning" (click)="approveOneItem(question.id)" title="Approve" type="button"><i class="icofont icofont-check-circled"></i></button>
+                                </td>
+                                <td class="categories">
+                                  <!-- <input type="checkbox"  name="del_row" [value]="question.id" (change)="onCheckboxChange($event,question.id)" >  -->
+                                   <input class="form-check-input" type="checkbox" value="{{question.id}}" [(ngModel)]="question.selected" (change)="checkIfAllSelected($event,question.id)"> 
+                                </td>
+                                
+                                
+                              </tr>
+                              <tr *ngIf="questionArr.length==0">
+                                <td colspan="16" align="center">No Data found.</td>
+                              </tr>
+
+                          </tbody>
+                        </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div _ngcontent-cjp-c8="" class="col-xs-12 col-sm-12 col-md-6">
+                  <div class="dataTables_info" id="autofill_info" role="status" aria-live="polite">Show Entries
+                  <label>
+                   <select (change)="handlePageSizeChange($event)" class="form-control inpuitemsPerPaget-sm">
+                      <option *ngFor="let size of pageSizes" [ngValue]="size">
+                          {{ size }}
+                      </option>
+                    </select>
+                  </label>
+                  </div>
+                  </div>
+                  <div _ngcontent-cjp-c8="" class="col-xs-12 col-sm-12 col-md-6">
+                     <pagination-controls
+                      previousLabel="Prev"
+                      nextLabel="Next"
+                      responsive="true"
+                      class="pagination"
+                      (pageChange)="handlePageChange($event)"
+                    ></pagination-controls> 
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<div class="container-fluid single-curriculum" *ngIf="isEditCurr">
+  <div class="row">
+      <div class="col-md-12 single-curriculum-wrap">
+        <div class="row" >
+          <div class="col-md-12">
+            <div class="row m-b-20">
+                <div class="col-md-12 pull-right">
+                  <h4>Edit Curriculum Exam</h4>
+               </div>
+           </div>
+            <form class="md-float-material" [formGroup]="form" (ngSubmit)="onUpdateTemp()">
+              <div class="row">
+                <div class="card-block col-sm-4 col-sm-4 col-md-4">
+                    <div class="group">
+                      <label >Class</label>
+                      <select class="form-control" formControlName="class" [ngClass]="{ 'is-invalid': submitted && f.class.errors }">
+                        <option value="">Class</option>
+                        <option *ngFor="let option of masterArr.master_class" [value]="option.id" >{{option.name}}</option>
+                      </select>
+                      
+                      <span class="md-line"></span>
+                      <div *ngIf="submitted && f.class.errors" class="invalid-feedback">
+                        <div *ngIf="f.class.errors.required">Class is required.</div>
+                        <div *ngIf="f.class.errors.pattern">Accept numeric values only.</div>
+                      </div>
+                   </div>
+                </div> 
+          
+                <div class="card-block col-sm-4 col-sm-4 col-md-4">
+                    <div class="group">
+
+                      <label>Chapter</label>
+                      
+                      <select class="form-control" formControlName="chapter" [ngClass]="{ 'is-invalid': submitted && f.chapter.errors }">
+                        <option value="">Chapter</option>
+                        <option *ngFor="let option of masterArr.master_chapter" [value]="option.id" >{{option.name}}</option>
+                      </select>
+
+                      <span class="md-line"></span>
+                       <div *ngIf="submitted && f.chapter.errors" class="invalid-feedback">
+                          <div *ngIf="f.chapter.errors.required">Chapter is required.</div>
+                          <div *ngIf="f.chapter.errors.pattern">Accept numeric values only.</div>
+                      </div>
+                   </div>
+                </div> 
+                <div class="card-block col-sm-4 col-sm-4 col-md-4">
+                    <div class="group">
+                      <label>Subject</label>
+                     
+                      <select class="form-control" formControlName="subject" [ngClass]="{ 'is-invalid': submitted && f.subject.errors }">
+                        <option value="">Subject</option>
+                        <option *ngFor="let option of masterArr.master_subject" [value]="option.id" >{{option.name}}</option>
+                      </select>
+                      <span class="md-line"></span>
+                       <div *ngIf="submitted && f.subject.errors" class="invalid-feedback">
+                          <div *ngIf="f.subject.errors.required">Subject is required.</div>
+                        </div>
+                   </div>
+                </div> 
+              </div>
+              <div class="row">
+                <div class="card-block col-sm-4 col-sm-4 col-md-4">
+                    <div class="group">
+                      <label>Semester</label>
+                      
+                      <select class="form-control" formControlName="semester" [ngClass]="{ 'is-invalid': submitted && f.semester.errors }">
+                        <option value="">Semester</option>
+                        <option *ngFor="let option of masterArr.master_semester" [value]="option.id" >{{option.name}}</option>
+                      </select>
+                      <span class="md-line"></span>
+                       <div *ngIf="submitted && f.semester.errors" class="invalid-feedback">
+                          <div *ngIf="f.semester.errors.required">Semester is required.</div>
+                          <div *ngIf="f.semester.errors.pattern">Accept numeric values only.</div>
+
+                      </div>
+                   </div>
+                </div> 
+          
+                <div class="card-block col-sm-4 col-sm-4 col-md-4">
+                    <div class="group">
+                      <label>Lesson</label>
+                      <select class="form-control" formControlName="lesson" [ngClass]="{ 'is-invalid': submitted && f.lesson.errors }">
+                        <option value="">Lesson</option>
+                        <option *ngFor="let option of masterArr.master_lesson" [value]="option.id" >{{option.name}}</option>
+                      </select>
+                      <span class="md-line"></span>
+                       <div *ngIf="submitted && f.lesson.errors" class="invalid-feedback">
+                            <div *ngIf="f.lesson.errors.required">Lesson is required.</div>
+                            <div *ngIf="f.lesson.errors.pattern">Accept numeric values only.</div>
+
+                        </div>
+                   </div>
+                </div> 
+                 <div class="col-sm-4 col-sm-4 col-md-4">
+                 <div class="group">
+                  <label>Question Type</label>
+                  <select class="form-control" (change)="qtChanged($event.target.value)" formControlName="question_type" [ngClass]="{ 'is-invalid': submitted && f.question_type.errors }">
+                        <option value="text">Text</option>
+                        <option value="image">Image</option>
+                        <option value="text_and_image">Text and Image</option>
+                  </select>
+                  <span class="md-line"></span>
+                   <div *ngIf="submitted && f.question_type.errors" class="invalid-feedback">
+                      <div *ngIf="f.question_type.errors.required">Question Type is required.</div>
+
+                  </div>
+                </div>
+              </div>
+              </div>
+               <div class="row">&nbsp;</div>
+              <div class="row">
+                <div class="col-lg-8 ">
+                  <div class="row ">
+                    <div class="col-sm-10 col-xs-10 col-md-10 group">
+                    
+                    <input class="form-control" placeholder="Option A" type="text" formControlName="option1" maxlength="70" [ngClass]="{ 'is-invalid': submitted && f.option1.errors }">
+                    <span class="md-line"></span>
+                      <div *ngIf="submitted && f.option1.errors" class="invalid-feedback">
+                          <div *ngIf="f.option1.errors.required">Option A is required.</div>
+                       </div>
+                        <img *ngIf="option_type=='image'" src="{{ s3_url}}{{f.option1.value}}"/>
+                    </div>
+
+                    <div class="col-sm-2 col-xs-2 col-md-2  txt-left "> 
+                      <label class="radio-box">
+                        <input type="radio" name="answer" value="a" formControlName="answer" [checked]="form.get('answer').value.toLowerCase() == 'a'">
+                        <span class="checkmark"></span>
+                      </label>
+                     </div>
+                  </div>
+                  <div class="row m-t-15">
+                    <div class="col-sm-10 col-xs-10 col-md-10 group">
+
+                      <input class="form-control" placeholder="Option B" type="text" formControlName="option2" maxlength="70" [ngClass]="{ 'is-invalid': submitted && f.option2.errors }">
+                      <span class="md-line"></span>
+                       <div *ngIf="submitted && f.option2.errors" class="invalid-feedback">
+                            <div *ngIf="f.option2.errors.required">Option B is required.</div>
+                      </div>
+                       <img *ngIf="option_type=='image'" src="{{ s3_url}}{{f.option2.value}}"/>
+
+                    </div>
+                    <div class="col-sm-2 col-xs-2 col-md-2 txt-left"> 
+                      <label class="radio-box">
+                        <input type="radio" name="answer" value="b" formControlName="answer"  [checked]="form.get('answer').value.toLowerCase() == 'b'">
+                        <span class="checkmark"></span>
+                      </label>
+                     </div>
+                  </div>
+                  <div class="row m-t-15">
+                    <div class="col-sm-10 col-xs-10 col-md-10 group">
+
+                    <input class="form-control" placeholder="Option C" type="text" formControlName="option3" maxlength="70" [ngClass]="{ 'is-invalid': submitted && f.option3.errors }">
+                    <span class="md-line"></span>
+                     <div *ngIf="submitted && f.option3.errors" class="invalid-feedback">
+                          <div *ngIf="f.option3.errors.required">Option C is required.</div>
+                      </div>
+                       <img *ngIf="option_type=='image'" src="{{ s3_url}}{{f.option3.value}}"/>
+
+                    </div>
+                    <div class="col-sm-2 col-xs-2 col-md-2"> 
+                      <label class="radio-box">
+                        <input type="radio" name="answer" value="c" formControlName="answer" [checked]="form.get('answer').value.toLowerCase() == 'c'"> 
+                        <span class="checkmark"></span>
+                      </label>
+                     </div>
+                  </div>
+
+                  <div class="row m-t-15">
+                    <div class="col-sm-10 col-xs-10 col-md-10 group">
+                    
+                    <input class="form-control" placeholder="Option D" type="text" formControlName="option4" maxlength="70" [ngClass]="{ 'is-invalid': submitted && f.option4.errors }">
+                    <span class="md-line"></span>
+                     <div *ngIf="submitted && f.option4.errors" class="invalid-feedback">
+                          <div *ngIf="f.option4.errors.required">Option D is required.</div>
+                      </div>
+                       <img *ngIf="option_type=='image'" src="{{ s3_url}}{{f.option4.value}}"/>
+
+                    </div>
+                    <div class="col-sm-2 col-xs-2 col-md-2"> 
+                      <label class="radio-box">
+                        <input type="radio"  name="answer" value="d" formControlName="answer" [checked]="form.get('answer').value.toLowerCase() == 'd'">
+                        <span class="checkmark"></span>
+                      </label>
+                     </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-10 col-xs-10 col-md-10">
+                      <label >Level</label>
+                       <div class="group">
+                        
+                        <select class="form-control" formControlName="level" [ngClass]="{ 'is-invalid': submitted && f.level.errors }">
+                          <option value="">Level</option>
+                          <option *ngFor="let option of levelOptions" [value]="option" >{{option}}</option>
+                        </select>
+                        <span class="md-line"></span>
+                         <div *ngIf="submitted && f.level.errors" class="invalid-feedback">
+                            <div *ngIf="f.level.errors.required">Level is required.</div>
+                            <div *ngIf="f.level.errors.pattern">Accept numeric values only.</div>
+
+                        </div>
+                      </div>
+                    </div> 
+                    <div class="col-sm-2 col-xs-2 col-md-2"> </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-10 col-xs-10 col-md-10">
+                      <label >Duration (In Seconds)</label>
+                       <div class="group">
+                        <select class="form-control" formControlName="duration" [ngClass]="{ 'is-invalid': submitted && f.duration.errors }">
+                          <option value="">Duration (In Seconds)</option>
+                          <option *ngFor="let option of durationOptions" [value]="option" >{{option}}</option>
+                        </select>
+                        
+                        <span class="md-line"></span>
+                         <div *ngIf="submitted && f.duration.errors" class="invalid-feedback">
+                            <div *ngIf="f.duration.errors.required">Question time is required.</div>
+                            <div *ngIf="f.duration.errors.pattern">Accept numeric values only.</div>
+
+                        </div>
+                      </div>
+                    </div> 
+                    <div class="col-sm-2 col-xs-2 col-md-2"> </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-10 col-xs-10 col-md-10 ">
+                      <label >Note</label>
+                      <div class="group">
+
+                       <input class="form-control" placeholder="Note" type="text" formControlName="note" maxlength="70">
+                       <span class="md-line"></span>
+                      </div>
+                    </div> 
+                    <div class="col-sm-2 col-xs-2 col-md-2"> </div>
+                  </div> 
+                  
+                  <div class="row">
+                    <div class="col-sm-10 col-xs-10 col-md-10 ">
+                      <div class="m-t-15">
+                        <button (click)="goBack()" [disabled]="loading" class="btn btn-warning text-white round-border m-r-10 create_cancel">
+                           <span *ngIf="this.idEdit">Back</span>
+                        </button>
+                        
+                        <button [disabled]="loading" class="btn allam-btn-green text-white round-border create_cancel">
+                          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                           <span *ngIf="this.idEdit">Update</span>
+                           
+                        </button>
+
+                      </div>
+                      
+                    </div>
+                    <div class="col-sm-2 col-xs-2 col-md-2"> </div>  
+                  </div>
+                </div>
+                <div class="col-lg-4 ">
+                 <!--  <div class="editor-wrap" id="my-node" *ngIf="editData.save_type=='bulk'"> 
+                   <label>Question</label>
+                    <textarea class="form-control" placeholder="Question" formControlName="question" maxlength="70" [ngClass]="{ 'is-invalid': submitted && f.question.errors }"> </textarea> 
+                    <span class="md-line"></span>
+                    <div *ngIf="submitted && f.question.errors" class="invalid-feedback">
+                      <div *ngIf="f.question.errors.required">Question is required.</div>
+                    </div>
+                  </div>
+                   <div class="editor-wrap" id="my-node" *ngIf="editData.save_type=='single'"> 
+                     <label>Question</label>
+                      <ckeditor [editor]="Editor" [data]='question_value' [config]="config" (blur)="onChange($event)"></ckeditor>
+                      <div class="question_note">Note: your question should be in the limit of the text editor height and width. NO SCROLL BAR should be displayed as this will be out of the limit of the question maximum length.</div>
+                  </div> -->
+                <div class=" " *ngIf="question_type=='text'">
+                <div class="editor-wrap" id="my-node"> 
+                 <label>Question</label>
+                  
+                  <textarea class="form-control" placeholder="Question" formControlName="question" maxlength="70" [ngClass]="{ 'is-invalid': submitted && f.question.errors }"> </textarea>
+                  <span class="md-line"></span>
+                  <div *ngIf="submitted && f.question.errors" class="invalid-feedback">
+                    <div *ngIf="f.question.errors.required">Question is required.</div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="question_type=='image'" class="remove-txt-here ">
+                 <div class="form-group  files color m-t-15">
+                    <div class=" m-t-15">
+                      <label>Upload Question </label>
+                        <input type="file" class="form-control" (change)="fileChangeEvent($event)" accept="image/x-png,image/jpeg" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="preview" >
+                      <img [src]="croppedImage" />
+                    </div>
+                  </div>
+              </div>
+              <div *ngIf="question_type=='text_and_image'" class="remove-txt-here ">
+                 <div class="form-group  files color m-t-15">
+                    <div class=" m-t-15">
+                      <label>Upload Question 1</label>
+                        <input type="file" class="form-control" (change)="fileChangeEvent($event)" accept="image/x-png,image/jpeg" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="preview" *ngIf="croppedImage!=s3_url">
+                      <img [src]="croppedImage" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="editor-wrap" id="my-node"> 
+                     <label>Question Text</label>
+                      <textarea class="form-control" placeholder="Question" formControlName="question" maxlength="70" > </textarea>
+                    </div>
+                  </div>
+              </div>
+                 
+                </div>
+              </div>
+              <!--
+                 <div class="row">
+                  <div class="col-sm-12 col-xs-12 col-md-12">
+                    <div class="m-t-15">
+                      <button [disabled]="loading" class="btn allam-btn-green text-white round-border m-r-10 create_cancel">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                         Save and insert
+                      </button>
+                      </div>
+                     </div>
+                     
+              </div>
+              -->
+            </form>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+<div class="container-fluid single-curriculum" *ngIf="isEditComp">
+    <div class="row">
+      <div class="col-md-12 single-curriculum-wrap">
+        <div class="row" >
+          <div class="col-md-12">
+            <div class="row m-b-20">
+                <div class="col-md-12 pull-right">
+                  <h4>Edit Competitive Exam</h4>
+               </div>
+           </div>
+            <form class="md-float-material" [formGroup]="form" (ngSubmit)="onUpdateTemp()">
+
+              <div class="row">
+                <div class="card-block col-sm-4 col-sm-4 col-md-4">
+                    <div class="group">
+                      <label>Quant/Verbal</label>
+                      <input class="form-control" placeholder="Quant/Verbal" type="text" formControlName="quant_verbal" formControlName="quant_verbal" maxlength="70" [ngClass]="{ 'is-invalid': submitted && f.quant_verbal.errors }">
+                      <span class="md-line"></span>
+                       <div *ngIf="submitted && f.quant_verbal.errors" class="invalid-feedback">
+                            <div *ngIf="f.quant_verbal.errors.required">This field is required.</div>
+                      </div>
+                   </div>
+                </div> 
+                <div class="card-block col-sm-4 col-sm-4 col-md-4">
+                    <div class="group">
+                      <label>Group</label>
+                      <select class="form-control" formControlName="group" [ngClass]="{ 'is-invalid': submitted && f.group.errors }">
+                        <option value="">Group</option>
+                        <option *ngFor="let option of masterArr.master_group" [value]="option.id" >{{option.name}}</option>
+                      </select>
+                      <span class="md-line"></span>
+                      <div *ngIf="submitted && f.group.errors" class="invalid-feedback">
+                            <div *ngIf="f.group.errors.required">Group is required.</div>
+                      </div>
+                   </div>
+                </div> 
+                <div class="col-sm-4 col-sm-4 col-md-4">
+                 <div class="group">
+                  <label>Question Type</label>
+                  <select class="form-control" (change)="qtChanged($event.target.value)" formControlName="question_type" [ngClass]="{ 'is-invalid': submitted && f.question_type.errors }">
+                        <option value="text">Text</option>
+                        <option value="image">Image</option>
+                        <option value="text_and_image">Text and Image</option>
+                  </select>
+                  <span class="md-line"></span>
+                   <div *ngIf="submitted && f.question_type.errors" class="invalid-feedback">
+                      <div *ngIf="f.question_type.errors.required">Question Type is required.</div>
+
+                  </div>
+                </div>
+              </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-8 ">
+                  <div class="row ">
+                    <div class="col-sm-10 col-xs-10 col-md-10 group">
+                    
+                    <input class="form-control" placeholder="Option A" type="text" formControlName="option1" maxlength="70" [ngClass]="{ 'is-invalid': submitted && f.option1.errors }">
+                    <span class="md-line"></span>
+                      <div *ngIf="submitted && f.option1.errors" class="invalid-feedback">
+                          <div *ngIf="f.option1.errors.required">Option A is required.</div>
+                      </div>
+                       <img *ngIf="option_type=='image'" src="{{ s3_url}}{{f.option1.value}}"/>
+                    </div>
+                    <div class="col-sm-2 col-xs-2 col-md-2  txt-left "> 
+                      <label class="radio-box">
+                        <input type="radio" name="answer" value="a" formControlName="answer" [checked]="form.get('answer').value.toLowerCase() == 'a'">
+                        <span class="checkmark"></span>
+                      </label>
+                     </div>
+                  </div>
+                  <div class="row m-t-15">
+                    <div class="col-sm-10 col-xs-10 col-md-10 group">
+
+                    <input class="form-control" placeholder="Option B" type="text" formControlName="option2" maxlength="70" [ngClass]="{ 'is-invalid': submitted && f.option2.errors }">
+                    <span class="md-line"></span>
+                     <div *ngIf="submitted && f.option2.errors" class="invalid-feedback">
+                          <div *ngIf="f.option2.errors.required">Option B is required.</div>
+                      </div>
+                       <img *ngIf="option_type=='image'" src="{{ s3_url}}{{f.option2.value}}"/>
+                    </div>
+                    <div class="col-sm-2 col-xs-2 col-md-2 txt-left"> 
+                      <label class="radio-box">
+                        <input type="radio" name="answer" value="b" formControlName="answer"  [checked]="form.get('answer').value.toLowerCase() == 'b'">
+                        <span class="checkmark"></span>
+                      </label>
+                     </div>
+                  </div>
+                  <div class="row m-t-15">
+                    <div class="col-sm-10 col-xs-10 col-md-10 group">
+
+                    <input class="form-control" placeholder="Option C" type="text" formControlName="option3" maxlength="70" [ngClass]="{ 'is-invalid': submitted && f.option3.errors }">
+                    <span class="md-line"></span>
+                      <div *ngIf="submitted && f.option3.errors" class="invalid-feedback">
+                          <div *ngIf="f.option3.errors.required">Option C is required.</div>
+                      </div>
+                       <img *ngIf="option_type=='image'" src="{{ s3_url}}{{f.option3.value}}"/>
+
+                    </div>
+                    <div class="col-sm-2 col-xs-2 col-md-2"> 
+                      <label class="radio-box">
+                        <input type="radio" name="answer" value="c" formControlName="answer" [checked]="form.get('answer').value.toLowerCase() == 'c'"> 
+                        <span class="checkmark"></span>
+                      </label>
+                     </div>
+                  </div>
+
+                  <div class="row m-t-15">
+                    <div class="col-sm-10 col-xs-10 col-md-10 group">
+                    
+                    <input class="form-control" placeholder="Option D" type="text" formControlName="option4" maxlength="70" [ngClass]="{ 'is-invalid': submitted && f.option4.errors }">
+                    <span class="md-line"></span>
+                     <div *ngIf="submitted && f.option4.errors" class="invalid-feedback">
+                          <div *ngIf="f.option4.errors.required">Option D is required.</div>
+                      </div>
+                       <img *ngIf="option_type=='image'" src="{{ s3_url}}{{f.option4.value}}"/>
+
+                    </div>
+                    <div class="col-sm-2 col-xs-2 col-md-2"> 
+                      <label class="radio-box">
+                        <input type="radio"  name="answer" value="d" formControlName="answer" [checked]="form.get('answer').value.toLowerCase() == 'd'">
+                        <span class="checkmark"></span>
+                      </label>
+                     </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-10 col-xs-10 col-md-10">
+                      <label >Duration (In Seconds)</label>
+                       <div class="group">
+                        <select class="form-control" formControlName="duration" [ngClass]="{ 'is-invalid': submitted && f.duration.errors }">
+                          <option value="">Duration (In Seconds)</option>
+                          <option *ngFor="let option of durationOptions" [value]="option" >{{option}}</option>
+                        </select>
+                        
+                        <span class="md-line"></span>
+                         <div *ngIf="submitted && f.duration.errors" class="invalid-feedback">
+                            <div *ngIf="f.duration.errors.required">Question time is required.</div>
+                            <div *ngIf="f.duration.errors.pattern">Accept numeric values only.</div>
+
+                        </div>
+                      </div>
+                    </div> 
+                    <div class="col-sm-2 col-xs-2 col-md-2"> </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-10 col-xs-10 col-md-10 ">
+                      <label >Note</label>
+                      <div class="group">
+
+                       <input class="form-control" placeholder="Note" type="text" formControlName="note" maxlength="70">
+                       <span class="md-line"></span>
+                      </div>
+                    </div> 
+                    <div class="col-sm-2 col-xs-2 col-md-2"> </div>
+                  </div> 
+                  
+                  <div class="row">
+                    <div class="col-sm-10 col-xs-10 col-md-10 ">
+                      <div class="m-t-15">
+                        <button (click)="goBack()" [disabled]="loading" class="btn btn-warning text-white round-border m-r-10 create_cancel">
+                           <span *ngIf="this.idEdit">Back</span>
+                        </button>
+                        
+                        <button [disabled]="loading" class="btn allam-btn-green text-white round-border create_cancel">
+                          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                           <span *ngIf="this.idEdit">Update</span>
+                           
+                        </button>
+
+                      </div>
+                      
+                    </div>
+                    <div class="col-sm-2 col-xs-2 col-md-2"> </div>  
+                  </div>
+                </div>
+                <!-- <div class="col-lg-4 ">
+                   <div class="editor-wrap" id="my-node" *ngIf="editData.save_type=='bulk'"> 
+                   <label>Question</label>
+                    <textarea class="form-control" placeholder="Question" formControlName="question" maxlength="70" [ngClass]="{ 'is-invalid': submitted && f.question.errors }"> </textarea> 
+                    <span class="md-line"></span>
+                    <div *ngIf="submitted && f.question.errors" class="invalid-feedback">
+                      <div *ngIf="f.question.errors.required">Question is required.</div>
+                    </div>
+                  </div>
+                   <div class="editor-wrap" id="my-node" *ngIf="editData.save_type=='single'"> 
+                     <label>Question</label>
+                      <ckeditor [editor]="Editor" [data]='question_value' [config]="config" (blur)="onChange($event)"></ckeditor>
+                      <div class="question_note">Note: your question should be in the limit of the text editor height and width. NO SCROLL BAR should be displayed as this will be out of the limit of the question maximum length.</div>
+                    </div>
+                </div> -->
+              <div class="col-lg-4 " *ngIf="question_type=='text'">
+                <div class="editor-wrap" id="my-node"> 
+                 <label>Question</label>
+                  
+                  <textarea class="form-control" placeholder="Question" formControlName="question" maxlength="70" [ngClass]="{ 'is-invalid': submitted && f.question.errors }"> </textarea>
+                  <span class="md-line"></span>
+                  <div *ngIf="submitted && f.question.errors" class="invalid-feedback">
+                    <div *ngIf="f.question.errors.required">Question is required.</div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="question_type=='image'" class="remove-txt-here col-md-4">
+                 <div class="form-group  files color m-t-15">
+                    <div class=" m-t-15">
+                      <label>Upload Question </label>
+                        <input type="file" class="form-control" (change)="fileChangeEvent($event)" accept="image/x-png,image/jpeg" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="preview" >
+                      <img [src]="croppedImage" />
+                    </div>
+                  </div>
+              </div>
+              <div *ngIf="question_type=='text_and_image'" class="remove-txt-here col-md-4">
+                 <div class="form-group  files color m-t-15">
+                    <div class=" m-t-15">
+                      <label>Upload Question </label>
+                        <input type="file" class="form-control" (change)="fileChangeEvent($event)" accept="image/x-png,image/jpeg" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="preview" *ngIf="croppedImage!=s3_url">
+                      <img [src]="croppedImage" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="editor-wrap" id="my-node"> 
+                     <label>Question Text</label>
+                      <textarea class="form-control" placeholder="Question" formControlName="question" maxlength="70" > </textarea>
+                    </div>
+                  </div>
+              </div>
+              </div>
+              <!--
+                 <div class="row">
+                  <div class="col-sm-12 col-xs-12 col-md-12">
+                    <div class="m-t-15">
+                      <button [disabled]="loading" class="btn allam-btn-green text-white round-border m-r-10 create_cancel">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                         Save and insert
+                      </button>
+                      </div>
+                     </div>
+                     
+              </div>
+              -->
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="modal crop-image-wrap" id="myModal" [style.display]="showModal ? 'block' : 'none'">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Crop Image</h4>
+        <button type="button" class="close alert-danger" data-dismiss="modal" (click)="closePopup()">&times;</button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body slot-details-wrap">
+          <image-cropper 
+          [imageChangedEvent]="imageChangedEvent" 
+          [maintainAspectRatio]="true" 
+          [aspectRatio]="3 / 2"
+          [resizeToWidth]="600" 
+          format="png" 
+          (imageCropped)="imageCropped($event)" 
+          (imageLoaded)="imageLoaded()"
+          (cropperReady)="cropperReady()" 
+          (loadImageFailed)="loadImageFailed()"></image-cropper>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" data-dismiss="modal" (click)="closePopup()">Done</button>
+      </div>
+
+    </div>
+  </div>
+</div>

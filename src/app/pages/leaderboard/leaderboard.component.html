@@ -1,0 +1,194 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-block">
+                <!-- {{filteredStudents | json}} -->
+            <div class="dt-responsive table-responsive11" >
+                <div id="autofill_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-3 mb-3">
+                            <div id="autofill_filter" class="dataTables_filter">
+                                <label class="example-input-wrapper">
+                                    Date <br/> 
+                                    <input placeholder="Choose Date"
+                                        [(ngModel)]="created_at" [max]="max" (ngModelChange)="filterCatch('created_at', created_at)"
+                                        [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1">
+                                        <span class="example-trigger" [owlDateTimeTrigger]="dt1">
+                                            <i class="fas fa-calendar-alt"></i>
+                                        </span>
+                                    <owl-date-time [showSecondsTimer]="'true'" [pickerType]="'calendar'" #dt1></owl-date-time>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xs-12 col-sm-12 col-md-3 mb-3">
+                            <div id="autofill_filter" class="dataTables_filter">
+                                <label>Competition Type
+                                    <select #mySelect class="form-control select2" style="width: 100%;" [(ngModel)]="filters.competitionType" (change)="filterCatch( 'competitionType', filters.competitionType)" required >
+                                         <option *ngFor="let option of competitionOption" [value]="option.id" [selected]="competitionOption==option.id" >{{option.title}}</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <button class="btn btn-primary" *ngIf="competitionType" (click)="removeFilter('competitionType')">
+                                Clear
+                            </button>
+                        </div>
+                        
+                        <div class="col-xs-12 col-sm-12 col-md-3 mb-3">
+                            <div id="autofill_filter" class="dataTables_filter">
+                                <label>Competition Name
+                                    <select class="form-control select2" style="width: 100%;" [(ngModel)]="audienceFilter.competitioName"  (ngModelChange)="filterMatch('competitionId' , audienceFilter.competitioName)" required >
+                                        <option value="" [selected]="true">--Select--</option>
+                                        <option *ngFor="let competition of competitionSelect" [value]="competition.id" [selected]="competitionSelect==competition.id" >{{competition.compitition_name}}</option>
+                                   </select>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-3 mb-3">
+        <div id="autofill_filter" class="dataTables_filter">
+            <label>Action Type</label>
+            <select class="form-control select2" style="width: 100%;" [(ngModel)]="audienceFilter.action_flag"  (change)="filterMatch('action_flag', audienceFilter.action_flag)" required >
+                <option value="" [selected]="true">--Select--</option>
+                <option *ngFor="let option of actionOption" [value]="option.id" [selected]="actionOption==option.id" >{{option.title}}</option>
+            </select> 
+        </div>
+        <button class="btn btn-primary" *ngIf="action_flag" (click)="removeFilter('action_flag')">
+            Clear
+        </button>
+    </div> 
+    <div class="col-xs-12 col-sm-12 col-md-3 mb-3" *ngIf="audienceFilter.action_flag == 0"> 
+        <div id="autofill_filter" class="dataTables_filter">
+            <label>Gender</label>
+            <select class="form-control select2" style="width: 100%;" [(ngModel)]="audienceFilter.action_value"  (change)="filterMatch('action_value', audienceFilter.action_value)" required >
+                <option *ngFor="let option of actionValueOption" [value]="option.id" [selected]="actionValueOption==option.id" >{{option.title}}</option>
+            </select> 
+        </div>
+        <button class="btn btn-primary" *ngIf="action_value" (click)="removeFilter('action_value')">
+            Clear
+        </button>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-3 mb-3" *ngIf="audienceFilter.action_flag == 1"> 
+        <div id="autofill_filter" class="dataTables_filter">
+            <label>Age</label>
+            <select class="form-control select2" style="width: 100%;" [(ngModel)]="audienceFilter.action_value"  (change)="filterMatch('action_value', audienceFilter.action_value)" required >
+                <option value="6-16">6-16</option>
+                <option value="17-27" >17-27</option>
+                <option value="28-38" >28-38</option>
+                <option value="39-49" >39-49</option>
+                <option value="50-60" >50-60</option>
+                <option value="61-71" >61-71</option>
+                <option value="72-82" >72-82</option>
+            </select> 
+        </div>
+        <button class="btn btn-primary" *ngIf="action_value" (click)="removeFilter('action_value')">
+            Clear
+        </button>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-3 mb-3" *ngIf="audienceFilter.action_flag == 2"> 
+        <div id="autofill_filter" class="dataTables_filter">
+            <label>Country</label>
+            <select class="form-control select2" style="width: 100%;" [(ngModel)]="audienceFilter.action_value"  (change)="filterMatch('action_value', audienceFilter.action_value)" required >
+                <option *ngFor="let option of countryData" [value]="option.id" [selected]="actionValueOption==option.id" >{{option.name}}</option>
+            </select> 
+        </div>
+        <button class="btn btn-primary" *ngIf="action_value" (click)="removeFilter('action_value')">
+            Clear
+        </button>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-3 mb-3" *ngIf="audienceFilter.action_flag == 3"> 
+        <div id="autofill_filter" class="dataTables_filter">
+            <label>Rank</label>
+            <select class="form-control select2" style="width: 100%;" [(ngModel)]="audienceFilter.rank"  (change)="filterMatch('rank', audienceFilter.rank)" required >
+                <option value="asc">Ascending</option>
+                <option value="desc" >Descending</option>
+            </select> 
+        </div>
+        <button class="btn btn-primary" *ngIf="rank" (click)="removeFilter('rank')">
+            Clear
+        </button>
+    </div>
+
+    <div class="col-xs-12 col-sm-12">
+    <div class="dt-responsive table-responsive">
+    <table id="autofill" class="table table-striped table-bordered nowrap dataTable" role="grid" aria-describedby="autofill_info">
+    <thead>
+    <tr role="row">
+    <!-- <th class="sorting" tabindex="0" aria-controls="autofill" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 30px;">ID</th> -->
+
+    <th class="sorting_desc" tabindex="0" aria-controls="autofill" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 100px;" aria-sort="descending" (click)="sort('full_name')">Full Name<i class="fa" [ngClass]="{'fa-sort': column != 'full_name', 'fa-sort-asc': (column == 'full_name' && isDesc), 'fa-sort-desc': (column == 'full_name' && !isDesc) }" aria-hidden="true"> </i></th>
+
+    <th class="sorting" tabindex="0" aria-controls="autofill" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 100px;" (click)="sort('user_answers')">User Answer<i class="fa" [ngClass]="{'fa-sort': column != 'user_answers', 'fa-sort-asc': (column == 'user_answers' && isDesc), 'fa-sort-desc': (column == 'user_answers' && !isDesc) }" aria-hidden="true"> </i></th>
+
+    <th class="sorting" tabindex="0" aria-controls="autofill" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 100px;" (click)="sort('correct_answers')">Correct Answer<i class="fa" [ngClass]="{'fa-sort': column != 'correct_answers', 'fa-sort-asc': (column == 'correct_answers' && isDesc), 'fa-sort-desc': (column == 'correct_answers' && !isDesc) }" aria-hidden="true"> </i></th>
+
+    <th class="sorting" tabindex="0" aria-controls="autofill" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 100px;" (click)="sort('rank')">Rank<i class="fa" [ngClass]="{'fa-sort': column != 'rank', 'fa-sort-asc': (column == 'rank' && isDesc), 'fa-sort-desc': (column == 'rank' && !isDesc) }" aria-hidden="true"> </i></th>
+
+    <!-- <th class="sorting" tabindex="0" aria-controls="autofill" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 100px;" (click)="sort('end_time')">End Time<i class="fa" [ngClass]="{'fa-sort': column != 'end_time', 'fa-sort-asc': (column == 'end_time' && isDesc), 'fa-sort-desc': (column == 'end_time' && !isDesc) }" aria-hidden="true"> </i></th> -->
+
+    <!-- <th class="sorting" tabindex="0" aria-controls="autofill" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 100px;" (click)="sort('status')">Status<i class="fa" [ngClass]="{'fa-sort': column != 'status', 'fa-sort-asc': (column == 'status' && isDesc), 'fa-sort-desc': (column == 'status' && !isDesc) }" aria-hidden="true"> </i></th>
+
+    <th class="sorting" tabindex="0" aria-controls="autofill" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 60px;"> </th> -->
+    </thead>
+    <tbody>
+
+
+    <tr role="row" *ngFor="let data of dailyList | filter: term : term2 | orderBy: {property: column, direction: direction} | paginate : {
+        itemsPerPage: pageSize,
+        currentPage: page,
+        totalItems: count
+    }; let index =index;
+        let isOdd=odd;
+        let isEven=even" 
+
+        [class.odd]="isOdd" 
+        [class.even]="isEven" >
+        <!-- <td class="">{{ data.id }}</td> -->
+        <td class="sorting_1">{{ data.user_name }} - {{ data.full_name }} </td>
+        <td class="">{{ data.user_answers }}</td>
+        <td class="">{{ data.correct_answers }}</td>
+        <td class="">{{ data.rank }}</td>
+        <!--<td> {{ data.start_time }}   {{ data.total_times | date:"HH:mm:ss":setOffset}} </td> -->
+        <!-- <td>{{ data.end_time }}</td> -->
+    
+    </tr>
+
+    </tbody>
+
+    </table>
+    </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-6">
+    <div class="dataTables_info" role="status" aria-live="polite">Show Entries
+        <label>
+        <select (change)="handlePageSizeChange($event)" class="form-control inpuitemsPerPaget-sm">
+            <option *ngFor="let size of pageSizes" [ngValue]="size">
+                {{ size }}
+            </option>
+        </select>
+        </label>
+    </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6">
+    <pagination-controls
+        previousLabel="Prev"
+        nextLabel="Next"
+        responsive="true"
+        class="pagination"
+        (pageChange)="handlePageChange($event)"
+        ></pagination-controls>   
+    </div>
+</div>

@@ -1,0 +1,87 @@
+<div class="container-fluid">
+
+  <section class="content">
+
+    <div id="main-form-content">
+      <form [formGroup]="documentGrp" (ngSubmit)="OnSubmit(documentGrp.value)" #uploadDocumentsForm="ngForm" ngNativeValidate>
+        <div class="box box-solid box-primary">
+          <div class="box-body" formArrayName="items">
+            <!-- <h2 class="page-header  text-blue mt-0 pt-0">
+              <i class="fa fa-files-o"></i> Upload MP3
+            </h2> -->
+            <label class="control-label">Narration</label>
+            <div class="row">
+              <div class="col-sm-12">
+                <div *ngFor="let item of items.controls; let i = index;">
+                  <div [formGroupName]="i">
+                    <table id="tbl-upload" class="table table-bordered">
+                      <tbody>
+                        <tr *ngIf="i==0" class="active">
+                          <!-- <th>Document Name</th>
+                          <th>Document Description</th> -->
+                          <th>MP3 File Time</th>
+                          <th>MP3 File</th>
+                        </tr>
+                        <tr>
+                          <!-- <td>
+                            <div class="form-group required">
+                              <input type="text" class="form-control" name="doc_name" formControlName="doc_name" placeholder="Enter document Category"
+                                required="">
+
+
+
+
+                              <div class="help-block"></div>
+                            </div>
+                          </td>
+
+                          <td>
+                            <div class="form-group ">
+
+                              <input type="text" class="form-control" name="doc_description" formControlName="doc_description" maxlength="100" placeholder="Enter document related descriptions"
+                                required="">
+
+                              <div class="help-block"></div>
+                            </div>
+                          </td> -->
+                          <td>
+                            <div class="form-group required">
+                              <input type="text" class="form-control" name="file_time" formControlName="file_time" placeholder="Enter File Time" required>
+                              <div class="help-block"></div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="form-group  required">
+                              <input #variable accept=".mp3" type="file" title="Browse MP3"   (change)="fileSelectionEvent($event,i, variable)" >
+                              <div class="help-block"></div>
+                            </div>
+                          </td>
+                          <td class="remove" *ngIf=" i!=0 ">
+                            <a title="Remove" (click)="removeItem(i)" class="fa fa-minus-square fa-lg text-red"></a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!-- <div class="pull-right">
+                  <button type="button" class="btn btn-sm allam-btn-green text-white" title="Add More" style="" (click)="addItem()" [disabled]="loading">{{ loading ? 'wait...' : 'Add More' }}</button>
+                   
+                </div> -->
+                <div class="box-footer" style="align-content: center">
+                  <button type="submit" class="btn btn-warning pull-right upload-file" [disabled]="loading">{{ loading ? 'Uploading...' : 'Upload File' }} </button>
+                </div>
+              </div>
+              <!--./col-->
+            </div>
+            <!--./row-->
+          </div>
+          <!--./box-body-->
+          
+        </div>
+      </form>
+    </div>
+
+    
+  </section>
+</div>

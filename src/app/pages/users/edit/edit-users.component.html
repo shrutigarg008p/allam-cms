@@ -1,0 +1,92 @@
+<div class="row allam-wrap">
+  <div class="col-sm-12">
+    <form  [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <div class="row m-b-20"><div class="col-md-12">
+      <h3 class="text-right txt-primary">Edit User </h3></div></div>
+    <hr />
+    
+    <div class="card">
+      <div class="row">
+          <div class="card-block col-sm-6 col-xs-6 col-md-6 ">
+            <div class="group ">
+              <label>Register As</label>
+                  <!-- <select disabled="disabled" class="form-control" formControlName="register_as" [ngClass]="{ 'is-invalid': submitted && f.register_as.errors }">
+                      <option value="">Register as</option>
+                      <option value="2">Admin</option>
+                      <option value="4">Teacher</option>
+                    </select> -->
+                    <input type="text" [readonly]="true" class="form-control" formControlName="register_as" [ngClass]="{ 'is-invalid': submitted && f.register_as.errors }">
+                    <div *ngIf="submitted && f.register_as.errors" class="invalid-feedback">
+                      <div *ngIf="f.register_as.errors.required">Please select role.</div>
+                    </div>
+              </div>
+           
+              <div class="group m-t-15">
+                <label>First Name</label>
+                 <input type="text" placeholder="First Name" class="form-control" formControlName="first_name" [ngClass]="{ 'is-invalid': submitted && f.first_name.errors }">
+                      <div *ngIf="submitted && f.first_name.errors" class="invalid-feedback">
+                          <div *ngIf="f.first_name.errors.required">This field is required.</div>
+                      </div>
+               </div>
+               <div class="group m-t-15">
+                <label>Last Name</label>
+                 <input type="text" placeholder="Last Name" class="form-control" formControlName="last_name" [ngClass]="{ 'is-invalid': submitted && f.last_name.errors }">
+                      <div *ngIf="submitted && f.last_name.errors" class="invalid-feedback">
+                          <div *ngIf="f.last_name.errors.required">This field is required.</div>
+                      </div>
+               </div>
+          </div>
+
+          <div class="card-block col-sm-6 col-xs-6 col-md-6 ">
+             <div class="group">
+                 <label>Email</label>
+                  <input type="text" [readonly]="true" class="form-control" placeholder="Email" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+
+                         <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                            <div *ngIf="f.email.errors.required">This field is requird.</div>
+                             <div *ngIf="f.email.errors.email">Invalid email id</div>
+                             
+                         </div>
+              </div>
+            <div class="group  m-t-15">
+              <label>Mobile</label>
+                <input type="text" class="form-control" placeholder="Mobile" formControlName="mobile" [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }">
+                <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback">
+                  <div *ngIf="f.mobile.errors.required">This field is required.</div>
+                </div>
+              </div>
+              
+              <div class="group m-t-15">
+              <label>Country</label>
+                 <select class="form-control" formControlName="country" [ngClass]="{ 'is-invalid': submitted && f.country.errors }">
+                        <option value="">Country</option>
+                         <option *ngFor="let country of countryArr" value="{{country.name}}">{{country.name}}</option>
+                      </select>
+                      <div *ngIf="submitted && f.country.errors" class="invalid-feedback">
+                          <div *ngIf="f.country.errors.required">This field is required.</div>
+                        </div>
+                      </div>
+              </div>
+          
+          </div>
+
+          <div class="row "> 
+            <div class="col-sm-6 col-xs-12 col-md-6">  </div>
+            <div class="col-sm-6 col-xs-12 col-md-6"> 
+              
+            
+              <div class="group ">
+                <button [disabled]="loading" class="btn allam-btn-green text-white round-border m-b-10 create_cancel pull-right">
+                  <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                   Save
+                 </button>
+             </div>
+            </div>
+            
+
+          </div>
+      </div>
+    </form>
+  </div>
+</div>
+

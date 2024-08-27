@@ -1,0 +1,42 @@
+<div class="row allam-wrap" id="survey-viewer-container">
+  <div class="col-sm-12">
+    <div class="row m-b-20">
+      <div class="col-md-12">
+      <h3 class="text-left txt-primary" style="float: left;"><span *ngIf="userType=='admin'">Admin </span>Referendum Preview</h3>
+      <div *ngIf="userType=='admin'" style="float: right; position: relative;">
+        <a class="btn allam-btn btn-warning text-white" (click)="goBack()"
+        > Back</a>&nbsp;
+      <a *ngIf="!isApprove"
+        class="btn allam-btn allam-btn-green text-white" (click)="changeStatus()"
+        >Approve</a>
+      <a *ngIf="isApprove"
+      class="btn allam-btn btn-warning text-white" (click)="changeStatus()"
+      >Un-Approve</a> 
+      </div>
+      <div *ngIf="userType!='admin'" style="float: right; position: relative;">
+        <a class="btn allam-btn btn-warning text-white" (click)="goAdvertiserBack()"
+        > Back</a>&nbsp;
+      </div>
+    </div></div>
+    <hr />
+    
+    <div class="card">
+      <div class="card-block">
+        <div class="dt-responsive table-responsive11">
+          <div id="autofill_wrapper" class="dataTables_wrapper dt-bootstrap4">
+            <!-- survey create wrap-->
+            <div class="sv_main sv_frame ">
+              <h2 class=" "> {{surveyName }}</h2>
+              <div class="sv_container">
+               
+                <div class="sv_body" style="border-top: 0px;">
+                  <preview-survey [json]="json"></preview-survey>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,129 @@
+<div class="container wraper">
+	<div class="row">
+		
+		<div class="col-12 col-md-12">
+			
+			<div class="right-wraper">
+				<div class="padding-40">
+					<div class="row">
+						<div class="col-12 col-md-4">
+							<div class="title">Report</div>
+							<!-- <div class="sb-title">Report</div> -->
+						</div>
+						<div class="col-12 col-md-4">
+							<label class="labels">Quiz Name</label>
+                            <!-- <select #mySelect class="form-control select2" style="width: 100%;" [ngModel] ="competitionName" (ngModelChange)="competitionName" (change)="filterCatch('competitionId', mySelect.value)" required >
+                                <option value="" [selected]="true">--Select--</option>
+                                <option *ngFor="let competition of quizReportName" [value]="competition.id" [selected]="quizReportName==competition.id" >{{competition.compitition_name}}</option>
+                           </select> -->
+						   <select class="form-control select2" style="width: 100%;" [(ngModel)]="audienceFilter.competitioName"  (ngModelChange)="filterMatch('competitionId' , audienceFilter.competitioName)" required >
+								<option value="" [selected]="true">--Select--</option>
+								<option *ngFor="let competition of quizReportName" [value]="competition.id" [selected]="quizReportName==competition.id" >{{competition.compitition_name}}</option>
+							</select>
+						</div>
+						<div class="col-12 col-md-4">
+							<label class="labels">Date</label> <br>
+							<!-- <input type="date" name="" id="" placeholder="Please Select" class="form-control" value="created_at"> -->
+                            
+							<input placeholder="Choose Date"
+									[(ngModel)]="created_at" [max]="max" (ngModelChange)="filterCatch('created_at', created_at)"
+									[owlDateTimeTrigger]="dt1" [owlDateTime]="dt1">
+									<span class="example-trigger" [owlDateTimeTrigger]="dt1">
+										<i class="fas fa-calendar-alt"></i>
+									</span>
+								<owl-date-time [showSecondsTimer]="'true'" [pickerType]="'calendar'" #dt1></owl-date-time>
+
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12 col-md-6">
+							<div class="chart">
+                                <div style="display: block;"> Android
+                                <canvas baseChart 
+                                  [data]="pieChartData" 
+                                  [labels]="pieChartLabels" 
+                                  [chartType]="pieChartType"
+                                  [options]="pieChartOptions"
+                                  [plugins]="pieChartPlugins"
+                                  [legend]="pieChartLegend">
+                                </canvas>
+                              </div>
+                            </div>
+						</div>
+						<div class="col-12 col-md-6">
+							<div class="chart">
+                                <div style="display: block;"> IOS
+                                <canvas baseChart 
+                                  [data]="pieChartData1" 
+                                  [labels]="pieChartLabels" 
+                                  [chartType]="pieChartType"
+                                  [options]="pieChartOptions"
+                                  [plugins]="pieChartPlugins"
+                                  [legend]="pieChartLegend">
+                                </canvas>
+                              </div>
+                            </div>
+						</div>
+						<div class="col-12 col-md-12">
+							<table class="table">
+								<thead>
+								  <tr>
+									<th scope="col">Total Download</th>
+									<th scope="col">Total Click</th>
+									<!-- <th scope="col">Total asd</th> -->
+								  </tr>
+								</thead>
+								<tbody>
+								  <tr>
+									  <td>{{total_download}}</td>
+									  <td>{{click_count}}</td>
+									 <!--  <td>15</td> -->
+								  </tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="borders">
+					<div class="padding-40">
+						<div class="row">
+							<!-- <div class="col-6 col-md-6">
+								<div class="title">User List</div>
+							</div>
+							<div class="col-6 col-md-6 text-right">
+								<input type="text" name="" id="" class="search form-control" placeholder="Search">
+							</div> -->
+						</div>
+						<div class="row mt40">
+							<div class="col-md-12">
+								<table class="table table-bordered table-responsive">
+									<thead>
+									  <tr>
+										<th scope="col">User Name</th>
+										<th scope="col">Email Address</th>
+										<th scope="col">Click</th>
+										<th scope="col">Download</th>
+										<th scope="col">OS Versions</th>
+									  </tr>
+									</thead>
+									<tbody>
+									  <tr *ngFor="let data of quizReportData ">
+										  <td>{{ data.user_name }}</td>
+										  <td>{{ data.user_email }}</td>
+										  <td>{{ data.click_count }}</td>
+										  <td>{{ data.app_download }}</td>
+										  <td>{{ data.device_type }}</td>
+									  </tr>
+									    <tr  class='empty-result' *ngIf="empty">
+                                            <td colspan="5">No result found </td>
+                                        </tr >
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

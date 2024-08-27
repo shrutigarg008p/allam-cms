@@ -1,0 +1,93 @@
+<div class="row allam-wrap">
+  <div class="col-sm-12">
+    <div class="row m-b-20"><div class="col-md-12">
+      <h3  class="text-right txt-primary">Edit Quiz </h3>
+     </div></div>
+     <hr />
+
+   <div class="card">
+    <form>
+    <div class="row">
+     
+    <div class="card-block col-sm-12 col-xs-12 col-md-6 ">
+     
+   <div class="group">
+    <label>Title</label>
+    <input class="form-control" placeholder="Add title" type="text" name="title" [(ngModel)]="newQuiz.title" >
+    </div>
+    
+    <div class="group m-t-15">
+    <label>Select Category</label>
+    <select id="hello-single" class="form-control" name="category" [(ngModel)]="newQuiz.category">
+       <option value="History">History</option>
+       <option value="Art">Art</option>
+       <option value="Technology">Technology</option>
+       <option value="Sceince">Sceince</option>
+    </select>
+    </div>
+
+
+    <div class="row m-t-15">
+      <div class="col-sm-12 col-xs-12 col-md-6">
+    
+   <div class="group">
+    <label>Date</label>
+    <div class="input-group input-tr-br-radius">
+      <input type="number" class="form-control" placeholder="09/03/2020">
+      <span class="input-group-addon" id="basic-addon5"><i class="icofont icofont-ui-calendar"></i></span>
+      </div>
+    </div>
+
+   </div>
+
+   <div class="col-sm-12 col-xs-12 col-md-6">
+    <label>Time</label>
+    <div class="input-group input-tr-br-radius">
+      <input type="number" class="form-control" placeholder="3:26 PM">
+      <span class="input-group-addon" id="basic-addon5"><i class="icofont icofont-clock-time"></i></span>
+      </div>
+
+   </div>
+</div>
+
+
+    </div>
+
+
+    <div class="card-block col-sm-12 col-xs-12 col-md-6 ">
+
+      <div class="group ">
+        <label>Description</label>
+        <textarea rows="5" cols="5" class="form-control" placeholder="Default textarea" name="description" [(ngModel)]="newQuiz.description"></textarea>
+        </div>
+        <div class="row m-t-15">
+          <div class="col-sm-12 col-xs-12 col-md-4 m-t-15">
+            <div class="checkbox-fade fade-in-primary ">
+              <label _ngcontent-iwp-c3=""><input _ngcontent-iwp-c3="" type="checkbox" value="yes" name="isPublish" [(ngModel)]="newQuiz.isPublish">
+              <span  class="cr"><i class="cr-icon icofont icofont-ui-check txt-primary"></i></span>
+              <span class="text-inverse">Active</span></label>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-xs-12 col-md-8">
+              <div class=" ">
+                <button type="button" class="btn allam-btn-green text-white round-border m-r-10 create_cancel" (click)="saveQuiz(newQuiz)">Save Changes</button>
+                <button type="button" class="btn btn-warning round-border create_cancel" (click)="cancelNewQuiz()">Reset</button>
+                </div>
+               </div>
+
+
+        </div>
+
+
+    </div>
+  
+
+
+    </div>
+  </form>
+   </div>
+
+
+  </div>
+</div>

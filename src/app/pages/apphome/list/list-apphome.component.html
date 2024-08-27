@@ -1,0 +1,117 @@
+<div class="row">
+<div class="col-sm-12">
+
+<div class="card">
+
+<div class="card-block">
+ <div class="dt-responsive table-responsive11">
+<div id="autofill_wrapper" class="dataTables_wrapper dt-bootstrap4">
+
+
+<div class="row">
+
+
+<div class="col-xs-12 col-sm-12 col-md-12">
+<div id="autofill_filter" class="dataTables_filter">
+  <label>Search 
+    <input type="search" class="form-control input-sm" placeholder="Search Here" aria-controls="autofill" [(ngModel)]="term"> 
+  </label>
+</div>
+</div>
+
+<div class="col-xs-12 col-sm-12 col-md-6 text-right"> 
+       
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="col-xs-12 col-sm-12">
+	<div class="dt-responsive table-responsive">
+<table id="autofill" class="table table-striped table-bordered nowrap dataTable" role="grid" aria-describedby="autofill_info">
+<thead>
+<tr role="row">
+<th style="width: 100px;">Competition Name</th>
+<th style="width: 100px;">Image</th>
+<th style="width: 100px;">Is Custom</th>
+<th style="width: 100px;">Custom Competition Name</th>
+<th style="width: 100px;">Custom Competition Image</th>
+<th style="width: 100px;">Order</th>
+<th style="width: 100px;">Status</th>
+<th style="width: 60px;">Edit</th>
+</thead>
+<tbody>
+
+
+<tr role="row" *ngFor="let data of categories | filter: term : term2 | orderBy: {property: column, direction: direction} | paginate : {
+                  itemsPerPage: pageSize,
+                  currentPage: page,
+                  totalItems: count
+                };" >
+  <td>{{ data.default_name }}</td>
+  <td><img width="200" *ngIf="data.default_image!=''" src="{{s3_url+data.default_image}}" /></td>
+  <td>
+    <p *ngIf="data.is_custom=='1'">Yes </p>
+    <p *ngIf="data.is_custom=='0'">No </p>
+  </td>
+  <td>{{ data.custom_name }}</td>
+  <td><img width="200" *ngIf="data.custom_image!=''" src="{{s3_url+data.custom_image}}" /> </td>
+  <td>
+     <select  class="form-control" id="sort_order" (change)="updateOrder($event.target.value,data.id)">
+        <option *ngFor="let sort_item of sortArr"  [selected]="sort_item === data.sort_order"  value="{{sort_item}}">
+            {{ sort_item }}
+        </option>
+      </select>
+  </td>
+	<td>
+
+	<button *ngIf="data.status!='1'" class="btn allam-status-btn " (click)="changeStatus(data)"> <i class="fa fa-times text-warning"></i> Inactive </button>
+	<button *ngIf="data.status=='1'" class="btn allam-status-btn " (click)="changeStatus(data)"> <i class="fa fa-check allam-txt-green"></i> Active </button>
+
+	</td>
+	<td class="categories">
+	<a [routerLink]="['edit-apphome', data.id]"  class="btn allam-btn allam-btn-green text-white" title="Edit"><i _ngcontent-yet-c5="" class="icofont icofont-edit" ></i></a>
+
+	</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div></div>
+
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-6">
+    <div class="dataTables_info" role="status" aria-live="polite">Show Entries
+      <label>
+        <select (change)="handlePageSizeChange($event)" class="form-control inpuitemsPerPaget-sm">
+          <option *ngFor="let size of pageSizes" [ngValue]="size">
+              {{ size }}
+          </option>
+        </select>
+      </label>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-6">
+    <pagination-controls
+        previousLabel="Prev"
+        nextLabel="Next"
+        responsive="true"
+        class="pagination"
+        (pageChange)="handlePageChange($event)"
+      ></pagination-controls>   
+  </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>

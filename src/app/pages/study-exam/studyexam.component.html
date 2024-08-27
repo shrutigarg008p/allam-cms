@@ -1,0 +1,173 @@
+<div class="container-fluid dashboard">
+  
+
+  <div class="row">
+    <div class="col-md-12 Competitive-curriculum-exam-wrap">
+      <div class="row justify-content-md-center">
+
+      <div class="col-md-9">
+
+        <div class="card">
+        <h4 *ngIf="!isEdit">Create New Study Exam  </h4>
+        <h4 *ngIf="isEdit">Edit Study Exam  </h4>
+        <form class="md-float-material" [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="row">
+              <div class=" col-sm-12 col-xs-12 col-md-12 ">
+                       
+               <div class="group">
+                  <select class="form-control" formControlName="quiz_type" (change)="examType($event)" [ngClass]="{ 'is-invalid': submitted && f.quiz_type.errors }">
+                    <option value="">Quiz Type</option>
+                    <option *ngFor="let option of masterArr.master_quiz" [value]="option.id" >{{option.name}}</option>
+                  </select>
+                </div>
+
+                <div class="group competitive-exam-drpdown" *ngIf="isCompt">
+                  <select class="form-control" formControlName="quiz_sub_type" [ngClass]="{ 'is-invalid': submitted && f.quiz_sub_type.errors }">
+                    <option value="">Quiz Sub Type</option>
+                    <option *ngFor="let option of masterArr.master_sub_quiz" [value]="option.id" >{{option.name}}</option>
+                  </select>
+                  <div *ngIf="submitted && f.quiz_sub_type.errors" class="invalid-feedback">
+                      <div *ngIf="f.quiz_sub_type.errors.required">This field is required.</div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="col-sm-12 col-xs-12 col-md-12 scientific-achievement">
+                <div class="row" *ngIf="isCompt">
+                  <div class="col-sm-12 col-xs-12 col-md-12 "> 
+                    <div class="group">
+                      <input type="text" class="form-control " placeholder="Quiz title" formControlName="quiz_title" [ngClass]="{ 'is-invalid': submitted && f.quiz_title.errors }">
+                      <div *ngIf="submitted && f.quiz_title.errors" class="invalid-feedback">
+                          <div *ngIf="f.quiz_title.errors.required">This field is required.</div>
+                      </div>
+                    </div>
+                    <div class="group ">
+                      <textarea class="form-control " cols="5" name="description" placeholder="Description
+                      " rows="3" formControlName="quiz_description" [ngClass]="{ 'is-invalid': submitted && f.quiz_description.errors }"></textarea>
+                      <div *ngIf="submitted && f.quiz_description.errors" class="invalid-feedback">
+                          <div *ngIf="f.quiz_description.errors.required">This field is required.</div>
+                      </div>
+                    </div>
+                     <!-- <div class="group">
+                        <image-cropper 
+                        [imageChangedEvent]="imageChangedEvent" 
+                        [maintainAspectRatio]="true" 
+                        [aspectRatio]="1 / 1"
+                        [resizeToWidth]="200" 
+                        format="png" 
+                        (imageCropped)="imageCropped($event)" 
+                        (imageLoaded)="imageLoaded()"
+                        (cropperReady)="cropperReady()" 
+                        (loadImageFailed)="loadImageFailed()"></image-cropper>
+                      </div> -->
+                  </div>
+                  <div class="col-xs-12 col-md-12 ">
+                    <!-- <div class="iconupload">
+
+                     <input #variable type="file" class="form-control customupload" title="Icon Upload" (change)="uploadFile($event, variable)" accept="image/x-png,image/jpeg">  
+                    </div>
+                     <div class="upload-jpgpng">Please upload png, jpg or JPEG files, Image should be 200 x 200 size</div>
+                   
+                    <div class="form-group preview-wrap">
+                        <div class="preview" *ngIf="preview && preview !== null">
+                          <img [src]="preview" [alt]="" height="200" >
+                        </div>
+                    </div> -->
+
+                    <div class="form-group sexam files color m-t-15">
+                      <div class="m-t-15">
+                       <input #variable type="file" class="form-control customupload" title="Icon Upload"  (change)="fileChangeEvent($event)" accept="image/x-png,image/jpeg">  
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="preview" >
+                        <img [src]="croppedImage" />
+                      </div>
+                    </div>
+
+                  </div>
+                 
+                 </div>
+               
+                 <div class="row">
+                  <div class="col-xs-12 col-md-8"> 
+                    <div class="group radio-wrap"> 
+                      <label class="">
+                        SINGLE UPLOAD
+                        <input type="radio" checked name="upload_type" value="single" formControlName="upload_type" [checked]="form.get('upload_type').value == 'single'">
+                      </label>
+                      <label class="">
+                        BULK UPLOAD
+                        <input type="radio" name="upload_type" value="bulk" formControlName="upload_type" [checked]="form.get('upload_type').value == 'bulk'">
+                      </label>
+                     </div>
+
+
+                  <div class="col-sm-12 col-xs-12 col-md-12 scientific-achievement">
+                    
+                    <div class="row">
+                      <div class="col-xs-12 col-md-8 pl-0"> 
+                        
+                        <div class="group" *ngIf="!isEdit || !isCompt">
+                          <button  class="btn btn-block allam-btn-green text-white ">
+                            Next
+                          </button>
+                        </div>
+
+                         <div class="group" *ngIf="isEdit && isCompt">
+                          <button class="btn btn-block btn-warning text-white study-skip">
+                            Skip
+                          </button>
+                          <button class="btn btn-block allam-btn-green text-white study-edit">
+                            Edit & Next
+                          </button>
+                        </div>
+
+                      </div>
+                      <div class="col-xs-12 col-md-4"> </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+              </div>
+          </div>
+        </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal crop-image-wrap" id="myModal" [style.display]="showModal ? 'block' : 'none'">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Crop Image</h4>
+        <button type="button" class="close alert-danger" data-dismiss="modal" (click)="closePopup()">&times;</button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body slot-details-wrap">
+          <image-cropper 
+          [imageChangedEvent]="imageChangedEvent" 
+          [maintainAspectRatio]="true" 
+          [aspectRatio]="1 / 1"
+          [resizeToWidth]="200" 
+          format="png" 
+          (imageCropped)="imageCropped($event)" 
+          (imageLoaded)="imageLoaded()"
+          (cropperReady)="cropperReady()" 
+          (loadImageFailed)="loadImageFailed()"></image-cropper>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" data-dismiss="modal" (click)="closePopup()">Done</button>
+      </div>
+
+    </div>
+  </div>
+</div>

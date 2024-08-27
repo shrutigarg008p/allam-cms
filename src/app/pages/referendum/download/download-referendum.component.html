@@ -1,0 +1,51 @@
+<div class="row">
+
+<div class="col-sm-12">
+
+<div class="card">
+  <div class="card-block">
+   
+      <div id="autofill_wrapper" class="dataTables_wrapper dt-bootstrap4">
+        <div class="sv_main sv_frame sv_default_css">
+          
+          <div class="sv_container">
+            
+            <div class="sv_body">
+              <button class="btn allam-btn allam-btn-green text-white" (click)="goBack()" style="margin-bottom: 13px;"> &lt; Back</button>&nbsp;
+              <button class="btn allam-btn allam-btn-green text-white" (click)= "downloadSurvey()" [disabled]="results.length==0" style="margin-bottom: 13px;">
+                <i class="icofont icofont-download" style="margin-right: 4px;"></i>
+                 Download All
+              </button>
+              <div class="dt-responsive table-responsive">
+                <table id="resultsTable" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>&nbsp;</th>
+                              <th *ngFor="let column of columns"><span>{{column.field}}</span>
+                              </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of rows; let indexOfelement=index;">
+                        <td><span class="btn allam-btn allam-btn-green text-white" (click)="downloadSurveyRow(indexOfelement)">
+                          <i _ngcontent-dks-c6="" _ngcontent-yet-c5="" class="icofont icofont-download" title="Download" > </i>
+                         
+                        </span></td>
+                        <td  *ngFor="let childrow of row">{{childrow}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+  </div>
+</div>
+
+
+
+</div>
+
+</div>

@@ -1,0 +1,172 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+@import '~angular2-toaster/toaster';
+
+body {background-color:#d4d4d4; color:#878787; font-size: 16px; text-align: right!important;}
+.white-bg {background-color:#fff;}
+a {color:#18BBB1;}
+.allam-btn-green {background-color: #18BBB1;}
+.allam-btn-green:hover {background-color: #069c97; }
+.group input[type="text"], textarea {text-align: right; resize: none;}
+
+
+
+
+.Competitive-exam-wrap, .Competitive-curriculum-exam-wrap, .single-curriculum-wrap 
+{padding:25px 25px 25px; background: white; border: 1px solid rgba(0, 0, 0, 0.4);}
+
+
+
+
+
+.container-fluid {padding-right: 30px; padding-left:30px;}
+h2 { margin-bottom: 25px; color:#4d4d4d;}
+.dashboard {}
+.Competitive-exam-wrap { padding:40px 25px 25px;  min-height: 500px;}
+
+.Competitive-exam-wrap .card {padding:25px; height: 185px; background-color: #f5f5f5; margin-bottom: 30px;
+  box-shadow:0px 0px 7px 0px rgba(0, 36, 105, 0.2);
+}
+.card-block-small a:hover { text-decoration: none; color:#18BBB1;}
+
+/************Competitive-curriculum************/
+.Competitive-curriculum-exam-wrap { padding:50px 25px 55px; min-height: 400px;}
+.Competitive-curriculum-exam-wrap h4 { margin-bottom: 25px; color: #4d4d4d;}
+.Competitive-curriculum-exam-wrap .card {padding: 25px; background: #f5f5f5;}
+
+.Competitive-curriculum-exam-wrap .radio-wrap { margin-top: 15px; margin-bottom: 15px; 
+  font-weight: 500; text-align: left;}
+.Competitive-curriculum-exam-wrap .radio-wrap label:first-child { padding-right:25px;}
+.Competitive-curriculum-exam-wrap .radio-wrap input[type="radio"] {margin-left:5px;}
+.Competitive-curriculum-exam-wrap select {direction: rtl;}
+
+/************single-curriculum************/
+.single-curriculum { }
+
+.single-curriculum-wrap {}
+.single-curriculum-wrap h4 { margin-bottom: 20px;}
+.single-curriculum-wrap .group label {display: none;}
+.single-curriculum-wrap .form-control { /**margin-bottom: 30px;**/ text-align: right;}
+.single-curriculum-wrap .editor-wrap { height: auto; background-color: #f5f5f5; padding:15px; margin-bottom: 20px;}
+.single-curriculum-wrap .txt-left { text-align: left;}
+.invalid-feedback11 {position: absolute!important;
+  left: -18px!important; bottom: 10px!important;}
+.Competitive-exam-wrap .text-c-blue {    width: 50px;
+  height: 50px;
+  background: #d4d4d4;
+  display: block;
+  font-size: 22px;
+  line-height: 45px;
+  border-radius: 50%;
+  margin: auto;
+  margin-bottom: 10px;}
+.single-curriculum-wrap .group {margin-bottom:20px}
+
+/* Custom radio box */
+.radio-box {
+  display: block; margin-top:7px;
+  position: relative;
+  padding-left: 45px;
+  margin-bottom: 30px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.radio-box input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 28px;
+  width: 28px;
+  background-color: #eee;
+  border-radius: 50%;
+  border: solid 1px #069c97;
+}
+
+/* On mouse-over, add a grey background color */
+.radio-box:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.radio-box input:checked ~ .checkmark {
+  background-color: #2bd2cc;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radio-box input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radio-box .checkmark:after {
+ 	top: 7px;
+	left: 7px;
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background: white;
+	box-shadow: 0 1px 11px 0 rgba(0, 0, 0, 0.6);
+}
+
+.single-curriculum-wrap .publish-table-wrap { height: auto;  margin-top: 20px; padding:15px 0; margin-bottom: 20px; }
+.single-curriculum-wrap .publish-table-wrap a.btn, th button.btn {padding: 1px 6px; color:#fff;}
+.choosefiles {height: auto; text-align: right; direction: rtl;}
+.sample-quiz {display: block;}
+.file-upload { padding: 35px 0; background: #f5f5f5;}
+.file-upload button {width:100%; margin-top: 15px;}
+
+
+.competitive-exam-drpdown { margin-top: 15px;}
+.scientific-achievement { margin-top: 15px;}
+.scientific-achievement .group { margin-bottom: 15px;}
+
+.scientific-achievement .iconupload { width: 168px; height:138px; border-radius:15px; 
+  background-color:#dedede;text-align: center; line-height: 136px;}
+.bulk_table_fullw {width:100%;}
+
+.scientific-achievement .iconupload {position: relative;}
+.iconupload-txt { position: absolute; top:0px; right:0px; bottom: 0px; left:0px; margin: auto; display: none;}
+.iconupload::after {position: absolute; top:0px; right:0px; bottom: 0px; left:0px; margin: auto; 
+  content:" Icon Upload";}
+.upload-jpgpng { margin-top: 5px; font-size: 13px;}
+.iconupload .customupload {display: block;
+  height: 137px;
+  position: absolute;
+  z-index: 10;
+  opacity: 0;}
+
+.preview-wrap { margin-bottom: 0px;}
+.preview-wrap .preview {margin-top: 15px; width: 200px;}
+.preview-wrap .preview > img {width:100%;}
+#btnUpload {width:70%;}
+.question_note {    margin-top: 15px;}
+#my-node ckeditor {margin-left: 40px;
+  display: block;
+}
+
+
+
+
+
+
+

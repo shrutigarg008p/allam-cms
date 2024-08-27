@@ -1,0 +1,150 @@
+<div class="row">
+  <div class="col-sm-12">
+
+    <div class="card">
+
+      <div class="card-block">
+        <div class="dt-responsive table-responsive11">
+          <div id="autofill_wrapper" class="dataTables_wrapper dt-bootstrap4">
+
+
+            <div class="row">
+
+              <div class="col-xs-12 col-sm-12 col-md-6"> </div>
+              <div class="col-xs-12 col-sm-12 col-md-6">
+                <div id="autofill_filter" class="dataTables_filter">
+                  <label>
+                    Search
+                    <input type="search" class="form-control input-sm" placeholder="Search Here" aria-controls="autofill" [(ngModel)]="term">
+                  </label>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row">
+
+              <div class="col-xs-12 col-sm-12">
+                <div class="dt-responsive table-responsive">
+                  <table id="autofill" class="table table-striped table-bordered nowrap dataTable" role="grid" aria-describedby="autofill_info">
+                    <thead>
+                      <tr role="row">
+                        <th class="sorting_desc" tabindex="0" aria-controls="autofill" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 100px;" aria-sort="descending" (click)="sort('name')"> Name<i class="fa" [ngClass]="{'fa-sort': column != 'name', 'fa-sort-asc': (column == 'name' && isDesc), 'fa-sort-desc': (column == 'name' && !isDesc) }" aria-hidden="true"> </i></th>
+
+                        <th class="sorting" tabindex="0" aria-controls="autofill" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 100px;" (click)="sort('email')">Email<i class="fa" [ngClass]="{'fa-sort': column != 'email', 'fa-sort-asc': (column == 'email' && isDesc), 'fa-sort-desc': (column == 'email' && !isDesc) }" aria-hidden="true"> </i></th>
+
+                        <th class="sorting" tabindex="0" aria-controls="autofill" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 100px;" (click)="sort('phone_number')">Phone<i class="fa" [ngClass]="{'fa-sort': column != 'phone_number', 'fa-sort-asc': (column == 'phone_number' && isDesc), 'fa-sort-desc': (column == 'phone_number' && !isDesc) }" aria-hidden="true"> </i></th>
+
+                        <th class="sorting" tabindex="0" aria-controls="autofill" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 100px;" (click)="sort('user_type')">User Type<i class="fa" [ngClass]="{'fa-sort': column != 'user_type', 'fa-sort-asc': (column == 'user_type' && isDesc), 'fa-sort-desc': (column == 'user_type' && !isDesc) }" aria-hidden="true"> </i></th>
+
+                        <th style="width: 30px;">Actions</th>
+                    </thead>
+                    <tbody>
+
+
+                      <tr role="row" *ngFor="let data of users | filter:term | orderBy: {property: column, direction: direction} | paginate: { itemsPerPage: config.itemsPerPage, currentPage: p } let index =index;
+             let isOdd=odd;
+             let isEven=even"
+                          [class.odd]="isOdd"
+                          [class.even]="isEven">
+                        <td class="sorting_1">{{ data.first_name+' '+data.last_name | titlecase }}</td>
+                        <td>{{ data.email }}</td>
+                        <td>{{ data.phone_number }}</td>
+                        <td>{{ data.user_type }}</td>
+                        <td>
+                          <button class="btn allam-btn-green text-white" (click)="openPopup(data)"> Preview </button>
+                        </td>
+                      </tr>
+
+                    </tbody>
+
+                  </table>
+
+                </div>
+
+              </div>
+            </div>
+
+            <div class="row">
+              <div _ngcontent-cjp-c8="" class="col-xs-12 col-sm-12 col-md-6">
+                <div class="dataTables_info" id="autofill_info" role="status" aria-live="polite">
+                  Show Entries
+                  <label>
+                    <select [(ngModel)]="config.itemsPerPage" name="autofill_length" aria-controls="autofill" class="form-control inpuitemsPerPaget-sm">
+                      <option value="5">5</option>
+                      <option value="10">10</option>
+                      <option value="25">25</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+
+
+
+              <div _ngcontent-cjp-c8="" class="col-xs-12 col-sm-12 col-md-6">
+                <ul class="pagination">
+                  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- The Modal -->
+<div class="modal" id="myModal" [style.display]="showModal ? 'block' : 'none'">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">User Details:</h4>
+        <button type="button" class="close" data-dismiss="modal" (click)="closePopup()">&times;</button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body slot-details-wrap">
+        <table class="table table-striped">
+          <tr>
+            <td><label>User Name :</label> {{userDetail.username}} </td>
+            <td><label>Name :</label> {{userDetail.first_name + ' ' + userDetail.last_name}} </td>
+          </tr>
+          <tr>
+            <td><label>Gender :</label> {{userDetail.gender}} </td>
+            <td><label>Email :</label> {{userDetail.email}} </td>
+          </tr>
+          <tr>
+            <td><label>Mobile :</label> {{userDetail.phone_number}}</td>
+            <td><label>Country :</label> {{userDetail.country}} </td>
+          </tr>
+          <tr>
+            <td><label>City :</label> {{userDetail.city}} </td>
+            <td><label>Nationality :</label> {{userDetail.nationality}} </td>
+          </tr>
+          <tr>
+            <td><label>Region :</label> {{userDetail.region}} </td>
+            <td><label>Education :</label> {{userDetail.education}} </td>
+          </tr>
+          <tr>
+            <td><label>Age :</label> {{userDetail.age}} </td>
+            <td><label>School :</label> {{userDetail.school}} </td>
+          </tr>
+          <tr>
+            <td><label>University :</label> {{userDetail.university}} </td>
+            <td><label>Website :</label> {{userDetail.website}} </td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" data-dismiss="modal" (click)="closePopup()">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+

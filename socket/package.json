@@ -1,0 +1,28 @@
+{
+  "name": "mmserver",
+  "version": "1.0.0",
+  "description": "game server matchmaking demo made by Frakenmint with ♥️",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Frankenmint/mmserver.git"
+  },
+  "author": "Frankenmint",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Frankenmint/mmserver/issues"
+  },
+  "homepage": "https://github.com/Frankenmint/mmserver#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "nodemailer": "^6.4.16",
+    "nodemon": "^1.11.0",
+    "pg": "^8.5.1",
+    "socket.io": "^1.5.1",
+    "crc-32": "1.2.0",
+    "cuint": "0.2.2"
+  }
+}

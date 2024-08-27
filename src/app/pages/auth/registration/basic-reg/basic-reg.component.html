@@ -1,0 +1,170 @@
+
+<section class="login p-fixed d-flex text-center bg-primary1 common-img-bg1">
+  <!-- starts -->
+  <div class="auth-fluid">
+    <div class="row">
+     <!--  <div class="col-sm-12"> -->
+        <!-- Authentication card start -->
+        <div class="login-card card-body auth-body">
+          <form class="md-float-material" [formGroup]="regForm" (ngSubmit)="onSubmit()">
+            
+            <div class="auth-box">
+              <div class="row">
+                <div class="col-md-12 text-center">
+                  <img src="assets/images/auth/allam.png" alt="Allam">
+                </div>
+
+                <div class="col-md-12">
+                  <h3 class="text-center txt-primary">Sign Up. It is fast and easy.</h3>
+                   <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+                </div>
+              </div>
+              <hr class=" m-b-30">
+              
+              <div class="row">
+                <div class="col-md-12 text-center">
+                  <div class="group">
+                    <div class="input-group input-tr-br-radius">
+                      <select class="form-control" formControlName="register_as" [ngClass]="{ 'is-invalid': submitted && f.register_as.errors }" (change)="onChange($event.target.value)">
+                        <option value="">Register as</option>
+                        <option value="2">Admin</option>
+                        <option value="3">Advertiser</option>
+                      </select>
+
+                      <div *ngIf="submitted && f.register_as.errors" class="invalid-feedback">
+                        <div *ngIf="f.register_as.errors.required">Please select role.</div>
+                      </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="group">
+                      <div class="input-group input-tr-br-radius">
+                        <input type="text" class="form-control" placeholder="Email" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+
+                         <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                            <div *ngIf="f.email.errors.required">This field is requird.</div>
+                             <div *ngIf="f.email.errors.email">Invalid email id</div>
+                              <div *ngIf="f.email.errors.isEmailExist">Email already exists  </div>
+                         </div>
+
+                         
+                      </div>
+                     
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="group">
+                    <div class="input-group input-tr-br-radius">
+                      <input type="text" class="form-control" placeholder="{{nameLabel}}" formControlName="name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                      <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                          <div *ngIf="f.name.errors.required">This field is required.</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="group">
+                      <div class="input-group input-tr-br-radius">
+                        <input type="text" class="form-control" placeholder="Mobile" formControlName="mobile" [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }">
+                        <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback">
+                          <div *ngIf="f.mobile.errors.required">This field is required.</div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="col-md-6"> 
+                  <div class="group">
+                    <div class="input-group input-tr-br-radius">
+                      <input type="text" formControlName="website" class="form-control" placeholder="Website">
+                      </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="group">
+                      <div class="input-group input-tr-br-radius">
+                        <input type="file" class="form-control" title="Comapny Logo" (change)="uploadFile($event)">
+                      </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="group">
+                    <div class="input-group input-tr-br-radius">
+                      <select class="form-control" formControlName="country" [ngClass]="{ 'is-invalid': submitted && f.country.errors }">
+                        <option value="">Country</option>
+                        <option value="UAE">UAE</option>
+                        <option value="QATAR">QATAR</option>
+                      </select>
+                      <div *ngIf="submitted && f.country.errors" class="invalid-feedback">
+                          <div *ngIf="f.country.errors.required">This field is required.</div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="group">
+                      <div class="input-group input-tr-br-radius">
+                        <input type="password" class="form-control" placeholder="Password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+                        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                          <div *ngIf="f.password.errors.required">This field is required.</div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="group">
+                    <div class="input-group input-tr-br-radius">
+                      <input type="password" class="form-control" placeholder="Confirm Password" formControlName="conf_password" [ngClass]="{ 'is-invalid': submitted && f.conf_password.errors }">
+                      <div *ngIf="submitted && f.conf_password.errors" class="invalid-feedback">
+                          <div *ngIf="f.conf_password.errors.required">This field is required.</div>
+                          <div *ngIf="f.conf_password.errors.confirmedValidator">Password and Confirm Password must be match.</div>
+                      </div>
+                     
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row m-t-20">
+                <div class="col-md-12">
+                  <button [disabled]="loading" class="btn allam-btn-green btn-md btn-block waves-effect text-center text-white m-b-2">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                    SUBMIT
+                  </button>
+                </div>
+              </div>
+              <hr/>
+              <div class="row">
+                <div class="col-md-12">
+                  <p class="text-inverse text-center m-b-0">Already have an account?
+
+                   <a [routerLink]="['/authentication/login']" class="text-right f-w-600 text-warning"> Login</a>
+
+                  </p>
+                  
+                </div>
+              </div>
+            </div>
+          </form>
+          <!-- end of form -->
+        </div>
+        <!-- Authentication card end -->
+   <!--    </div> -->
+      <!-- end of col-sm-12 -->
+    </div>
+    <!-- end of row -->
+  </div>
+  <!-- end of -->
+</section>

@@ -1,0 +1,114 @@
+<loading *ngIf="isLoading">{{ isLoading }}</loading>
+<div class="container-fluid single-curriculum">
+
+    <div class="row m-b-20">
+        <div class="col-md-12 p-l-0">
+          
+            <a class="btn btn-success creat-new-btn" [routerLink]="['/daily/add']" href="javascript: void(0);" > CREATE NEW CHALLENGE RACE <!-- DAILY COMPETITION --> </a>
+        </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-12 Competitive-exam-wrap ">
+
+
+
+        <div class="row filter-wrap">
+            <!-- <div class="co2-md-2  col-xl-2">
+                <div class="group">
+                    <select class="form-control ng-pristine ng-invalid ng-touched" >
+                        <option value="">End Date</option>
+                        <option value="2" class="ng-star-inserted">End Date 1</option>
+                        <option value="1" class="ng-star-inserted">End Date 2</option>
+                        <option value="1" class="ng-star-inserted">End Date 3</option>
+                    </select>
+                </div>
+              </div>
+
+              <div class="co2-md-2  col-xl-2">
+                <div class="group">
+                    <select class="form-control ng-pristine ng-invalid ng-touched" >
+                        <option value="">Start Date</option>
+                        <option value="2" class="ng-star-inserted">Start Date 1</option>
+                        <option value="1" class="ng-star-inserted">Start Date 2</option>
+                        <option value="1" class="ng-star-inserted">Start Date 3</option>
+                    </select>
+                </div>
+               </div>
+
+               <div class="co2-md-3  col-xl-3">
+                <div class="group">
+                    <select class="form-control ng-pristine ng-invalid ng-touched" >
+                        <option value="">Select Your choice</option>
+                        <option value="2" class="ng-star-inserted">Select 1</option>
+                        <option value="1" class="ng-star-inserted">Select 2</option>
+                        <option value="1" class="ng-star-inserted">Select 3</option>
+                    </select>
+                </div>
+               </div> -->
+               <div class="col-md-6">&nbsp;</div>
+               <div class="co2-md-3  col-xl-3">
+                <input [(ngModel)]="term" class="form-control ng-pristine ng-valid ng-touched" placeholder="Search by name" type="search">
+               </div>
+
+               <div class="co2-md-3  col-xl-3 p-l-0">
+               <h3>Challenge Race</h3>
+               </div>
+
+
+
+        </div>
+ 
+        <div class="row">
+           <div class="col-md-12 ">
+
+           <div class="col-md-6 col-xl-3">
+            <div class="card text-center">
+                <div class="card-block-small"><a [routerLink]="['/daily/add']" href="javascript: void(0);">
+                    
+                    <span class="text-c-blue f-w-600">+</span>
+                    <h4>Create New <br>Challenge Race </h4></a>
+                </div>
+            </div>
+           </div>
+
+           <div class="col-md-6 col-xl-3 competitive-exam" *ngFor="let data of dailyList | filter: term let index =index;
+            let isOdd=odd;
+            let isEven=even" 
+            [class.odd]="isOdd" 
+            [class.even]="isEven">
+           <div class="card widget-card-1 mt-0">
+                <a *ngIf="data.league_date > jstoday" [routerLink]="['/daily/edit', data.id]" href="javascript: void(0);">
+                    <div class="card-block-small p-0">
+                        <div class="title">  {{data.compitition_name}}</div>
+                        <!-- <div class="text-c-pink">End on {{data.start_date | date: 'dd/MM/yyyy'}}</div> -->
+                            <div class="text-c-pink"> Total Ques: {{data.total_question}} </div>
+                        <!-- <div class="text-c-pink">Total Participant: 120</div> -->
+                        <div class="text-c-pink">Mode: {{data.status==1 ? 'Active':'Inactive'}}</div>
+                        <div class="status">   Status: Upcoming </div>
+                    </div>
+                </a>
+            
+                <div class="card-block-small p-0" *ngIf="data.league_date < jstoday">
+                    <div class="title">  {{data.compitition_name}}</div>
+                    <!-- <div class="text-c-pink">End on {{data.start_date | date: 'dd/MM/yyyy'}}</div> -->
+                        <div class="text-c-pink"> Total Ques: {{data.total_question}} </div>
+                    <div class="text-c-pink">Total Participant: {{data.total_interest}}</div>
+                    <div class="status">   Status: Completed </div>
+                </div>
+                <div class="card-block-small p-0" *ngIf="data.league_date == jstoday">
+                    <div class="title">  {{data.compitition_name}}</div>
+                    <!-- <div class="text-c-pink">End on {{data.start_date | date: 'dd/MM/yyyy'}}</div> -->
+                        <div class="text-c-pink"> Total Ques: {{data.total_question}} </div>
+                    <!-- <div class="text-c-pink">Total Participant: 120</div> -->
+                    <div class="status">   Status: Live </div>
+                </div>
+            </div>
+           </div>
+        </div>
+        </div>
+
+     </div>
+  </div>
+</div>

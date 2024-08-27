@@ -1,0 +1,31 @@
+<div class="row">
+<div class="col-sm-12">
+
+<div class="card">
+  <div class="card-block">
+    <div class="dt-responsive table-responsive11">
+      <div id="autofill_wrapper" class="dataTables_wrapper dt-bootstrap4">
+        <!-- survey create wrap-->
+        <div class="sv_main sv_frame sv_defnpmault_css">
+          <div class="sv_custom_header"></div>
+          <div class="sv_container">
+            <button class="btn btn-warning text-white add-btn" (click)="goBack()" > Back</button>
+            <br/>
+            
+            <div class="sv_body">
+              <survey-creator
+                [json]="json"
+                (surveySaved)="onSurveySaved($event)"
+              ></survey-creator>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+</div>

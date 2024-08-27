@@ -1,0 +1,44 @@
+:host ::ng-deep .question .ck-editor__editable_inline {
+    min-height: 200px;
+    max-height: 200px;
+}
+
+:host ::ng-deep .ck-editor__editable_inline p {
+    font-size:18px;
+}
+
+
+:host ::ng-deep .ck-editor{
+    width: 300px;;
+}
+
+.single-curriculum-wrap .group label {
+    display: block;
+}
+
+.card-block {
+    padding: 0 12px 5px;
+}
+
+
+.publish-table-wrap.m-b-0 { margin-bottom: 0px;}
+.single-curriculum-wrap .publish-table-wrap {max-height: 400px;}
+
+:host ::ng-deep .q_opton .ck-editor__editable_inline {
+    min-height: 40px;
+    max-height: 40px;
+}
+
+:host ::ng-deep .ltr-txt .ck-editor__editable_inline {
+    text-align: left;
+	direction: ltr;
+}
+:host ::ng-deep .rtl-txt .ck-editor__editable_inline {
+    text-align: right;
+    direction: rtl;
+}
+
+
+.single-curriculum-wrap .publish-table-wrap {padding: 0px 0 15px;}
+
+

@@ -1,0 +1,180 @@
+<div class="row">
+<div class="col-sm-12">
+
+<div class="card">
+
+<div class="card-block">
+ <div class="dt-responsive table-responsive11">
+<div id="autofill_wrapper" class="dataTables_wrapper dt-bootstrap4">
+
+        <div class="row subc-gc">
+          <div class="card-block col-sm-4 col-md-4">
+              <div class="group">
+                <label>Heading</label>
+                <select class="form-control" (change)="changedHeading($event.target.value)" [(ngModel)]="term1">
+                  <option value="">Heading</option>
+                  <option *ngFor="let option of headingArr" [value]="option.id" >{{option.title}}</option>
+                </select>
+             </div>
+          </div> 
+          <div class="card-block col-sm-4 col-md-4">
+              <div class="group">
+                <label>Category</label>
+              
+                <select  (change)="changedCategory()" class="form-control"  [(ngModel)]="term2">
+                  <option value="0">Category</option>
+                  <option *ngFor="let option of categoryArr" [value]="option.id" >{{option.title}}</option>
+                </select>
+             </div>
+          </div> 
+
+        <!--   <div class="card-block col-xs-3 col-sm-3 col-md-3">
+            <div class="group">
+                <label>Question: 
+                  <input type="search" class="form-control" placeholder="Question" aria-controls="autofill" [(ngModel)]="term"> 
+                </label>
+            </div>
+          </div> -->
+
+      <div class="card-block col-sm-4 col-md-4" *ngIf="role_id==2"> 
+              
+              <a [routerLink]="['add']" class="btn allam-btn-green text-white m-t-15">
+                  <i _ngcontent-yet-c5="" class="icofont icofont-plus"></i>Add Question
+              </a>
+      </div>
+
+      </div>
+
+<div class="row">
+
+<div class="col-xs-12 col-sm-12">
+  <div class="dt-responsive table-responsive">
+<table id="autofill" class="table table-striped table-bordered nowrap dataTable" role="grid" aria-describedby="autofill_info">
+<thead>
+<tr role="row">
+    <th>Level</th>
+    <th>Answer</th>
+    <th><span class="option-width">Option D </span></th>
+    <th><span class="option-width">Option C </span></th>
+    <th><span class="option-width">Option B </span></th>
+    <th><span class="option-width">Option A </span></th>
+    <th>Question Type </th>
+    <th>Question </th>
+    <th>Duration</th>
+    <th>Category</th>
+    <th>Heading</th>
+    <th  *ngIf="role_id==1">Action</th>
+    <th  *ngIf="role_id==2">Status</th>
+</thead>
+<tbody>
+
+
+
+<tr role="row" *ngFor="let data of questionArr | cFilter:{header_id: term1, category_id:term2} : false | paginate : {
+                  itemsPerPage: pageSize,
+                  currentPage: page,
+                  totalItems: count
+                }; ">
+
+    <td>{{ data.level }}</td>
+    <td>{{ data.answer }}</td>
+    <td>{{ data.option4 }}</td>
+    <td>{{ data.option3 }} </td>
+    <td>{{ data.option2 }} </td>
+    <td>{{ data.option1 }} </td>
+    <td>{{ data.file_type }}</td>
+   <!--  <td>{{ data.question }}</td>
+    <td><a target="_blank" href="{{s3_url+data.question_image_url}}">{{ s3_url+data.question_image_url }}</a></td> -->
+    <td>
+      <div *ngIf="data.file_type=='text'">
+        {{data.question}}
+      </div>
+        <div *ngIf="data.file_type=='image'">
+          <img src="{{s3_url+data.question_image_url}}">
+        </div>
+        <div *ngIf="data.file_type=='text_and_image'">
+          <img src="{{s3_url+data.question_image_url}}">
+          <br>{{data.question}}
+        </div>
+        <div *ngIf="data.file_type=='video'">
+          <video style="width: 285px;height: 200px;" controls (click)="toggleVideo()" id="videoPlayer">
+              <source src="{{s3_url+data.question_image_url}}" type="video/mp4" />
+              Browser not supported
+          </video>
+        </div>
+        <div *ngIf="data.file_type=='text_and_video'">
+          <video style="width: 285px;height: 200px;" controls (click)="toggleVideo()" id="videoPlayer">
+              <source src="{{s3_url+data.question_image_url}}" type="video/mp4" />
+              Browser not supported
+          </video>
+          <br>{{data.question}}
+        </div>
+    </td>
+    <td>{{ data.duration }}</td>
+    <td>{{ data.category_name }}</td>
+    <td>{{ data.header_name }}</td>
+  <td *ngIf="role_id==1">
+
+  <button *ngIf="data.status!='1'" class="btn allam-status-btn" (click)="changeStatus(data)"> <i class="fa fa-times text-warning"></i> Inactive </button>
+  <button *ngIf="data.status=='1'" class="btn allam-status-btn" (click)="changeStatus(data)"> <i class="fa fa-check allam-txt-green"></i> Active </button>
+
+  </td>
+  <td *ngIf="role_id!=1">
+  <p *ngIf="data.status!='1'" class="btn allam-status-btn"> Pending </p>
+  <p *ngIf="data.status=='1'" class="btn allam-status-btn">Approved </p>
+  </td>
+
+</tr>
+<tr *ngIf="questionArr.length==0">
+  <td colspan="13" align="center">No Data found.</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div></div>
+
+<div class="row">
+<div class="col-xs-12 col-sm-12 col-md-6 m-t-20">
+<div class="dataTables_info" role="status" aria-live="polite">Show Entries
+<label>
+  <select (change)="handlePageSizeChange($event)" class="form-control inpuitemsPerPaget-sm">
+    <option *ngFor="let size of pageSizes" [ngValue]="size">
+        {{ size }}
+    </option>
+  </select>
+</label>
+</div>
+</div>
+
+<div  class="col-xs-12 col-sm-12 col-md-6">
+   <pagination-controls
+      previousLabel="Prev"
+      nextLabel="Next"
+      responsive="true"
+      class="pagination"
+      (pageChange)="handlePageChange($event)"
+    ></pagination-controls>  
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+
+<style>
+.pagination { float: right;}
+div.dataTables_wrapper div.dataTables_info {float: left;}
+.subc-gc { }
+
+
+</style>

@@ -1,0 +1,71 @@
+<div class="container-fluid dashboard">
+
+
+
+<div class="row">
+  <div class="col-md-12 Competitive-exam-wrap">
+    <div class="row">
+  <div class="col-md-6 col-xl-3">
+
+
+    <div class="card text-center">
+      <div class="card-block-small">
+        <a [routerLink]="['/study-exam/create']">
+          <!--<i class="ti-files bg-c-blue card1-icon"></i>-->
+          <span class="text-c-blue f-w-600">+</span>
+          <h4>Create New <br>Study Exam </h4>
+      </a>
+       
+      </div>
+    </div>
+
+
+  </div>
+
+  <div class="col-md-6 col-xl-3" *ngFor="let item of quizData">
+    <div class="card widget-card-1 mt-0">
+      <div class="card-block-small p-0">
+        <i class="ti-book bg-c-pink card1-icon"></i>
+        <h5 class="mt-5">{{ item.quiz_title }}</h5>
+        <span class="text-c-pink">Create on {{ item.created_at | date: 'dd/MM/yyyy' }} </span>
+        <p class="published">(Published)</p>
+       <!--  <div>
+          Total Quiz: 12
+        </div>
+        <div>Total Participant: 120</div> -->
+      </div>
+    </div>
+  </div>
+
+    <div class="col-md-6 col-xl-3" *ngFor="let item of quizDraftData">
+    <div class="card widget-card-1 mt-0">
+      <!-- <a target="_blank" *ngIf="item.save_type =='single' " [routerLink]="['/study-exam/competitive-single/'+baseEncode(item.id)]">
+        <div class="card-block-small p-0">
+          <i class="ti-book bg-c-pink card1-icon"></i>
+          <h4 class="mt-5">{{ item.quiz_title }}</h4>
+          <span class="text-c-pink">Create on {{ item.created_at | date: 'dd/MM/yyyy' }} </span>
+          <p class="draft">(Draft)</p>
+
+        </div>
+      </a> *ngIf="item.save_type =='bulk' " -->
+      <a target="_blank" [routerLink]="['/study-exam/create/'+baseEncode(item.id)]">
+        <div class="card-block-small p-0">
+          <i class="ti-book bg-c-pink card1-icon"></i>
+          <h4 class="mt-5">{{ item.quiz_title }}</h4>
+          <span class="text-c-pink">Create on {{ item.created_at | date: 'dd/MM/yyyy' }} </span>
+          <p class="draft">(Draft)</p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+   </div>
+  </div>
+</div>
+
+
+
+
+
+
+</div>

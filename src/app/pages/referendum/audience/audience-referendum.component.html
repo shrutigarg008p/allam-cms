@@ -1,0 +1,239 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-block">
+        <div class="dt-responsive table-responsive11">
+          <div id="autofill_wrapper" class="dataTables_wrapper dt-bootstrap4">
+            <form role="form" class="k-form" [formGroup]="formVar" (ngSubmit)="onSubmit()">
+              <!-- referendum-cover-wrap-->
+              <div *ngIf="title" class="row justify-content-center referendum-cover-wrap">
+                <div class="col-sm-12 col-md-12">
+                  <div class="col-sm-12 col-md-12 "><h4> Referendum Cover </h4> </div>
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 ">
+                      <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                          <label>Referendum Description</label>
+                          <textarea class="form-control" cols="5" placeholder="Description" rows="5" formControlName="description" [ngClass]="{ 'is-invalid': f.description.errors }"></textarea>
+                        </div>
+                        <div class="form-group doyou-want">
+                          <label class="radio-box">
+                            <input type="radio" value="true" name="is_public" formControlName="is_public" [ngClass]="{ 'is-invalid': f.is_public.errors }">Public
+                            <span class="checkmark"></span>
+                          </label>
+                          <label class="radio-box">
+                            <input type="radio" value="false" name="is_public" formControlName="is_public" [ngClass]="{ 'is-invalid': f.is_public.errors }">Private
+                            <span class="checkmark"></span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-sm-6 col-md-6">
+
+                        <div class="form-group">
+                          <label>Referendum Title </label>
+                          <input class="form-control ng-untouched ng-pristine ng-valid" placeholder="Title" type="text" formControlName="title" [ngClass]="{ 'is-invalid': f.title.errors }">
+
+                        </div>
+
+                        <div class="form-group">
+                          <label>Logo Upload for Referendum</label>
+
+                          <input accept="image/x-png,image/jpeg" type="file" class="form-control choosefiles" (change)="uploadRefLogo($event)">
+                        </div>
+                        <!-- Image Preview -->
+                        <div class="form-group f-right ">
+                          <div class="preview" *ngIf="preview && preview !== null">
+                            <img [src]="preview" height="150">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                 
+
+                  <div class="row1">
+                    <div class="col-sm-12 col-md-12 mt-3">
+                     
+                      <button class="btn allam-btn-green text-white nextBtn pull-right ml-5" type="button" (click)="setDetails('next')">Next</button>
+                      <button class="btn btn-warning prevBtn pull-right" type="button" (click)="goBack()">Back</button>
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+              <!-- Set details wrap -->
+              <div *ngIf="details" class="row justify-content-center referendum-cover-wrap">
+                <div class="col-sm-12 col-md-12">
+                  <div class="col-sm-12 col-md-12 ">
+                    <h4> Set Details </h4>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 ">
+                      <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                          <label>Time of Referendum</label>
+                          <input class="form-control " placeholder="Time of Referendum" type="time" formControlName="ref_time" [ngClass]="{ 'is-invalid': f.ref_time.errors }">
+                        </div>
+                        <div class="form-group">
+                          <label>Type of Prizes</label>
+                          <textarea class="form-control " cols="5" placeholder="Type of Prizes" rows="5" formControlName="price_type" [ngClass]="{ 'is-invalid': f.price_type.errors }"></textarea>
+                        </div>
+                      </div>
+                      <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                          <label>Date of Referendum </label>
+                          <input class="form-control " type="date" min="{{todayDate}}"  onkeydown="return false" formControlName="ref_date" [ngClass]="{ 'is-invalid': f.ref_date.errors }">
+                        </div>
+                        <div class="form-group">
+                          <label>Date of Lottery  </label>
+                          <input class="form-control " type="date"  min="{{f.ref_date.value}}"  onkeydown="return false" formControlName="ref_lottery_date" [ngClass]="{ 'is-invalid': f.ref_lottery_date.errors }">
+                        </div>
+                        <div class="form-group">
+                          <label>Number of Prizes</label>
+                          <input class="form-control " placeholder="Number of Prizes" min="1" step="1" type="number" formControlName="price_number" [ngClass]="{ 'is-invalid': f.price_number.errors }">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+
+                  <div class="row1">
+                    <div class="col-sm-12 col-md-12 mt-3">
+                     
+                      <button class="btn allam-btn-green text-white nextBtn pull-right ml-5" type="button" (click)="setAudience('next')">Next</button>
+                      <button class="btn btn-warning prevBtn pull-right"  type="button" (click)="setTitles('back')">Back</button>
+                    </div>
+                  </div>
+
+
+
+                </div>
+              </div>
+              <!-- Set Audience wrap -->
+              <div *ngIf="set_audience" class="row justify-content-center referendum-cover-wrap">
+                <div class="col-sm-12 col-md-12">
+                  <div class="col-sm-12 col-md-12 ">
+                    <h4> Set Audience </h4>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 ">
+                      Do you want to set Audience settings?
+                      <div class="form-group doyou-want">
+                        <label class="radio-box">
+                          <input type="radio" value="true" name="is_target" formControlName="is_target" [ngClass]="{ 'is-invalid': f.is_public.errors }">Yes
+                          <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-box">
+                          <input type="radio" value="false" name="is_target" formControlName="is_target" [ngClass]="{ 'is-invalid': f.is_public.errors }">No
+                          <span class="checkmark"></span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row" *ngIf="f.is_target.value=='true'">
+                    <div class="col-sm-12 col-md-12 ">
+                      <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                          <label>Gender</label>
+                          <select class="form-control" formControlName="gender" [ngClass]="{ 'is-invalid': f.gender.errors }">
+                            <option>Select Gender</option>
+                            <option>All</option>
+                            <option>Male</option>
+                            <option>Female</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label>State</label>
+                          <select class="form-control" formControlName="state" [ngClass]="{ 'is-invalid': f.state.errors }">
+                            <option>Select State</option>
+                            <option>Delhi</option>
+                            <option>Maharashtra</option>
+                            <option>Himanchal Pradesh</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label>Area Locality</label>
+                          <input class="form-control ng-untouched ng-pristine ng-valid" placeholder="Area Locality" type="text" formControlName="area_locality" [ngClass]="{ 'is-invalid': f.area_locality.errors }">
+                        </div>
+                        <div class="form-group">
+                          <label> &nbsp; </label>
+                          <label>
+                            Based on your filter, <strong> 2000 </strong> student
+                            have been finalised
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                          <label>Age Range </label>
+                          <select class="form-control" formControlName="age_range" [ngClass]="{ 'is-invalid': f.age_range.errors }">
+                            <option>Select Age Range</option>
+                            <option>18 - 25</option>
+                            <option>25 - 30</option>
+                            <option>30 - 35</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label>Nationality</label>
+                          <select class="form-control" formControlName="nationality" [ngClass]="{ 'is-invalid': f.nationality.errors }">
+                            <option>Select Nationality</option>
+                            <option>UAE</option>
+                            <option>India</option>
+                            <option>Pakistan</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label>City</label>
+                          <select class="form-control" formControlName="city" [ngClass]="{ 'is-invalid': f.city.errors }">
+                            <option>Select City</option>
+                            <option>Luknow</option>
+                            <option>Dehradun</option>
+                            <option>Azamgarh</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label>Country</label>
+                          <select class="form-control" formControlName="country" [ngClass]="{ 'is-invalid': f.country.errors }">
+                            <option>Select Country</option>
+                            <option>UAE</option>
+                            <option>India</option>
+                            <option>Pakistan</option>
+                          </select>
+                        </div>
+                        <label>Do you want to send the push notification</label>
+                        <div class="form-group doyou-want">
+                          <label class="radio-box">
+                            <input type="radio" value="yes" name="push_notification" formControlName="push_notification" [ngClass]="{ 'is-invalid': f.push_notification.errors }">Yes
+                            <span class="checkmark"></span>
+                          </label>
+                          <label class="radio-box">
+                            <input type="radio" value="no" name="push_notification" formControlName="push_notification" [ngClass]="{ 'is-invalid': f.push_notification.errors }">No
+                            <span class="checkmark"></span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                 
+                 
+
+                  <div class="row1">
+                    <div class="col-sm-12 col-md-12 mt-3">
+                      <!-- <button class="btn allam-btn-green text-white nextBtn pull-right ml-5" type="submit" [disabled]="sumbitted">Proceed to Referendum Design</button> -->
+                      <button class="btn allam-btn-green text-white nextBtn pull-right ml-5" type="submit" [disabled]="sumbitted">Proceed</button>
+                      <button class="btn btn-warning prevBtn pull-right"  type="button" (click)="setDetails('back')">Back</button>
+                    </div>
+                  </div>
+
+                  
+
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
